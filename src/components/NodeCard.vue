@@ -1,7 +1,10 @@
 <template>
+
   <div class="node-card" :style="{backgroundColor:color[note.imgurl]}">
+   
     <div class="top">
       <p class="time">{{filter(Date.parse(note.moment)) }}</p>
+      <p class="click">查看图片</p>
       <p class="label">{{ label[note.label] }}</p>
     </div>
     <div class="message">
@@ -14,7 +17,8 @@
       </div>
       <div class="name">{{ note.name }}</div>
     </div>
-  </div> 
+  </div>
+
 </template>
 
 <style lang="scss" scoped>
@@ -22,6 +26,8 @@
     font-family:fa;
     src: url('@/assets/阿里妈妈数黑体/Alimama_ShuHeiTi_Bold.ttf');
 }
+
+
 .node-card {
     opacity: 0.68;
   height: 12rem;
@@ -31,6 +37,7 @@
   position: relative;
  margin-top: 1.925rem;
   margin-left: 2rem;
+  
   .top{
     display: flex;
     justify-content: space-between;
@@ -137,6 +144,7 @@ export default {
 },
     data(){
         return {
+          
             label,
             color:['rgba(252,175,162,0.30)','rgba(255,227,148,0.30)','rgba(146,238,245,0.30)','rgba(168,237,138,0.30)','rgba(202,167,247,0.30)','rgba(212,212,212,0.30)'],
         }

@@ -20,6 +20,9 @@
           <div class="card">
             <node-card v-for="(data,index) in note" :key="index" :note="data" class="card-children"></node-card>
           </div>
+          <div class="add" :style="{bottom:addBottom + 'px'}">
+            <span class="iconfont icon-add"></span>
+          </div>
     </div>
 </template>
 
@@ -34,12 +37,35 @@ export default {
             wallType,
             label,
             nlabel:-1,
-            note:note.data
+            note:note.data,
+            addBottom:30,//按钮上下效果
         };
     },
+    mounted(){
+        window.addEventListener('scroll',this.scrollBottom )
+
+    },
+    unmounted(){
+        window.addEventListener('scroll',this.scrollBottom )
+    },
+
     methods:{
         selectNode(e) {
           this.nlabel =e
+        },
+        scrollBottom(){
+            //距离顶部高度
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            //屏幕高度
+            let clientHeight = document.documentElement.clientHeight;
+            //内容高度
+            let scrollHeight = document.documentElement.scrollHeight;
+            if (scrollTop+clientHeight +200 >= scrollHeight) {
+                this.addBottom=scrollTop + clientHeight +200 - scrollHeight;
+
+            }else {
+                this.addBottom=30
+            }
         }
     },
     components:{
@@ -97,6 +123,25 @@ export default {
         flex-wrap: wrap;
         width: 100%;
      
+    }
+    .add{
+        width: 3.5rem;
+        height: 3.5rem;
+        background-color: $gray-1;
+        box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.08);
+        border-radius:50%;
+        position: fixed;
+        right: 1.875rem;
+       transition: all 1.5s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 50;
+        .icon-add{
+            color: $gray-10;
+            font-size: 1.5rem;
+        }
     }
 }
 </style>
