@@ -1,0 +1,56 @@
+// colors
+$primary-color:#3873f0;
+$link-color:#1890ff;
+$success-color:#22bf87;
+$warning-color:#f67770;
+$error-color:#f35248;
+//中性色
+$gray-1:#202020;
+$gray-2:#505050;
+$gray-3:#949494;
+$gray-9:#F6F6F8;
+$gray-10:#fff;
+
+//字体
+$size-12:12px;
+$size-14:14px;
+$size-16:16px;
+
+//间距
+$padding-4:4px;
+$padding-8:8px;
+$padding-12:12px;
+$padding-20:20px;
+
+//全局公职
+body{
+    padding: 0px;
+    margin: 0px;
+    line-height: 1.5;
+    color: $gray-1;
+    font-size: $size-14;
+    background-color: $gray-10;
+    transition: all 0.5;
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+li{
+    list-style: none;
+}
+img{
+    padding: 0px;
+    margin: 0px;
+    display: block;
+}
+a{
+    text-decoration: none;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+input,textarea{
+    outline: none;
+    
+}
