@@ -23,10 +23,13 @@
           <div class="add" :style="{bottom:addBottom + 'px'}">
             <span class="iconfont icon-add"></span>
           </div>
+          <modal></modal>
     </div>
 </template>
 
 <script>
+import Modal from "@/components/Modal.vue";
+import "@/assets/iconfont/iconfont.css";
 import { wallType, label } from "@/utils/data";
 import NodeCard from '@/components/NodeCard.vue';
 import  BackGround from '@/components/BackGround.vue';
@@ -56,9 +59,9 @@ export default {
         scrollBottom(){
             //距离顶部高度
             let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            //屏幕高度
+            //可见内容高度
             let clientHeight = document.documentElement.clientHeight;
-            //内容高度
+            //整个内容高度
             let scrollHeight = document.documentElement.scrollHeight;
             if (scrollTop+clientHeight +200 >= scrollHeight) {
                 this.addBottom=scrollTop + clientHeight +200 - scrollHeight;
@@ -70,7 +73,8 @@ export default {
     },
     components:{
         NodeCard,
-        BackGround
+        BackGround,
+        Modal
     }
 };
 // console.log(label);

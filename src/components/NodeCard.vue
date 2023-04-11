@@ -30,6 +30,8 @@
 
 .node-card {
     opacity: 0.68;
+  min-height: 186px;
+  min-width: 164px;
   height: 12rem;
   width: 13rem;
   background-color: rgba(252, 175, 162, 0.3);
@@ -42,6 +44,8 @@
     display: flex;
     justify-content: space-between;
     padding: 0 .625rem;
+    font-weight: 600;
+    margin-bottom: 10px;
     p{
         font-size: .75rem;
         color: $gray-3;
@@ -99,7 +103,7 @@
 </style>
 
 <script>
-import "@/assets/iconfont/iconfont.css";
+
 import {label } from "@/utils/data";
 import moment from "moment";
 

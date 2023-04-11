@@ -39,9 +39,8 @@ export default{
 
 <style lang="scss" scoped>
   .sun{
-    background-color: #ffeea2;
-  }
+    background: radial-gradient(circle at center top, red 0%, orange 50%, #eee8aa 100%);}
   .moon{
-    background-color: #949494;
-  }
+    background: radial-gradient(circle at center top, #00008B 0%, skyblue  50%, lightblue 100%);
+ }
 </style>

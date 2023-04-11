@@ -18,6 +18,7 @@
 <style lang="scss" scoped>
 
     .top-bar{
+      
         width: 100%;
         height: 4.05rem;
         background-color: rgba(255,255,255,0.80);

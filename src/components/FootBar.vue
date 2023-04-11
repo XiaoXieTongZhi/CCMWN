@@ -28,7 +28,7 @@
 .foot-bar {
   color: $gray-3;
   min-height: 109px;
-  min-width: 690px;
+ 
   width: 100%;
   height: 7.5rem;
   background-color: black;
