@@ -1,46 +1,84 @@
 <template>
-    <div  class="modal">
-        <div class="modal-head">
-            <p class="modal-name">写留言</p>
-            <span class="iconfont icon-close"></span>
-        </div>
+  <Transition name="modal">
+    <div class="modal" v-if="isModal">
+      <div class="modal-head">
+        <p class="modal-name">{{ title }}</p>
+        <span class="iconfont icon-close" @click="closeModal()"></span>
+      </div>
+      <slot></slot>
     </div>
+  </Transition>
 </template>
 
 <style lang="scss" scoped>
-    .modal{
-        width: 13.75rem;
-        height: 100%;
-        background-color: rgba(255,255,255,0.80);
-        box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.08);
-        backdrop-filter: blur(15px);
-        position: fixed;
-        right: 0;
-        top: 4.05rem;
-        z-index: 100;
-        padding: $padding-20;
-        box-sizing: border-box;
-        .modal-head{
-            display: flex;
-            justify-content: space-between;
-            .modal-name{
-                font-size: 1rem;
-                color: $gray-1;
-             
-                font-weight: 600;
-            }
-        }
+  .modal-enter-active {
+      animation: an 1.5s ;
     }
 
+    /* 出场动画 */
+    .modal-leave-active {
+      animation: an 1.5s reverse ;
+    }
+ @keyframes an {
+      0% {
+        opacity: 0;
+        transform: translateX(13.75rem);
+      }
 
+      100% {
+        opacity: 1;
+        transform: translateX(0px);
+      }
+    }
+.modal {
+  width: 13.75rem;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(15px);
+  position: fixed;
+ margin-bottom: 3rem;
+  right: 0;
+  top: 4.05rem;
+  z-index: 31;
+  padding: $padding-20;
+  box-sizing: border-box;
+  .modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .modal-name {
+      font-size: 1rem;
+      color: $gray-1;
 
-
+      font-weight: 600;
+    }
+    .icon-close {
+      color: $gray-2;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+  }
+}
 </style>
 
-
-
 <script>
-export default{
-
-}
+export default {
+  props: {
+    title: {
+      Type: String,
+      default: "标题",
+    },
+    isModal: {
+      Type: Boolean,
+      default: false,
+    },
+  },
+  methods: {
+    //中间人事件调用父组件
+    closeModal() {
+      this.$emit("close");
+    },
+  },
+};
 </script>

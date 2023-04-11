@@ -28,11 +28,9 @@
 .foot-bar {
   color: $gray-3;
   min-height: 109px;
- 
   width: 100%;
   height: 7.5rem;
   background-color: black;
-
   position: absolute;
   bottom: 0.5;
   left: 0;

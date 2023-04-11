@@ -20,10 +20,10 @@
           <div class="card">
             <node-card v-for="(data,index) in note" :key="index" :note="data" class="card-children"></node-card>
           </div>
-          <div class="add" :style="{bottom:addBottom + 'px'}">
+          <div class="add" :style="{bottom:addBottom + 'px'}" @click='changeModal'>
             <span class="iconfont icon-add"></span>
           </div>
-          <modal></modal>
+          <modal :title="'写下你的留言'" @close="changeModal($event)" :isModal="modal"></modal>
     </div>
 </template>
 
@@ -42,6 +42,7 @@ export default {
             nlabel:-1,
             note:note.data,
             addBottom:30,//按钮上下效果
+            modal:false
         };
     },
     mounted(){
@@ -64,12 +65,21 @@ export default {
             //整个内容高度
             let scrollHeight = document.documentElement.scrollHeight;
             if (scrollTop+clientHeight +200 >= scrollHeight) {
-                this.addBottom=scrollTop + clientHeight +200 - scrollHeight;
-
+                if (document.documentElement.clientWidth >940) {
+                    this.addBottom=(scrollTop + clientHeight +300 - scrollHeight);
+                } else{
+                this.addBottom=(scrollTop + clientHeight +200 - scrollHeight);
+            }
             }else {
                 this.addBottom=30
             }
+        },
+        //切换侧边栏
+       changeModal(){
+          this.modal= !this.modal
         }
+        
+
     },
     components:{
         NodeCard,
@@ -80,7 +90,9 @@ export default {
 // console.log(label);
 </script>
 <style lang="scss" scoped>
+
 .wall-message {
+    
     box-sizing: border-box;
     min-height: 700px;
     padding-top: 4.125rem;
@@ -141,7 +153,7 @@ export default {
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        z-index: 50;
+        z-index: 30;
         .icon-add{
             color: $gray-10;
             font-size: 1.5rem;
