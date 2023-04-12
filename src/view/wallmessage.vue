@@ -1,8 +1,6 @@
 <template>
     <div class="wall-message">
-       <div class="night">
-        <back-ground></back-ground>
-       </div>
+      
         <p class="title">
             {{ wallType.name }}
         </p>
@@ -20,7 +18,7 @@
           <div class="card">
             <node-card v-for="(data,index) in note" :key="index" :note="data" class="card-children"></node-card>
           </div>
-          <div class="add" :style="{bottom:addBottom + 'px'}" @click='changeModal'>
+          <div class="add" :style="{bottom:addBottom + 'px'}" @click='changeModal' v-show="!modal">
             <span class="iconfont icon-add"></span>
           </div>
           <modal :title="'写下你的留言'" @close="changeModal($event)" :isModal="modal"></modal>
@@ -32,7 +30,7 @@ import Modal from "@/components/Modal.vue";
 import "@/assets/iconfont/iconfont.css";
 import { wallType, label } from "@/utils/data";
 import NodeCard from '@/components/NodeCard.vue';
-import  BackGround from '@/components/BackGround.vue';
+
 import {note} from '../../mock/index';
 export default {
     data() {
@@ -42,7 +40,7 @@ export default {
             nlabel:-1,
             note:note.data,
             addBottom:30,//按钮上下效果
-            modal:false
+            modal:true
         };
     },
     mounted(){
@@ -83,7 +81,6 @@ export default {
     },
     components:{
         NodeCard,
-        BackGround,
         Modal
     }
 };

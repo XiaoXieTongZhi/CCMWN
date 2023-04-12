@@ -1,13 +1,19 @@
 <template>
-  <div class="top-bar">
+  <div class="top-bar"   ref="topbar">
     <div class="logo">
         <img src="@/assets/logo.png" class="logo-img" alt="">
         <p class="logo-name">CCMWN</p>
     </div>
     <div class="menu">
-        <pr-button :size="'max'" :nom="'primary'" class="menu-message">校园留言墙</pr-button>
-        <pr-button :size="'max'" :nom="'secondary'" class="menu-mine">个人空间</pr-button>
-    </div>
+        
+        <router-link to="/wall">
+  <pr-button :size="'max'" :nom="$route.path == '/wall' ? 'primary':'secondary'"  class="menu-message">校园留言墙</pr-button>
+</router-link>
+<router-link to="/personwall" >
+  <pr-button :size="'max'" :nom="$route.path == '/personwall' ? 'primary':'secondary'"  class="menu-mine">个人空间</pr-button>
+</router-link>
+
+</div>
     <div class="user">
         <div class="user-head">
 
@@ -75,15 +81,17 @@
 <script>
 import PrButton from '@/components/PrButton.vue'
 
+
 export default{
     data(){
         return{
-
         }
     },
     components:{
         PrButton,
-    }
+    },
+ 
+  
 }
 
 

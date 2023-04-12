@@ -10,15 +10,17 @@ const store = createStore({
        maincolor:'linear-gradient(to bottom, red 0%, orange 50%, #eee8aa 100%)',
       //滚动条
       color:'rgba(221, 59, 19, 0.949)',
+    
+
       }
     },
     mutations: {
       //滚动条设置
       changeColor(state,data){
-      
+      //设置滚动条
         state.maincolor = data.maincolor
+        //设置滚动框
         state.color = data.color
-       
       }
     }
   })

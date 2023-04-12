@@ -11,6 +11,11 @@ const routes =[
             {
                 path:'wall',
                 component:()=>import('../view/wallmessage.vue')
+                
+            },
+            {
+                path:'personwall',
+                component:()=>import('../view/PersonWall.vue')
             }
         ]
     }

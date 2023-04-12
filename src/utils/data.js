@@ -7,3 +7,5 @@ export const wallType =
 
 
 export const label = ['寻物','告白','交友','学习','日常']
+
+export const userlabel =['发布的帖子','校友','回复','私信','设置']

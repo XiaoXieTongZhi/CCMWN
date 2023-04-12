@@ -90,7 +90,7 @@ body{
 .sea{
   position: absolute;
   left: 0;
-  bottom: -4.6875rem;
+  bottom: 0;
   width: 100%;
   height: 40%;
   /* 背景模糊制造大海的感觉 */

@@ -1,15 +1,19 @@
 <template>
-    <div :class="$store.state.mode === 1 ?'sun':'moon'">
-        <top-bar></top-bar>
 
+    <div :class="$store.state.mode === 1 ?'sun':'moon'">
+        <back-ground></back-ground>
+        <top-bar></top-bar>
+       
         <router-view></router-view>
+        
         <foot-bar></foot-bar>
     </div>
 </template>
 
 <script>
-import TopBar from "../components/TopBar";
+import TopBar from "@/components/TopBar";
 import FootBar from "@/components/FootBar.vue";
+import  BackGround from '@/components/BackGround.vue';
 export default{
     data(){
         return{
@@ -21,7 +25,8 @@ export default{
     },
     components:{
         TopBar,
-        FootBar
+        FootBar,
+        BackGround
     },
     computed:{
 
@@ -33,7 +38,7 @@ export default{
         getUser(){
              
         }
-    }
+    },
 }
 </script>
 
