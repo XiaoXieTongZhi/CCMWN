@@ -1,4 +1,4 @@
-export default function (runFun, time = 300) {
+export default function (runFun, time = 500) {
     let timer
     return (...args) => {
         clearTimeout(timer)

@@ -21,6 +21,7 @@ props:{
 .PrButton{
   text-align: center;
   font-size: .7125rem;
+  cursor: pointer;
 }
 //大小
     .max{

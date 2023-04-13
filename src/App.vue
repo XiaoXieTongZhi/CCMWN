@@ -4,7 +4,12 @@
 
 <script>
 import { provide, reactive } from 'vue'
-
+import debounce from '@/utils/debounce'
+      document.documentElement.style.fontSize=document.documentElement.clientWidth/750*16+'px'
+      window.onresize=()=>{
+        debounce(()=>{
+     document.documentElement.style.fontSize=document.documentElement.clientWidth/750*16+'px'
+    })()}
 export default {
   name: 'App',
   setup() {

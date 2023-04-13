@@ -6,25 +6,9 @@
         <span class="iconfont icon-close" @click="closeModal()"></span>
       </div>
       <div class="modal-main" :style="{ height: modalMainHeight }">
-        <slot></slot>
+    
         <div class="slot">
-          <div>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium enim perferendis autem provident dolorum
-            non animi, modi fugit hic ducimus aperiam laborum, reprehenderit quis ullam nostrum unde nobis beatae, error
-            officiis. Deserunt repudiandae commodi a suscipit neque sint maxime nulla odio. Est maiores ad itaque minus
-            laudantium molestiae tempore eveniet deleniti harum obcaecati omnis modi iste voluptatibus perferendis
-            doloremque provident in aliquam illo repudiandae atque, distinctio numquam et. Earum eligendi deleniti
-            aspernatur impedit dolor ipsum reiciendis eaque obcaecati nihil qui! Inventore iusto maxime recusandae sed.
-            Amet dolorem deserunt eius, cumque dignissimos rerum impedit. Quisquam atque, rem, impedit veniam illo
-            obcaecati explicabo, rerum alias eaque natus officia est debitis! Delectus aliquid obcaecati officia
-            repellendus? Quaerat corrupti consectetur commodi earum impedit ullam atque iusto dicta explicabo! Cupiditate,
-            magnam aspernatur facere officia veritatis error ut sint reiciendis esse optio assumenda nam soluta ducimus
-            quibusdam. Explicabo et nesciunt error soluta cumque beatae distinctio minima mollitia ratione aut. Sunt totam
-            velit atque. Voluptas, nisi quam, adipisci enim perspiciatis mollitia obcaecati quisquam qui recusandae
-            aliquam tempore eos ratione sed dolore, doloribus minus provident eaque et nemo. Quaerat rem aperiam
-            cupiditate commodi sit nostrum et perspiciatis ut, neque, non vel similique nemo! Voluptatem incidunt
-            consectetur exercitationem dolorem?
-          </div>
+          <slot></slot>
         </div>
       </div>
 
@@ -160,8 +144,8 @@ export default {
     height: 100%;
     overflow: auto;
     // height: 31.25rem;
-    background-color: #eee;
-    border-radius: 1.875rem;
+    // background-color: #eee;
+    // border-radius: 1.875rem;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
 
-  <div class="node-card" :style="{backgroundColor:color[note.imgurl]}">
+  <div class="node-card" :style="{backgroundColor:cardcolor[note.imgurl]}">
    
     <div class="top">
       <p class="time">{{filter(Date.parse(note.moment)) }}</p>
@@ -29,6 +29,7 @@
 
 
 .node-card {
+  font-family: fa;
     opacity: 0.68;
   min-height: 186px;
   min-width: 164px;
@@ -53,7 +54,7 @@
   }
   .message{
     height: 6.75rem;
-    font-family:fa; 
+    
     color: $gray-1;
     letter-spacing: 0;
     line-height: 1.375rem;
@@ -64,6 +65,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   cursor: pointer;
+  font-size: .625rem;
+  
 }
 .foot{
     display: flex;
@@ -104,7 +107,7 @@
 
 <script>
 
-import {label } from "@/utils/data";
+import {label,cardcolor } from "@/utils/data";
 import moment from "moment";
 
 export default {
@@ -150,7 +153,7 @@ export default {
         return {
           
             label,
-            color:['rgba(252,175,162,0.30)','rgba(255,227,148,0.30)','rgba(146,238,245,0.30)','rgba(168,237,138,0.30)','rgba(202,167,247,0.30)','rgba(212,212,212,0.30)'],
+           cardcolor,
         }
     },
  props:{

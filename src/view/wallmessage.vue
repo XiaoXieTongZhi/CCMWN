@@ -21,7 +21,9 @@
           <div class="add" :style="{bottom:addBottom + 'px'}" @click='changeModal' v-show="!modal">
             <span class="iconfont icon-add"></span>
           </div>
-          <modal :title="'写下你的留言'" @close="changeModal($event)" :isModal="modal"></modal>
+          <modal :title="'写下你的留言'" @close="changeModal($event)" :isModal="modal">
+        <new-card></new-card>
+        </modal>
     </div>
 </template>
 
@@ -30,7 +32,7 @@ import Modal from "@/components/Modal.vue";
 import "@/assets/iconfont/iconfont.css";
 import { wallType, label } from "@/utils/data";
 import NodeCard from '@/components/NodeCard.vue';
-
+import NewCard from "@/components/NewCard.vue";
 import {note} from '../../mock/index';
 export default {
     data() {
@@ -40,7 +42,8 @@ export default {
             nlabel:-1,
             note:note.data,
             addBottom:30,//按钮上下效果
-            modal:true
+            modal:true,
+           
         };
     },
     mounted(){
@@ -81,7 +84,8 @@ export default {
     },
     components:{
         NodeCard,
-        Modal
+        Modal,
+        NewCard
     }
 };
 // console.log(label);
