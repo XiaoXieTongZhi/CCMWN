@@ -12,7 +12,6 @@
     "core-js": "^3.8.3",
     "font-awesome": "^4.7.0",
     "moment": "^2.29.4",
-    "vant": "^3.6.11",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.1.6",
     "vuex": "^4.0.2"
@@ -26,6 +25,8 @@
     "sass": "^1.60.0",
     "sass-loader": "^13.2.2",
     "style-resources-loader": "^1.5.0",
+    "unplugin-vue-components": "^0.24.1",
+    "vant": "^4.1.2",
     "vue": "^3.2.47",
     "vue-cli-plugin-style-resources-loader": "^0.1.5"
   },
