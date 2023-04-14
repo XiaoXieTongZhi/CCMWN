@@ -75,12 +75,12 @@ export default {
 
 <style lang="scss" scoped>
 .modal-enter-active {
-  animation: an 1.5s;
+  animation: an 0.5s;
 }
 
 /* 出场动画 */
 .modal-leave-active {
-  animation: an 1.5s reverse;
+  animation: an 0.5s reverse;
 }
 
 @keyframes an {
