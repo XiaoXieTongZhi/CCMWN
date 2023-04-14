@@ -2,7 +2,7 @@
   <div class="node-card" :style="{ backgroundColor: cardcolor[note.imgurl] }">
     <div class="top">
       <p class="time">{{ filter(Date.parse(note.moment)) }}</p>
-      <p class="pictureshow"  @click=" clickbg()" >查看图片</p>
+      <p class="pictureshow"  @click=" clickbg" >查看图片</p>
       <p class="label">{{ label[note.label] }}</p>
     </div>
     <div class="message" :style="bgpicture ? {'background-image': 'url(../assets/images/测试图片.png)'} : ''">
@@ -175,9 +175,10 @@ export default {
     filter(data) {
       return moment(data).format("YYYY-MM-DD");
     },
-  },
-  clickbg(){
+    clickbg(){
     this.bgpicture = true
   }
+  },
+  
 };
 </script>

@@ -26,7 +26,7 @@
       :after-read="afterRead"
       v-model="fileList"
       multiple
-      :max-count="1"
+      :max-count="2"
       preview-size="4rem"
       :preview-options="{'closeable':true}"
     
