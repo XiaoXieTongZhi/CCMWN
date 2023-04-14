@@ -26,9 +26,10 @@
       :after-read="afterRead"
       v-model="fileList"
       multiple
-      :max-count="4"
+      :max-count="1"
       preview-size="4rem"
       :preview-options="{'closeable':true}"
+    
     >
       <van-button size="small" icon="add-o" type="primary" >上传图片</van-button>
     </van-uploader>
@@ -51,6 +52,7 @@ export default {
     changeColor(index) {
       this.selected = index;
     },
+   
     //文件上传vant方法
     afterRead(file) {
       file.status = "uploading";

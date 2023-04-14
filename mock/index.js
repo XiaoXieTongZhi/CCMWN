@@ -20,7 +20,7 @@ export const note =Mock.mock({
         //爱好
         "like|0-120":0,
         //评论
-        "comment|0-120":0,
+        "comment|0-110":0,
         //背景色
         "imgurl|0-5":0,
         //是否撤销
