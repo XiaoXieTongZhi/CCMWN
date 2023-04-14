@@ -2,10 +2,11 @@
   <div class="node-card" :style="{ backgroundColor: cardcolor[note.imgurl] }">
     <div class="top">
       <p class="time">{{ filter(Date.parse(note.moment)) }}</p>
-      <p class="click">查看图片</p>
+      <p class="pictureshow"  @click=" clickbg()" >查看图片</p>
       <p class="label">{{ label[note.label] }}</p>
     </div>
-    <div class="message">
+    <div class="message" :style="bgpicture ? {'background-image': 'url(../assets/images/测试图片.png)'} : ''">
+
       <van-text-ellipsis
         :content="note.message"
         expand-text="展开"
@@ -13,7 +14,7 @@
         rows="5"
       />
 
-      <!-- {{ note.message }} -->
+     
     </div>
     <div class="foot">
       <div class="foot-left">
@@ -56,10 +57,14 @@
     margin-bottom: 10px;
     p {
       font-size: 0.75rem;
-      color: $gray-3;
+      color: $gray-2;
+    }
+    .pictureshow{
+      cursor: pointer;
     }
   }
   .message {
+    
     height: 6.75rem;
 
     color: $gray-1;
@@ -110,6 +115,7 @@
 
 <script>
 import { label, cardcolor } from "@/utils/data";
+
 import moment from "moment";
 
 export default {
@@ -155,6 +161,8 @@ export default {
     return {
       label,
       cardcolor,
+      //判断背景图片是否显示
+      bgpicture:false,
     };
   },
   props: {
@@ -168,5 +176,8 @@ export default {
       return moment(data).format("YYYY-MM-DD");
     },
   },
+  clickbg(){
+    this.bgpicture = true
+  }
 };
 </script>
