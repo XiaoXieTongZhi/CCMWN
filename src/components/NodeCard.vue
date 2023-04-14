@@ -2,19 +2,21 @@
   <div class="node-card" :style="{ backgroundColor: cardcolor[note.imgurl] }">
     <div class="top">
       <p class="time">{{ filter(Date.parse(note.moment)) }}</p>
-      <p class="pictureshow"  @click=" clickbg" >查看图片</p>
+      <p class="pictureshow" @click="clickbg">
+        {{ !bgpicture ? "查看图片" : "查看文字" }}
+      </p>
       <p class="label">{{ label[note.label] }}</p>
     </div>
-    <div class="message" :style="bgpicture ? {'background-image': 'url(../assets/images/测试图片.png)'} : ''">
-
+    <div
+      class="message"
+      :style="bgpicture ? { 'background-image': `url(${img})` } : ''"
+    >
       <van-text-ellipsis
-        :content="note.message"
+        :content="!bgpicture ? text : ''"
         expand-text="展开"
         collapse-text="收起"
         rows="5"
       />
-
-     
     </div>
     <div class="foot">
       <div class="foot-left">
@@ -59,22 +61,20 @@
       font-size: 0.75rem;
       color: $gray-2;
     }
-    .pictureshow{
+    .pictureshow {
       cursor: pointer;
     }
   }
   .message {
-    
     height: 6.75rem;
-
     color: $gray-1;
     letter-spacing: 0;
     line-height: 1.375rem;
     text-align: justify;
     padding: 0 0.75rem;
-    display: -webkit-box;
-    
-    
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
     overflow: auto;
     cursor: pointer;
     font-size: 0.625rem;
@@ -84,7 +84,6 @@
     justify-content: space-around;
     position: absolute;
     bottom: 0.125rem;
-
     left: 0;
     width: 100%;
     .name {
@@ -96,13 +95,11 @@
     .foot-left {
       width: 5.75rem;
       display: flex;
-
       align-items: center;
       span {
         margin-right: 1.25rem;
         cursor: pointer;
         font-size: 0.75rem;
-
         line-height: 1rem;
       }
       .iconfont {
@@ -117,7 +114,7 @@
 import { label, cardcolor } from "@/utils/data";
 
 import moment from "moment";
-
+import img from "@/assets/images/测试图片.png";
 export default {
   directives: {
     "red-on-hover-click": {
@@ -159,10 +156,12 @@ export default {
   },
   data() {
     return {
+      img,
+      text: this.note.message,
       label,
       cardcolor,
       //判断背景图片是否显示
-      bgpicture:false,
+      bgpicture: false,
     };
   },
   props: {
@@ -175,10 +174,9 @@ export default {
     filter(data) {
       return moment(data).format("YYYY-MM-DD");
     },
-    clickbg(){
-    this.bgpicture = true
-  }
+    clickbg() {
+      this.bgpicture = !this.bgpicture;
+    },
   },
-  
 };
 </script>
