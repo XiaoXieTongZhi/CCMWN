@@ -73,8 +73,8 @@
     text-align: justify;
     padding: 0 0.75rem;
     display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
+    
+    
     overflow: auto;
     cursor: pointer;
     font-size: 0.625rem;
