@@ -10,6 +10,7 @@
     <div
       class="message"
       :style="bgpicture ? { 'background-image': `url(${img})` } : ''"
+      @click="selectwall()"
     >
       <van-text-ellipsis
         :content="!bgpicture ? text : ''"
@@ -23,7 +24,7 @@
         <span v-red-on-hover-click class="iconfont icon-favorites">{{
           note.comment
         }}</span>
-        <span v-red-on-hover class="iconfont icon-comments">{{
+        <span v-red-on-hover class="iconfont icon-comments"  @click="selectwall()">{{
           note.like
         }}</span>
       </div>
@@ -177,6 +178,9 @@ export default {
     clickbg() {
       this.bgpicture = !this.bgpicture;
     },
+    selectwall(){
+      this.$emit('selected')
+    }
   },
 };
 </script>
