@@ -8,7 +8,7 @@
 
             <router-link to="/wall">
                 <pr-button :size="'max'" :nom="$route.path == '/wall' ? 'primary' : 'secondary'"
-                    class="menu-message">校园留言墙</pr-button>
+                    class="menu-message"> {{ $store.state.school }}</pr-button>
             </router-link>
             <router-link to="/personwall">
                 <pr-button :size="'max'" :nom="$route.path == '/personwall' ? 'primary' : 'secondary'"
@@ -16,6 +16,7 @@
             </router-link>
 
         </div>
+  
         <div class="user">
             <div class="user-head">
 
@@ -88,6 +89,7 @@
 
 <script>
 import PrButton from '@/components/PrButton.vue'
+
 import { inject, ref } from 'vue'
 
 export default {
@@ -102,6 +104,7 @@ export default {
     },
     components: {
         PrButton,
+   
     },
 
 

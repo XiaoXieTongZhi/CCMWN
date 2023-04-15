@@ -2,9 +2,11 @@
     <div class="wall-message">
 
         <p class="title">
-            {{ wallType.name }}
+            {{ $store.state.school }}
         </p>
-
+        <div class="school">
+   <school-select></school-select>
+       </div>
         <p class="slogan">
             {{ wallType.slogan }}
         </p>
@@ -23,7 +25,7 @@
             <span class="iconfont icon-add"></span>
         </div>
         <modal :title="'写下你的留言'" @close="changeModal($event)" :isModal="modal">
-            <new-card></new-card>
+            <new-card  @addclose='changeModal'></new-card>
         </modal>
     </div>
 </template>
@@ -35,11 +37,13 @@ import { wallType, label } from "@/utils/data";
 import NodeCard from '@/components/NodeCard.vue';
 import NewCard from "@/components/NewCard.vue";
 import { note } from '../../mock/index';
+import SchoolSelect from '@/components/SchoolSelect.vue';
 export default {
     components: {
         NodeCard,
         Modal,
-        NewCard
+        NewCard,
+        SchoolSelect
     },
     data() {
         return {

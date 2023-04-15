@@ -11,7 +11,6 @@
           <slot></slot>
         </div>
       </div>
-
     </div>
 
   </Transition>
@@ -96,7 +95,7 @@ export default {
 }
 
 .modal {
-  width: 13.75rem;
+  width: 15.75rem;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(15px);

@@ -10,7 +10,7 @@ const store = createStore({
        maincolor:'linear-gradient(to bottom, red 0%, orange 50%, #eee8aa 100%)',
       //滚动条
       color:'rgba(221, 59, 19, 0.949)',
-    
+     school:'主留言墙',
 
       }
     },
@@ -21,6 +21,10 @@ const store = createStore({
         state.maincolor = data.maincolor
         //设置滚动框
         state.color = data.color
+      },
+      changeSchool(state,data){
+        state.school = data
+        console.log(state.school);
       }
     }
   })

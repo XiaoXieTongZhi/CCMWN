@@ -92,7 +92,7 @@ body{
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 40%;
+  height: 45%;
   /* 背景模糊制造大海的感觉 */
   backdrop-filter: blur(150px) opacity(90%);
   -webkit-backdrop-filter: blur(150px) opacity(90%);
