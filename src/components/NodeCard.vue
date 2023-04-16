@@ -10,9 +10,10 @@
     <div
       class="message"
       :style="bgpicture ? { 'background-image': `url(${img})` } : ''"
-      @click="selectwall()"
+     
     >
       <van-text-ellipsis
+        @click.native.stop
         :content="!bgpicture ? text : ''"
         expand-text="展开"
         collapse-text="收起"
@@ -77,7 +78,7 @@
     background-position: center;
     background-size: contain;
     overflow: auto;
-    cursor: pointer;
+   
     font-size: 0.625rem;
   }
   .foot {

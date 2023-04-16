@@ -46,9 +46,13 @@ body{
   margin: 0;
   padding: 0;
 }
-#container{
+
+.box{
+  width: 100vw;
+  #container{
   /* 100%窗口高度 */
   height: 100vh;
+  width: 100vw;
 }
 .bg{
   /* 绝对定位 */
@@ -80,7 +84,7 @@ body{
   top: 50%;
   left: 50%;
   /* 计算得出月亮的位置 */
-  transform: translate(calc(-50% + -80px),calc(-50% + -90px));
+  transform: translate(calc(-50% + -5rem),calc(-50% + -5.625rem));
   width: 18.75rem;
   height: 18.75rem;
   /* 通过阴影绘制月亮 */
@@ -91,11 +95,11 @@ body{
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 100%;
+  width: 100vw;
   height: 45%;
   /* 背景模糊制造大海的感觉 */
-  backdrop-filter: blur(150px) opacity(90%);
-  -webkit-backdrop-filter: blur(150px) opacity(90%);
+  backdrop-filter: blur(9.375rem) opacity(90%);
+  -webkit-backdrop-filter: blur(9.375rem) opacity(90%);
     z-index: 2; 
 
     
@@ -143,7 +147,7 @@ body{
   display: none;
 }
 
-
+}
 </style>
 
 

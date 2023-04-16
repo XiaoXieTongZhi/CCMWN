@@ -17,7 +17,10 @@
         maxlength="500"
         v-model="message"
       ></textarea>
-      <input type="text" placeholder="个人名称" class="name" disabled />
+      <select class="name" >
+  <option value="用户名称" class="option">用户名称</option>
+  <option value="匿名" class="option">匿名</option>
+</select>
     </div>
    
 
@@ -145,9 +148,8 @@ export default {
     }
 
     .name {
-      width: 100%;
+      width: 50%;
       box-sizing: border-box;
-      padding: $padding-8;
       background: none;
       border: none;
       height: 1.55rem;
