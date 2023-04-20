@@ -5,10 +5,21 @@
 <script>
 import { provide, reactive } from 'vue'
 import debounce from '@/utils/debounce'
-      document.documentElement.style.fontSize=document.documentElement.clientWidth/750*16+'px'
+
+     document.documentElement.style.fontSize=document.documentElement.clientWidth/750*16+'px'
+     if (document.documentElement.style.fontSize=document.documentElement.clientWidth/750 > 1) {
+      document.documentElement.style.fontSize=document.documentElement.clientWidth/750 *11+'px'
+  
+     }
+     
       window.onresize=()=>{
         debounce(()=>{
-     document.documentElement.style.fontSize=document.documentElement.clientWidth/750*16+'px'
+
+          document.documentElement.style.fontSize=document.documentElement.clientWidth/750*16+'px'
+     if (document.documentElement.style.fontSize=document.documentElement.clientWidth/750 > 1.5) {
+      document.documentElement.style.fontSize=document.documentElement.clientWidth/750 *11+'px'
+   
+     }
     })()}
 export default {
   name: 'App',

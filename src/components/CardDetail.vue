@@ -47,16 +47,16 @@
     height: 0px;
     padding: $padding-20;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     display: flex;
     .revoke {
       color: $primary-color;
       cursor: pointer;
       padding-right: 1.875rem;
-      font-size: $size-16;
+      font-size: $size-14;
     }
     .report {
-      font-size: $size-16;
+      font-size: $size-14;
       cursor: pointer;
       color: $warning-color;
     }
@@ -67,7 +67,7 @@
     width: 80%;
     .message {
       background: none;
-     
+     height: 7.125rem;
       resize: none;
       padding: $padding-8;
       box-sizing: border-box;

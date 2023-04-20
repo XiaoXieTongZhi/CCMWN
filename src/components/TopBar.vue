@@ -8,7 +8,7 @@
 
             <router-link to="/wall">
                 <pr-button :size="'max'" :nom="$route.path == '/wall' ? 'primary' : 'secondary'"
-                    class="menu-message"> {{ $store.state.school }}</pr-button>
+                    class="menu-message"> {{ $store.state.school == '主留言墙'?'主留言墙':'校园留言墙' }}</pr-button>
             </router-link>
             <router-link to="/personwall">
                 <pr-button :size="'max'" :nom="$route.path == '/personwall' ? 'primary' : 'secondary'"

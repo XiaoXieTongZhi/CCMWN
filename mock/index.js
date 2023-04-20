@@ -29,3 +29,25 @@ export const note =Mock.mock({
         "report|0-20":0
     }]
 })
+
+
+export const commont =Mock.mock({
+    "data|20":[{
+        //创建时间
+        "moment": new Date(),
+        //数据id
+        "id|+1":1,
+        //用户名Id
+        "userId|+1":10,
+        //内容
+        "message|24-96":"@csentence",
+      
+        //name
+        "name":'@cname',
+      
+      
+        //背景色
+        "imgurl|0-5":0,
+  
+    }]
+})

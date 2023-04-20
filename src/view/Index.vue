@@ -43,7 +43,6 @@ export default{
 </script>
 
 <style lang="scss" scoped>
-
   .sun{
     background: radial-gradient(circle at center top, red 0%, orange 50%, #eee8aa 100%);}
   .moon{

@@ -11,8 +11,11 @@
         <p class="introduce">************* **********</p>
 
         <p class="state">
-          <span>声明</span>
-          <span>备案/*****</span>
+          <span>备案/</span>
+          <span>
+            <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#989898;">冀ICP备2023012029号</a>
+          </span>
+          
         </p>
       </div>
     </div>
