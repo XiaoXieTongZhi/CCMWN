@@ -95,6 +95,7 @@ export default {
       this.$emit('addclose',data)
     },
    
+   
     //文件上传vant方法
     afterRead(file) {
       file.status = "uploading";

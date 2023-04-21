@@ -11,6 +11,7 @@ const store = createStore({
       //滚动条
       color:'rgba(221, 59, 19, 0.949)',
      school:'主留言墙',
+     isModal:false,
 
       }
     },
@@ -25,6 +26,10 @@ const store = createStore({
       changeSchool(state,data){
         state.school = data
         console.log(state.school);
+      },
+      changeModal(state){
+        state.isModal =!state.isModal
+       
       }
     }
   })

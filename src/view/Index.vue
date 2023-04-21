@@ -3,7 +3,7 @@
     <div :class="$store.state.mode === 1 ?'sun':'moon'">
         <back-ground></back-ground>
         <top-bar></top-bar>
-       
+       <login></login>
         <router-view></router-view>
         
         <foot-bar></foot-bar>
@@ -14,6 +14,7 @@
 import TopBar from "@/components/TopBar";
 import FootBar from "@/components/FootBar.vue";
 import  BackGround from '@/components/BackGround.vue';
+import login from '@/components/login.vue'
 export default{
     data(){
         return{
@@ -26,7 +27,8 @@ export default{
     components:{
         TopBar,
         FootBar,
-        BackGround
+        BackGround,
+        login
     },
     computed:{
 
