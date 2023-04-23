@@ -28,7 +28,7 @@
 
     <div class="user">
       <div class="user-head"></div>
-      <span>用户名</span>
+      <span class="name">用户多少名</span>
       <div class="user-login">
         <van-button type="small" :color="'#989898'" @click="changelogin()">{{
           login
@@ -38,6 +38,9 @@
   </div>
 </template>
 <style lang="scss" scoped>
+.van-button--small {
+  min-width: 30px;
+}
 .top-bar {
   width: 100%;
   height: 4.05rem;
@@ -73,16 +76,19 @@
   }
 
   .user {
-    width: 8.25rem;
+    width: 10.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    .name{
+      min-width: 70px;
+    }
     .user-head {
       border-radius: 50%;
       height: 1.5rem;
       width: 1.5rem;
       background-image: linear-gradient(180deg, #7be7ff, #1e85e2);
+    
     }
   }
 
@@ -123,7 +129,7 @@ export default {
   },
   computed: {
     showtext() {
-   return this.$store.state.isModal
+   return this.$store.state.isModal && this.$store.state.isbutton
      
     },
   },

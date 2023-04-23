@@ -12,7 +12,7 @@ const store = createStore({
       color:'rgba(221, 59, 19, 0.949)',
      school:'主留言墙',
      isModal:false,
-
+      isbutton:false,
       }
     },
     mutations: {
@@ -27,7 +27,13 @@ const store = createStore({
         state.school = data
         console.log(state.school);
       },
+      //这里是修改两个状态 让按钮跟模态框同步
       changeModal(state){
+        state.isModal =!state.isModal
+        state.isbutton =!state.isbutton
+      },
+      //这里直修改模态框
+      changeModaltwo(state){
         state.isModal =!state.isModal
        
       }

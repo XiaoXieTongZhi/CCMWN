@@ -1,12 +1,12 @@
-// import {baseUrl} from '@/utils/env'
+import {baseUrl} from '@/utils/env'
 
 
-// import axios from 'axios';
+import axios from 'axios';
 
 
-// const service = axios.create({
-//     baseUrl,
-//     timeout:5000,
-// })
+const service = new axios.create({
+    baseURL:baseUrl,
+    timeout:5000,
+})
 
-// export default service
+export default  service
