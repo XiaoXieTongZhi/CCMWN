@@ -1,7 +1,7 @@
 <template>
   <div class="card-detail">
     <div class="top-bt">
-      <p class="revoke">联系墙主撕掉该便签</p>
+      <!-- <p class="revoke">联系墙主撕掉该便签</p> -->
       <p class="report">举报</p>
     </div>
     <node-card :note="card" class="nodecard"></node-card>
@@ -49,12 +49,12 @@
     align-items: center;
     justify-content: space-between;
     display: flex;
-    .revoke {
-      color: $primary-color;
-      cursor: pointer;
-      padding-right: 1.875rem;
-      font-size: $size-14;
-    }
+    // .revoke {
+    //   color: $primary-color;
+    //   cursor: pointer;
+    //   padding-right: 1.875rem;
+    //   font-size: $size-14;
+    // }
     .report {
       font-size: $size-14;
       cursor: pointer;

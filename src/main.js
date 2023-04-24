@@ -9,4 +9,5 @@ const app = createApp(App)
 .use(VueAxios,axios)
 .use(store)
 .use(router)
+
 .mount('#app')

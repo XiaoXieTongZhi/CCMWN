@@ -13,7 +13,7 @@
           <div
             class="option"
             v-for="school in filteredSchools"
-            :key="school"
+            :key="school.id"
             @mousedown.prevent
             @click="selectSchool(school)"
             :class="{ disabled: school !== '主留言墙' }"
@@ -27,8 +27,8 @@
   </template>
   
   <script>
-  import { school } from '@/utils/school.json';
-  const newschool = school.map(item => item.name);
+  import  school  from '@/utils/school.json';
+  const newschool = school.school.map(item => item.name);
   export default {
     data() {
       return {

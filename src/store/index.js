@@ -25,17 +25,18 @@ const store = createStore({
       },
       changeSchool(state,data){
         state.school = data
-        console.log(state.school);
+       
       },
       //这里是修改两个状态 让按钮跟模态框同步
       changeModal(state){
         state.isModal =!state.isModal
-        state.isbutton =!state.isbutton
+       state.isbutton=!state.isbutton
+        
       },
       //这里直修改模态框
       changeModaltwo(state){
-        state.isModal =!state.isModal
-       
+        state.isModal =false
+      
       }
     }
   })

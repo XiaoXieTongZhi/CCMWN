@@ -129,12 +129,15 @@ export default {
   },
   computed: {
     showtext() {
-   return this.$store.state.isModal && this.$store.state.isbutton
-     
+      console.log(this.$store.state.isModal);
+      console.log(this.$store.state.isbutton);
+   return this.$store.state.isModal || this.$store.state.isbutton
     },
   },
   watch:{
+   
     showtext(){
+      console.log(this.showtext);
         if (this.showtext) {
         this.login = "退出";
       } else {

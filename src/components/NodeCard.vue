@@ -42,7 +42,7 @@
 
 .node-card {
   font-family: fa;
-  opacity: 0.68;
+  opacity: 0.8;
   min-height: 186px;
   min-width: 164px;
   height: 12rem;
