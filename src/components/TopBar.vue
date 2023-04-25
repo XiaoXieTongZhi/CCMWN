@@ -124,27 +124,12 @@ export default {
   },
   methods: {
     changelogin() {
-      this.$store.commit("changeModal");
+ 
+        this.$store.commit("changeModal");
+  
+    
     },
   },
-  computed: {
-    showtext() {
-      console.log(this.$store.state.isModal);
-      console.log(this.$store.state.isbutton);
-   return this.$store.state.isModal || this.$store.state.isbutton
-    },
-  },
-  watch:{
-   
-    showtext(){
-      console.log(this.showtext);
-        if (this.showtext) {
-        this.login = "退出";
-      } else {
-        this.login = "登录";
-       
-      }
-    }
-  }
+ 
 };
 </script>

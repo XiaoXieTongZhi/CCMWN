@@ -110,7 +110,6 @@
 <script>
 import * as axios from "@/api/index";
 import { showToast } from "vant";
-
 export default {
   data() {
     return {
@@ -139,12 +138,13 @@ export default {
   },
   methods: {
     code() {
+   
       if (this.email == "") {
         this.isuseremail = "邮箱不能为空";
       } else {
         //判断邮箱是否通过
         if (
-          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.email) 
+          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.email)
         ) {
           //注册
           if (this.checked == 2) {
@@ -174,7 +174,7 @@ export default {
                 this.isuseremail = res.data.message;
               } else if (res.data.code == 310) {
                 this.isuseremail = res.data.message;
-              }else if (res.data.code == 325) {
+              } else if (res.data.code == 325) {
                 this.isuseremail = res.data.message;
               }
             });
@@ -187,7 +187,14 @@ export default {
     countDown() {
       let timer;
       timer = setInterval(() => {
-        if (this.email == "" || this.isuseremail == "邮箱已存在" ||this.isuseremail == "邮箱不存在") {
+        if (
+          this.email == "" ||
+          this.isuseremail == "邮箱已存在" ||
+          this.isuseremail == "邮箱不存在"
+        ) {
+          this.buttonText = "重新发送";
+          this.isDisabled = false;
+          this.count = 59;
           return clearInterval(timer);
         } else {
           //判断邮箱是否通过
@@ -213,9 +220,16 @@ export default {
       this.$store.commit("changeModal");
     },
     onSubmit() {
+      this.isusername = "";
+      this.isuseremail = "";
+      this.iscode = "";
+      this.ispass = "";
+      this.buttonText = "发送验证码";
+      const formData = this.$refs.form.getValues();
+
       //注册
       if (this.checked == 2) {
-        axios.insertUser(this.$refs.form.getValues()).then((res) => {
+        axios.insertUser(formData).then((res) => {
           if (res.data.code == 305) {
             this.isusername = res.data.messages;
           } else if (res.data.code == 306) {
@@ -234,7 +248,7 @@ export default {
             this.isuseremail = "";
             this.iscode = "";
 
-            this.$store.commit("changeModaltwo");
+            this.$store.commit("changeModal");
             showToast({
               message: "注册成功",
 
@@ -251,12 +265,12 @@ export default {
         });
         //登录
       } else if (this.checked == 1) {
-        axios.loginUser(this.$refs.form.getValues()).then((res) => {
+        axios.loginUser(formData).then((res) => {
           console.log(res.data.code);
           if (res.data.code == 205) {
             this.isuseremail = "";
             this.ispass = "";
-            this.$store.commit("changeModaltwo");
+            this.$store.commit("changeModal");
             showToast({
               message: "登录成功",
 
@@ -272,15 +286,14 @@ export default {
           } else if (res.data.code == 315) {
             this.ispass = "";
             this.ispass = res.data.message;
-          } else if (res.data.code ==325) {
+          } else if (res.data.code == 325) {
             this.isuseremail = "";
-            this.isuseremail= res.data.message;
+            this.isuseremail = res.data.message;
           }
         });
         //找回密码
       } else if (this.checked == 3) {
-        console.log(555);
-        axios.searchUser(this.$refs.form.getValues()).then((res) => {
+        axios.searchUser(formData).then((res) => {
           if (res.data.code == 310) {
             this.iscode = res.data.message;
           } else if (res.data.code == 320) {
@@ -289,7 +302,7 @@ export default {
             this.iscode = res.data.message;
           } else if (res.data.code == 203) {
             this.iscode = "";
-            this.$store.commit("changeModaltwo");
+            this.$store.commit("changeModal");
             showToast({
               message: "密码修改成功",
 
