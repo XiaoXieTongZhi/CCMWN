@@ -2,8 +2,8 @@
 
     <div :class="$store.state.mode === 1 ?'sun':'moon'">
         <back-ground></back-ground>
-        <top-bar></top-bar>
-       <login></login>
+        <top-bar :username="pvalue"></top-bar>
+       <login @update-topbar-value="handleUpdateTopbarValue"></login>
         <router-view></router-view>
         
         <foot-bar></foot-bar>
@@ -18,7 +18,7 @@ import login from '@/components/login.vue'
 export default{
     data(){
         return{
-
+            pvalue:'',
         }
     },
     mounted(){
@@ -37,8 +37,8 @@ export default{
 
     },
     methods:{
-        getUser(){
-             
+        handleUpdateTopbarValue(newvalue){
+                this.pvalue=newvalue
         }
     },
 }

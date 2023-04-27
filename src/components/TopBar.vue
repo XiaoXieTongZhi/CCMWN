@@ -28,7 +28,7 @@
 
     <div class="user">
       <div class="user-head"></div>
-      <span class="name">用户多少名</span>
+      <span class="name">{{ dusername }}</span>
       <div class="user-login">
         <van-button type="small" :color="'#989898'" @click="changelogin()">{{
           login
@@ -109,23 +109,70 @@ import PrButton from "@/components/PrButton.vue";
 import { inject, ref } from "vue";
 
 export default {
+  props:{
+      username:{
+        Type:String,
+        default:''
+      }
+  },
   setup() {
     const bus = inject("bus");
     let topBar = ref(null);
     let login = ref("登录");
+    let istoken =ref(" ");
+    let dusername = ref("登陆发言");
     bus.getTopBarHeight = () => {
       return +topBar.value.clientHeight;
     };
 
-    return { topBar, login };
+    return { topBar, login,istoken,dusername };
   },
   components: {
     PrButton,
   },
+  computed:{
+        isbutton(){
+          
+          return this.$store.state.isModal
+        },
+        usernamecomputed(){
+
+        }
+  },
+  watch:{
+    username(){
+      this.dusername =this.username
+    },
+    isbutton(){
+      this.istoken=localStorage.getItem('token');
+   
+      if (this.istoken) {
+       this.login='退出'; 
+      }else{
+        this.login='登录'; 
+      }
+    }
+  },
+  mounted(){
+      //判断是否有本地local来决定按钮显示内容
+      this.istoken=localStorage.getItem('token');
+      if (this.istoken) {
+       this.login='退出'; 
+      }else{
+        this.login='登录'; 
+      }
+    },
   methods: {
+
     changelogin() {
- 
+      if (this.login=='登录') {
         this.$store.commit("changeModal");
+      }else{
+        this.dusername ='登陆发言'
+        localStorage.removeItem('token')
+        this.login='登录'; 
+      }
+       
   
     
     },

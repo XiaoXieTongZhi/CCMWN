@@ -43,8 +43,8 @@
 .node-card {
   font-family: fa;
   opacity: 0.8;
-  min-height: 186px;
-  min-width: 164px;
+  min-height: 11.625rem;
+  min-width: 10.25rem;
   height: 12rem;
   width: 13rem;
   background-color: rgba(252, 175, 162, 0.3);
@@ -58,7 +58,7 @@
     justify-content: space-between;
     padding: 0 0.625rem;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
     p {
       font-size: 0.75rem;
       color: $gray-2;
@@ -79,7 +79,7 @@
     background-size: contain;
     overflow: auto;
    
-    font-size: 0.625rem;
+    font-size: 0.725rem;
   }
   .foot {
     display: flex;
@@ -101,11 +101,11 @@
       span {
         margin-right: 1.25rem;
         cursor: pointer;
-        font-size: 0.75rem;
+        font-size: 1.1rem;
         line-height: 1rem;
       }
       .iconfont {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
       }
     }
   }

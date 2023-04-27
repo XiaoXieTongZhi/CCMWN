@@ -8,5 +8,5 @@ import service from "@/utils/axios";
  export const sendCode = data => service.post('/code',data);
  //登录用户
  export const loginUser = data => service.post('/loginUser',data)
- //找回密码 (重新设置密码)
- export const searchUser = data => service.post('/searchUser',data)
+ //找回密码 (重新设置密码)//更新部分内容
+ export const searchUser = data => service.patch('/searchUser',data)
