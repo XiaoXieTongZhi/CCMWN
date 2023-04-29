@@ -10,3 +10,6 @@ import service from "@/utils/axios";
  export const loginUser = data => service.post('/loginUser',data)
  //找回密码 (重新设置密码)//更新部分内容
  export const searchUser = data => service.patch('/searchUser',data)
+
+ //显示卡片数据
+ export const showCard = data => service.get('/showCard',data)

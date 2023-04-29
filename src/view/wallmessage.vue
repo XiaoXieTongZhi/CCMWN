@@ -59,6 +59,7 @@
 
 <script>
 import Modal from "@/components/Modal.vue";
+import * as axios from "@/api/index";
 import "@/assets/iconfont/iconfont.css";
 import { wallType, label } from "@/utils/data";
 import NodeCard from "@/components/NodeCard.vue";
@@ -87,6 +88,19 @@ export default {
     };
   },
   mounted() {
+    //获取后台默认已有的内容数据
+    axios.showCard({
+      params:{
+        //barch留言墙种类分支
+        branch:this.$store.state.school,
+        //请求默认数据的时候可以绕过jwt
+        data:'default'
+      }
+    }).then(res => {
+      console.log(res.data.data)
+    })
+
+
     window.addEventListener("scroll", this.scrollBottom);
   },
   unmounted() {

@@ -36,7 +36,8 @@ service.interceptors.response.use(
       localStorage.removeItem('token')
       this.$store.commit("changeModal");
     }
-    return Promise.reject(error);
+    //直接false 走then但是不执行
+    return false;
   }
 );
 export default service;
