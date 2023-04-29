@@ -42,7 +42,7 @@
 
 .node-card {
   font-family: fa;
-  opacity: 0.8;
+  opacity: 0.6;
   min-height: 11.625rem;
   min-width: 10.25rem;
   height: 12rem;
@@ -62,7 +62,7 @@
     p {
       font-size: 0.75rem;
       color: $gray-2;
-    }
+    } 
     .pictureshow {
       cursor: pointer;
     }

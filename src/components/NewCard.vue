@@ -3,7 +3,7 @@
     <div class="color-card">
       <p
         class="color-li"
-        v-for="(e, index) in cardcolortwo"
+        v-for="(e, index) in cardcolor"
         :key="index"
         :style="{ backgroundColor: e }"
         :class="{ colorselected: index == selected }"
