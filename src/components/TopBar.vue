@@ -135,13 +135,12 @@ export default {
           
           return this.$store.state.isModal
         },
-        usernamecomputed(){
-
-        }
+      
   },
   watch:{
     username(){
       this.dusername =this.username
+      localStorage.setItem('name',this.dusername)
     },
     isbutton(){
       this.istoken=localStorage.getItem('token');
@@ -154,6 +153,10 @@ export default {
     }
   },
   mounted(){
+      if (localStorage.getItem('name')) {
+        this.dusername =localStorage.getItem('name')
+      }
+
       //判断是否有本地local来决定按钮显示内容
       this.istoken=localStorage.getItem('token');
       if (this.istoken) {

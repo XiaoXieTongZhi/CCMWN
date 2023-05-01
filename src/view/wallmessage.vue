@@ -10,49 +10,26 @@
       {{ wallType.slogan }}
     </p>
     <div class="label">
-      <p
-        class="label-list"
-        :class="{ lbselected: nlabel == -1 }"
-        @click="selectNode(-1)"
-      >
+      <p class="label-list" :class="{ lbselected: nlabel == -1 }" @click="selectNode(-1)">
         全部
       </p>
-      <p
-        class="label-list"
-        :class="{ lbselected: nlabel == index }"
-        @click="selectNode(index)"
-        v-for="(item, index) in label"
-        :key="index"
-      >
+      <p class="label-list" :class="{ lbselected: nlabel == index }" @click="selectNode(index,item)"
+        v-for="(item, index) in label" :key="index">
         {{ item }}
       </p>
     </div>
     <div class="card">
-      <node-card
-        v-for="(data, index) in note"
-        :key="index"
-        :note="data"
-        class="card-children"
-        :class="{ cardselected: index == cardselected }"
-        @selected="selectedcard(index)"
-      ></node-card>
+      <node-card v-for="(data, index) in note" :key="data.postid" :note="data" class="card-children"
+        :class="{ cardselected: index == cardselected }" @selected="selectedcard(index)"
+        @selectpostid="selectid"></node-card>
     </div>
-    <div
-      class="add"
-      :style="{ bottom: addBottom + 'px' }"
-      @click="CardDetails"
-      v-show="!modal"
-    >
+    <div class="add" :style="{ bottom: addBottom + 'px' }" @click="CardDetails" v-show="!modal">
       <span class="iconfont icon-add"></span>
     </div>
-    <modal
-      :title="title"
-      @close="changeModal($event)"
-      :isModal="modal"
-    >                                   
-    <!-- -1说明没选中卡片 -->
-      <new-card @addclose="changeModal" v-if="cardselected==-1" ></new-card>
-      <card-detail v-else :card="note[cardselected]"></card-detail>
+    <modal :title="title" @close="changeModal($event)" :isModal="modal">
+      <!-- -1说明没选中卡片 -->
+      <new-card @addclose="changeModal" v-if="cardselected == -1"></new-card>
+      <card-detail v-else :card="note[cardselected]" :postid="postid"></card-detail>
     </modal>
   </div>
 </template>
@@ -64,7 +41,6 @@ import "@/assets/iconfont/iconfont.css";
 import { wallType, label } from "@/utils/data";
 import NodeCard from "@/components/NodeCard.vue";
 import NewCard from "@/components/NewCard.vue";
-import { note } from "../../mock/index";
 import SchoolSelect from "@/components/SchoolSelect.vue";
 import CardDetail from "@/components/CardDetail.vue"
 export default {
@@ -77,11 +53,12 @@ export default {
   },
   data() {
     return {
-        title:'写下你的留言',
+      postid: 0,
+      title: '写下你的留言',
       wallType,
       label,
       nlabel: -1,
-      note: note.data,
+      note: '',
       addBottom: 30, //按钮上下效果
       modal: true,
       cardselected: -1, //当前选择的卡片
@@ -90,14 +67,14 @@ export default {
   mounted() {
     //获取后台默认已有的内容数据
     axios.showCard({
-      params:{
+      params: {
         //barch留言墙种类分支
-        branch:this.$store.state.school,
+        branch: this.$store.state.school,
         //请求默认数据的时候可以绕过jwt
-        data:'default'
+        data: 'default'
       }
     }).then(res => {
-      console.log(res.data.data)
+      this.note = res.data.data
     })
 
 
@@ -108,12 +85,26 @@ export default {
   },
 
   methods: {
-    CardDetails(){
-       this.title='写下你的留言'
+    selectid(value) {
+
+      this.postid = value
+    },
+    CardDetails() {
+      this.title = '写下你的留言'
       this.changeModal()
 
     },
-    selectNode(e) {
+    selectNode(e,item) {
+     axios.showCard({
+      params:{
+        branch: this.$store.state.school,
+        //为了绕过jwt
+        data: 'default',
+        type:item
+      }
+     }).then(res =>{
+      this.note = res.data.data
+     })
       this.nlabel = e;
     },
     scrollBottom() {
@@ -136,20 +127,32 @@ export default {
     },
     //切换侧边栏
     changeModal() {
-        this.cardselected = -1
-      this.modal = !this.modal;
      
+      this.cardselected = -1
+      this.modal = !this.modal;
+
     },
     //切换选择的卡片
     selectedcard(data) {
-        this.title='详情'
-    if (data!=this.cardselected) {
-        this.cardselected =data
+
+     
+
+      this.title = '详情'
+      if (data != this.cardselected) {
+        this.cardselected = data
         this.modal = true
-    }else{
+      } else {
         this.cardselected = -1
         this.modal = false
-    }
+      }
+      setTimeout(() => {
+        if (this.$store.state.isModal) {
+        
+          this.cardselected = -1
+          this.modal = false
+
+        }
+      }, 500);
     },
   },
 };
@@ -205,6 +208,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+
     .cardselected {
       border: 1px solid black;
     }

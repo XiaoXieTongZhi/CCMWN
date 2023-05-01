@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { cardcolor, cardcolortwo } from "@/utils/data";
+import { cardcolor} from "@/utils/data";
 import  {label} from '@/utils/data';
 import PrButton from "./PrButton.vue";
 export default {
@@ -68,7 +68,6 @@ export default {
     return {
         label,
       cardcolor,
-      cardcolortwo,
       selected: 0, //当前选择的颜色
       //文件上传的图片数组
       fileList: [],

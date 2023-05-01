@@ -17,18 +17,18 @@
     </div>
     <p class="title">
         评论
-        {{ card.comment }}
+        {{ card.comment_count }}
     </p>
        <div class="commont">
         <div class="commont-li" v-for="(data,index) in commont" :key="index">
-            <div class="user-head" :style="{backgroundImage:portrait[data.imgurl]}"></div>
+            <div class="user-head" :style="{backgroundImage:portrait[1]}"></div>
             <div class="comm-m">
                 <div class="m-top">
-                    <p class="name">{{ data.name }}</p>
-                    <p class="time">{{filter(Date.parse(data.moment)) }}</p>
+                    <p class="name">{{ data.username }}</p>
+                    <p class="time">{{filter(Date.parse(data.comment_date)) }}</p>
                 </div>
                 <div class="content">
-                {{ data.message }}
+                {{ data.content }}
                 </div>
             </div>
         </div>
@@ -128,15 +128,16 @@
 </style>
 
 <script>
+import * as axios from "@/api/index";
 import NodeCard from "./NodeCard.vue";
 import PrButton from "./PrButton.vue";
-import {commont} from '../../mock/index';
+// import {commont} from '../../mock/index';
 import {portrait} from '@/utils/data';
 import NodeCardmethods from '@/components/NodeCard.vue'
 export default {
   data() {
     return {
-        commont:commont.data,
+        commont:'',
         portrait,
        
     };
@@ -144,9 +145,13 @@ export default {
   
   props: {
     card: {
-      Type: [String, Object],
+      type: [String, Object],
       default: {},
     },
+    postid:{
+      type:String,
+      default:''
+    }
   },
   components: {
     NodeCard,
@@ -156,6 +161,23 @@ export default {
    filter(data){
    return NodeCardmethods.methods.filter(data)
    }
-  }
+  },
+    watch:{ 
+      postid:{
+        immediate:true,
+        handler(val){
+        axios.showComment({
+          params:{
+            postid:val
+          }
+         
+        }).then(res =>{
+        
+          this.commont=res.data.message
+        })
+        }
+      }
+    }
+  
 };
 </script>

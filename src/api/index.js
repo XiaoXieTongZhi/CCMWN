@@ -13,3 +13,7 @@ import service from "@/utils/axios";
 
  //显示卡片数据
  export const showCard = data => service.get('/showCard',data)
+
+ //获取评论数据
+
+ export const showComment = data =>service.get('/showComment',data)

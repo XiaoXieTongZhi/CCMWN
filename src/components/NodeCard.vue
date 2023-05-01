@@ -1,35 +1,28 @@
 <template>
-  <div class="node-card" :style="{ backgroundColor: cardcolor[note.imgurl] }">
+  <div class="node-card" :style="{ backgroundColor: note.color }">
     <div class="top">
-      <p class="time">{{ filter(Date.parse(note.moment)) }}</p>
+      <p class="time">{{ filter(Date.parse(note.post_date)) }}</p>
       <p class="pictureshow" @click="clickbg">
         {{ !bgpicture ? "查看图片" : "查看文字" }}
       </p>
-      <p class="label">{{ label[note.label] }}</p>
+      <p class="label" >{{ note.type }}</p>
     </div>
-    <div
-      class="message"
-      :style="bgpicture ? { 'background-image': `url(${img})` } : ''"
-     
-    >
-      <van-text-ellipsis
-        @click.native.stop
-        :content="!bgpicture ? text : ''"
-        expand-text="展开"
-        collapse-text="收起"
-        rows="5"
-      />
+    <div class="message"
+      :style="bgpicture ? { 'background-image': `url(http://localhost:3000/uploads/img/${note.image_url})` } : ''">
+      <van-text-ellipsis @click.native.stop :content="!bgpicture ? note.content : ''" expand-text="展开" collapse-text="收起"
+        rows="5" />
     </div>
     <div class="foot">
       <div class="foot-left">
+        <span ref="postid" v-show="false">{{ note.postid }}</span>
         <span v-red-on-hover-click class="iconfont icon-favorites">{{
-          note.comment
+          note.like_count
         }}</span>
-        <span v-red-on-hover class="iconfont icon-comments"  @click="selectwall()">{{
-          note.like
+        <span v-red-on-hover class="iconfont icon-comments" @click="selectwall">{{
+          note.comment_count
         }}</span>
       </div>
-      <div class="name">{{ note.name }}</div>
+      <div class="name">{{ note.username }}</div>
     </div>
   </div>
 </template>
@@ -42,7 +35,7 @@
 
 .node-card {
   font-family: fa;
-  opacity: 0.6;
+
   min-height: 11.625rem;
   min-width: 10.25rem;
   height: 12rem;
@@ -59,14 +52,17 @@
     padding: 0 0.625rem;
     font-weight: 600;
     margin-bottom: 0.625rem;
+
     p {
       font-size: 0.75rem;
       color: $gray-2;
-    } 
+    }
+
     .pictureshow {
       cursor: pointer;
     }
   }
+
   .message {
     height: 6.75rem;
     color: $gray-1;
@@ -78,9 +74,10 @@
     background-position: center;
     background-size: contain;
     overflow: auto;
-   
+
     font-size: 0.725rem;
   }
+
   .foot {
     display: flex;
     justify-content: space-around;
@@ -88,22 +85,26 @@
     bottom: 0.125rem;
     left: 0;
     width: 100%;
+
     .name {
       cursor: pointer;
       font-weight: 600;
       font-size: 0.675rem;
       margin-right: -0.625rem;
     }
+
     .foot-left {
       width: 5.75rem;
       display: flex;
       align-items: center;
+
       span {
         margin-right: 1.25rem;
         cursor: pointer;
         font-size: 1.1rem;
         line-height: 1rem;
       }
+
       .iconfont {
         font-size: 0.75rem;
       }
@@ -113,10 +114,9 @@
 </style>
 
 <script>
-import { label, cardcolor } from "@/utils/data";
+
 
 import moment from "moment";
-import img from "@/assets/images/测试图片.png";
 export default {
   directives: {
     "red-on-hover-click": {
@@ -158,28 +158,30 @@ export default {
   },
   data() {
     return {
-      img,
+     
       text: this.note.message,
-      label,
-      cardcolor,
       //判断背景图片是否显示
       bgpicture: false,
     };
   },
   props: {
     note: {
-      Type: [Object, String],
+      type: [Object, String],
       default: {},
     },
   },
+
   methods: {
+  
+   
     filter(data) {
       return moment(data).format("YYYY-MM-DD");
     },
     clickbg() {
       this.bgpicture = !this.bgpicture;
     },
-    selectwall(){
+    selectwall() {
+      this.$emit('selectpostid', this.$refs.postid.textContent);
       this.$emit('selected')
     }
   },

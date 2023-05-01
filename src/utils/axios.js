@@ -1,5 +1,5 @@
 import { baseUrl } from "@/utils/env";
-
+import store from '@/store/index'
 import axios from "axios";
 
 const service = axios.create({
@@ -32,12 +32,16 @@ service.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error.status== 401||error.status== 402) {
+    
+    if (error.response.status== 401||error.response.status== 402) {
+     
       localStorage.removeItem('token')
-      this.$store.commit("changeModal");
+      store.commit("changeModal")
     }
     //直接false 走then但是不执行
-    return false;
+    return false
+
+
   }
 );
 export default service;
