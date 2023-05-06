@@ -112,7 +112,7 @@ export default {
                 } else if (res.data.code == 310) {
                   this.isuseremail = res.data.message;
                 }
-              });
+              }).catch(res =>{});
             //登录
           } else if (this.checked == 1) {
             this.isuseremail = "";
@@ -130,7 +130,7 @@ export default {
               } else if (res.data.code == 325) {
                 this.isuseremail = res.data.message;
               }
-            });
+            }).catch(res=>{});
           }
         } else {
           this.isuseremail = "邮箱格式不正确";
@@ -234,6 +234,8 @@ export default {
             this.isuseremail = "";
             this.ispass = "";
             this.$store.commit("changeModal");
+            this.$store.commit('updateuserid',res.data.userid)
+            this.$store.commit('updatename',res.data.username)
             showToast({
               message: "登录成功",
               style: {

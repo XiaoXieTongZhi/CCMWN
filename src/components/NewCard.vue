@@ -7,7 +7,7 @@
         :key="index"
         :style="{ backgroundColor: e }"
         :class="{ colorselected: index == selected }"
-        @click="changeColor(index)"
+        @click="changeColor(index,e)"
       ></p>
     </div>
     <div class="card-main" :style="{ backgroundColor: cardcolor[selected] }">
@@ -17,28 +17,27 @@
         maxlength="500"
         v-model="message"
       ></textarea>
-      <select class="name" >
-  <option value="用户名称" class="option">用户名称</option>
+      <select class="name" ref="name">
+  <option :value="computedname" class="option">{{ computedname }}</option>
   <option value="匿名" class="option">匿名</option>
 </select>
     </div>
    
 
     <van-uploader
-      :after-read="afterRead"
       v-model="fileList"
       multiple
       :max-count="1"
       preview-size="4rem"
       :preview-options="{'closeable':true}"
-    
+      accept=".png, .jpg, .jpeg"
     >
       <van-button size="small" icon="add-o" type="primary" >上传图片</van-button>
     </van-uploader>
     <div class="labels" >
       <p class="title" > 选择标签</p>
       <div class="label">
-      <p v-for="(data,index) in label"  :key="index" class="label-li" :class="{labelselected:index==labelselected}" @click="changelabel(index)">{{ data }}</p>
+      <p v-for="(data,index) in label"  :key="index" class="label-li" :class="{labelselected:index==labelselected}" @click="changelabel(index,data)">{{ data }}</p>
     </div>
     </div>
     <div class="mz">
@@ -54,18 +53,22 @@
     </div>
     <div class="footbt">
 <pr-button class="button" :size="'max'" :nom="'secondary'" @click=" closeModal(0)">关闭</pr-button>
-<pr-button class="button" :size="'max'" >发布</pr-button>
+<pr-button class="button" :size="'max'" @click="addCard">发布</pr-button>
     </div>
   </div>
 </template>
 
 <script>
+import * as axios from "@/api/index";
 import { cardcolor} from "@/utils/data";
 import  {label} from '@/utils/data';
 import PrButton from "./PrButton.vue";
+import { showToast } from "vant";
 export default {
   data() {
     return {
+      colorMessage:"rgba(252,175,162,0.9)",
+      labelmessage:'寻物',
         label,
       cardcolor,
       selected: 0, //当前选择的颜色
@@ -75,18 +78,78 @@ export default {
       labelselected:0,
       //留言信息 存储
       message:'',
-      //签名
-      name:'',
     };
   },
+
+  computed:{
+     computedname(){
+      return this.$store.state.name
+     },
+  },
+
   components:{
     PrButton
   },
   methods: {
-    changeColor(index) {
+    addCard(){
+      if (this.message.length>15) {
+        let formData = new FormData();
+      if (this.fileList[0]) {
+        formData.set('image',this.fileList[0].file)
+      }
+       if (this.$store.state.school!=='主留言墙') {
+        formData.set('school',this.$store.state.school)
+       }
+       formData.set('userid',this.$store.state.userid)
+       formData.set('username',this.$refs.name.value)
+       formData.set('color',this.colorMessage)
+       formData.set('label',this.labelmessage)
+       formData.set('message',this.message)
+      axios.addCard(formData).then(res =>{
+      
+        if (res.data.code==200) {
+          this.$emit('addshowCard',res.data)
+          this.message=''
+          showToast({
+              message: res.data.message,
+
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+        }else{
+          this.message=''
+          showToast({
+              message: res.data.message,
+
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+        }
+       
+        
+      }).catch( res => {})
+      }else{
+        showToast({
+              message: "输入内容不能少于15字",
+
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+      }
+   
+    },
+    changeColor(index,e) {
+      this.colorMessage=e
       this.selected = index;
     },
-    changelabel(index){
+    changelabel(index,data){
+      this.labelmessage=data
         this.labelselected = index
     },
     //关闭侧边栏
@@ -95,15 +158,6 @@ export default {
     },
    
    
-    //文件上传vant方法
-    afterRead(file) {
-      file.status = "uploading";
-      file.message = "上传中...";
-      setTimeout(() => {
-        file.status = "success";
-        file.message = null;
-      }, 1000);
-    },
   },
 };
 </script>

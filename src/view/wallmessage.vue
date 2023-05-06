@@ -10,26 +10,58 @@
       {{ wallType.slogan }}
     </p>
     <div class="label">
-      <p class="label-list" :class="{ lbselected: nlabel == -1 }" @click="selectNode(-1)">
+      <p
+        class="label-list"
+        :class="{ lbselected: nlabel == -1 }"
+        @click="selectNode(-1)"
+      >
         全部
       </p>
-      <p class="label-list" :class="{ lbselected: nlabel == index }" @click="selectNode(index,item)"
-        v-for="(item, index) in label" :key="index">
+      <p
+        class="label-list"
+        :class="{ lbselected: nlabel == index }"
+        @click="selectNode(index, item)"
+        v-for="(item, index) in label"
+        :key="index"
+      >
         {{ item }}
       </p>
     </div>
     <div class="card">
-      <node-card v-for="(data, index) in note" :key="data.postid" :note="data" class="card-children"
-        :class="{ cardselected: index == cardselected }" @selected="selectedcard(index)"
-        @selectpostid="selectid"></node-card>
+      <node-card
+        v-for="(data, index) in note"
+        :key="data.postid"
+        :note="data"
+        class="card-children"
+        :class="{ cardselected: index == cardselected }"
+        @selected="selectedcard(index)"
+        @selectpostid="selectid"
+        :postid="redpostid"
+      ></node-card>
     </div>
-    <div class="add" :style="{ bottom: addBottom + 'px' }" @click="CardDetails" v-show="!modal">
+    <div
+      class="add"
+      :style="{ bottom: addBottom + 'px' }"
+
+      @click="CardDetails"
+      
+      v-show="!modal"
+    >
       <span class="iconfont icon-add"></span>
     </div>
     <modal :title="title" @close="changeModal($event)" :isModal="modal">
       <!-- -1说明没选中卡片 -->
-      <new-card @addclose="changeModal" v-if="cardselected == -1"></new-card>
-      <card-detail v-else :card="note[cardselected]" :postid="postid"></card-detail>
+      <new-card
+        @addclose="changeModal"
+        @addshowCard="addshowCard"
+        v-if="cardselected == -1"
+      ></new-card>
+      <card-detail
+        v-else
+        :card="note[cardselected]"
+        :postid="postid"
+        :reportpostid="reportpostid"
+      ></card-detail>
     </modal>
   </div>
 </template>
@@ -42,41 +74,76 @@ import { wallType, label } from "@/utils/data";
 import NodeCard from "@/components/NodeCard.vue";
 import NewCard from "@/components/NewCard.vue";
 import SchoolSelect from "@/components/SchoolSelect.vue";
-import CardDetail from "@/components/CardDetail.vue"
+import CardDetail from "@/components/CardDetail.vue";
 export default {
   components: {
     NodeCard,
     Modal,
     NewCard,
     SchoolSelect,
-    CardDetail
+    CardDetail,
   },
   data() {
     return {
+      reportpostid: [],
+      redpostid: [],
       postid: 0,
-      title: '写下你的留言',
+      title: "写下你的留言",
       wallType,
       label,
       nlabel: -1,
-      note: '',
+      note: "",
       addBottom: 30, //按钮上下效果
       modal: true,
       cardselected: -1, //当前选择的卡片
     };
   },
   mounted() {
-    //获取后台默认已有的内容数据
-    axios.showCard({
-      params: {
-        //barch留言墙种类分支
-        branch: this.$store.state.school,
-        //请求默认数据的时候可以绕过jwt
-        data: 'default'
-      }
-    }).then(res => {
-      this.note = res.data.data
-    })
+    //判断用户对哪些点了喜欢
+    axios
+      .userlike({
+        params: {
+          userid: this.$store.state.userid,
+          like: true,
+          data: "default",
+        },
+      })
+      .then((res) => {
+        this.redpostid = res.data.postid;
+      })
+      .catch((err) => {});
+    //判断用户对哪些点了举报
+    axios
+      .userreport({
+        params: {
+          userid: this.$store.state.userid,
+          report: true,
+          data: "default",
+        },
+      })
+      .then((res) => {
+        this.reportpostid = res.data.postid;
+      })
+      .catch((err) => {});
 
+    //获取后台默认已有的内容数据
+    axios
+      .showCard({
+        params: {
+          //barch留言墙种类分支
+          branch: this.$store.state.school,
+          //请求默认数据的时候可以绕过jwt
+          data: "default",
+        },
+      })
+      .then((res) => {
+        //在vuex 存一个所有id的数组
+        let postarray = res.data.data.map((res) => res.postid);
+        this.$store.commit("allpostid", postarray);
+
+        this.note = res.data.data.reverse();
+      })
+      .catch((res) => {});
 
     window.addEventListener("scroll", this.scrollBottom);
   },
@@ -86,25 +153,28 @@ export default {
 
   methods: {
     selectid(value) {
-
-      this.postid = value
+      this.postid = value;
     },
     CardDetails() {
-      this.title = '写下你的留言'
-      this.changeModal()
-
+      this.title = "写下你的留言";
+      this.changeModal();
     },
-    selectNode(e,item) {
-     axios.showCard({
-      params:{
-        branch: this.$store.state.school,
-        //为了绕过jwt
-        data: 'default',
-        type:item
-      }
-     }).then(res =>{
-      this.note = res.data.data
-     })
+    addshowCard(data) {
+      this.note.unshift(data);
+    },
+    selectNode(e, item) {
+      axios
+        .showCard({
+          params: {
+            branch: this.$store.state.school,
+            type: item,
+            data: "default",
+          },
+        })
+        .then((res) => {
+          this.note = res.data.data.reverse();
+        })
+        .catch((res) => {});
       this.nlabel = e;
     },
     scrollBottom() {
@@ -127,30 +197,23 @@ export default {
     },
     //切换侧边栏
     changeModal() {
-     
-      this.cardselected = -1
+      this.cardselected = -1;
       this.modal = !this.modal;
-
     },
     //切换选择的卡片
     selectedcard(data) {
-
-     
-
-      this.title = '详情'
+      this.title = "详情";
       if (data != this.cardselected) {
-        this.cardselected = data
-        this.modal = true
+        this.cardselected = data;
+        this.modal = true;
       } else {
-        this.cardselected = -1
-        this.modal = false
+        this.cardselected = -1;
+        this.modal = false;
       }
       setTimeout(() => {
         if (this.$store.state.isModal) {
-        
-          this.cardselected = -1
-          this.modal = false
-
+          this.cardselected = -1;
+          this.modal = false;
         }
       }, 500);
     },

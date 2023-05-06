@@ -37,6 +37,7 @@ export default{
 
     },
     methods:{
+       
         handleUpdateTopbarValue(newvalue){
                 this.pvalue=newvalue
         }

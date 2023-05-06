@@ -16,12 +16,12 @@
           }}</pr-button
         >
       </router-link>
-      <router-link to="/personwall">
+      <router-link to="/tool">
         <pr-button
           :size="'max'"
-          :nom="$route.path == '/personwall' ? 'primary' : 'secondary'"
+          :nom="$route.path == '/tool' ? 'primary' : 'secondary'"
           class="menu-mine"
-          >个人空间</pr-button
+          >工具</pr-button
         >
       </router-link>
     </div>
@@ -137,10 +137,12 @@ export default {
         },
       
   },
+
   watch:{
-    username(){
-      this.dusername =this.username
-      localStorage.setItem('name',this.dusername)
+    username(newvalue){
+      this.dusername =newvalue
+      localStorage.setItem('name',newvalue)
+      this.$store.commit('updatename',newvalue)
     },
     isbutton(){
       this.istoken=localStorage.getItem('token');
@@ -173,6 +175,7 @@ export default {
       }else{
         this.dusername ='登陆发言'
         localStorage.removeItem('token')
+        localStorage.removeItem('name')
         this.login='登录'; 
       }
        

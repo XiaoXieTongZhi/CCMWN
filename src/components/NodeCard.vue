@@ -5,7 +5,7 @@
       <p class="pictureshow" @click="clickbg">
         {{ !bgpicture ? "查看图片" : "查看文字" }}
       </p>
-      <p class="label" >{{ note.type }}</p>
+      <p class="label">{{ note.type }}</p>
     </div>
     <div class="message"
       :style="bgpicture ? { 'background-image': `url(http://localhost:3000/uploads/img/${note.image_url})` } : ''">
@@ -14,11 +14,11 @@
     </div>
     <div class="foot">
       <div class="foot-left">
-        <span ref="postid" v-show="false">{{ note.postid }}</span>
-        <span v-red-on-hover-click class="iconfont icon-favorites">{{
+        <span ref="postid"  v-show="false">{{ note.postid }}</span>
+        <span v-show="hidden" v-red-on-hover-click class="iconfont icon-favorites">{{
           note.like_count
         }}</span>
-        <span v-red-on-hover class="iconfont icon-comments" @click="selectwall">{{
+        <span v-show="hidden" v-red-on-hover class="iconfont icon-comments" @click="selectwall">{{
           note.comment_count
         }}</span>
       </div>
@@ -115,22 +115,50 @@
 
 <script>
 
-
+import * as axios from "@/api/index";
 import moment from "moment";
 export default {
   directives: {
     "red-on-hover-click": {
-      mounted(el) {
+      mounted(el, binding,) {
         el.style.transition = "color 0.8s";
-        let clicked = false;
+
+        const store = binding.instance.$store;
+        const thiss = binding.instance
+
+        if ((Object.values(thiss.postid)).includes(Number(thiss.$refs.postid.textContent))) {
+          var clicked = true;
+          el.style.color = "red";
+        } else {
+          el.style.color = "";
+          clicked = false;
+        }
+
         el.addEventListener("click", function () {
           if (!clicked) {
             this.style.color = "red";
             clicked = true;
+            store.commit('changeLike', true)
           } else {
             this.style.color = "";
             clicked = false;
+            store.commit('changeLike', false)
           }
+
+          axios.changefeedbacks({
+            userid: store.state.userid,
+            postid: thiss.$refs.postid.textContent,
+            like: store.state.like,
+          }).then(res => {
+            if (res.data.like) {
+
+              thiss.note.like_count = thiss.note.like_count + 1
+            } else {
+              thiss.note.like_count = thiss.note.like_count - 1
+
+            }
+          }).catch(err => { })
+
         });
         el.addEventListener("mouseenter", function () {
           if (!clicked) {
@@ -158,32 +186,48 @@ export default {
   },
   data() {
     return {
-     
+
       text: this.note.message,
       //判断背景图片是否显示
       bgpicture: false,
     };
   },
   props: {
+    hidden: {
+      type: Boolean,
+      //默认为true显示，cardDetial传过来的false给详情卡片的里的用
+      default: true,
+    },
     note: {
       type: [Object, String],
       default: {},
     },
+    postid: {
+      type: Array,
+      default: [],
+    },
+   
   },
 
+
+
   methods: {
-  
-   
     filter(data) {
       return moment(data).format("YYYY-MM-DD");
     },
+
     clickbg() {
       this.bgpicture = !this.bgpicture;
     },
+
     selectwall() {
       this.$emit('selectpostid', this.$refs.postid.textContent);
+      //选择的postid
+      this.$store.commit('updatepostid',this.$refs.postid.textContent)
       this.$emit('selected')
     }
   },
+
+
 };
 </script>

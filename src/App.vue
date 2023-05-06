@@ -3,53 +3,50 @@
 </template>
 
 <script>
-import { provide, reactive } from 'vue'
-import debounce from '@/utils/debounce'
+import { provide, reactive } from "vue";
+import debounce from "@/utils/debounce";
 
-     document.documentElement.style.fontSize=document.documentElement.clientWidth/750*16+'px'
-     if (document.documentElement.style.fontSize=document.documentElement.clientWidth/750 > 1) {
-      document.documentElement.style.fontSize=document.documentElement.clientWidth/750 *11+'px'
-  
-     }
-     
-      window.onresize=()=>{
-        debounce(()=>{
+function setRootFontSize() {
+  let scale = document.documentElement.clientWidth / 750;
+  document.documentElement.style.fontSize = scale * 16 + "px";
+  if (scale > 1.5) {
+    document.documentElement.style.fontSize = scale * 11 + "px";
+  }
+}
 
-          document.documentElement.style.fontSize=document.documentElement.clientWidth/750*16+'px'
-     if (document.documentElement.style.fontSize=document.documentElement.clientWidth/750 > 1.5) {
-      document.documentElement.style.fontSize=document.documentElement.clientWidth/750 *11+'px'
-   
-     }
-    })()}
+setRootFontSize();
+
+window.onresize = () => {
+  debounce(setRootFontSize)();
+};
 export default {
-  name: 'App',
+  name: "App",
   setup() {
     const bus = reactive({
       getTopBarHeight: null, // 获取头部导航栏方法
       modalHeight: 0, // 侧边栏最终高
       modalHeadHeight: 0, // 侧边栏 head 的高
       modalMainHeight: 0, // 侧边栏 main 的高
-    })
+    });
 
-    provide('bus', bus)
+    provide("bus", bus);
   },
   computed: {
     maincolor() {
-      return this.$store.state.maincolor
-    }
+      return this.$store.state.maincolor;
+    },
   },
-  components: {
-
-  },
+  components: {},
   watch: {
     maincolor() {
-
-      document.documentElement.style.setProperty("--main-color", this.maincolor);
+      document.documentElement.style.setProperty(
+        "--main-color",
+        this.maincolor
+      );
       document.documentElement.style.setProperty("--color", this.color);
-    }
-  }
-
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -63,7 +60,9 @@ export default {
   width: 10px;
   /*高宽分别对应横竖滚动条的尺寸*/
   height: 100%;
-  background: var(--main-color) //background: linear-gradient(to bottom, #00008B 0%, skyblue  50%, lightblue 100%);
+  background: var(
+    --main-color
+  ); //background: linear-gradient(to bottom, #00008B 0%, skyblue  50%, lightblue 100%);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -71,20 +70,19 @@ export default {
   border-radius: 10px;
   background-color: var(--color);
   //background-color: rgb(20, 87, 213);
-  background-image: -webkit-linear-gradient(45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent);
+  background-image: -webkit-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
 }
 
 #app {
-
-
   font-size: 0.7125rem;
-
 }
 </style>

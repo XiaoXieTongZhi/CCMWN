@@ -14,8 +14,8 @@ const routes =[
                 
             },
             {
-                path:'personwall',
-                component:()=>import('../view/PersonWall.vue')
+                path:'tool',
+                component:()=>import('../view/tool.vue')
             }
         ]
     }

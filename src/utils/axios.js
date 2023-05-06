@@ -32,14 +32,17 @@ service.interceptors.response.use(
     return response;
   },
   function (error) {
-    
-    if (error.response.status== 401||error.response.status== 402) {
+    if (error.response) {
+      if (error.response.status== 401||error.response.status== 402) {
      
-      localStorage.removeItem('token')
-      store.commit("changeModal")
+        localStorage.removeItem('token')
+        localStorage.removeItem('name')
+        store.commit("changeModal")
+      }
     }
+  
     //直接false 走then但是不执行
-    return false
+    return Promise.reject(error);
 
 
   }
