@@ -112,7 +112,6 @@ export default {
           this.message=''
           showToast({
               message: res.data.message,
-
               style: {
                 backgroundColor: "transparent",
                 fontWeight: "600",

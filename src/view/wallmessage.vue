@@ -39,12 +39,19 @@
         :postid="redpostid"
       ></node-card>
     </div>
+    <div class="pagination">
+      <van-pagination
+        v-model="currentPage"
+        :total-items="total"
+        :show-page-size="9"
+        :page-count="total % 9 !== 0 ? Math.floor(total / 9) + 1 : total / 9"
+        force-ellipses
+      />
+    </div>
     <div
       class="add"
       :style="{ bottom: addBottom + 'px' }"
-
       @click="CardDetails"
-      
       v-show="!modal"
     >
       <span class="iconfont icon-add"></span>
@@ -85,6 +92,9 @@ export default {
   },
   data() {
     return {
+      total: 0,
+      tempnote: "",
+      currentPage: 1,
       reportpostid: [],
       redpostid: [],
       postid: 0,
@@ -97,6 +107,14 @@ export default {
       modal: true,
       cardselected: -1, //当前选择的卡片
     };
+  },
+  watch: {
+    currentPage(newval) {
+      let start = (newval - 1) * 9;
+      let end = newval * 9;
+
+      this.note = this.tempnote.slice(start, end);
+    },
   },
   mounted() {
     //判断用户对哪些点了喜欢
@@ -140,8 +158,13 @@ export default {
         //在vuex 存一个所有id的数组
         let postarray = res.data.data.map((res) => res.postid);
         this.$store.commit("allpostid", postarray);
+        this.tempnote = res.data.data.reverse();
 
-        this.note = res.data.data.reverse();
+        this.total = this.tempnote.length;
+        let start = (this.currentPage - 1) * 9;
+        let end = this.currentPage * 9;
+
+        this.note = this.tempnote.slice(start, end);
       })
       .catch((res) => {});
 
@@ -160,7 +183,9 @@ export default {
       this.changeModal();
     },
     addshowCard(data) {
-      this.note.unshift(data);
+      
+      this.tempnote.unshift(data);
+      this.currentPage=1
     },
     selectNode(e, item) {
       axios
@@ -172,7 +197,15 @@ export default {
           },
         })
         .then((res) => {
-          this.note = res.data.data.reverse();
+
+          this.tempnote = res.data.data.reverse();
+
+        this.total = this.tempnote.length;
+        let start = (this.currentPage - 1) * 9;
+        let end = this.currentPage * 9;
+
+        this.note = this.tempnote.slice(start, end);
+
         })
         .catch((res) => {});
       this.nlabel = e;
@@ -222,13 +255,21 @@ export default {
 // console.log(label);
 </script>
 <style lang="scss" scoped>
+::v-deep .van-pagination__item {
+  background-color: transparent;
+}
+
 .wall-message {
   box-sizing: border-box;
   min-height: 700px;
   padding-top: 4.125rem;
   overflow: hidden;
   padding-bottom: 0.5rem;
-
+  .pagination {
+    margin: 0 auto;
+    width: 12.5rem;
+    margin-top: 2.5rem;
+  }
   .title {
     font-size: 3.5rem;
     color: $gray-1;

@@ -10,11 +10,11 @@
     <div class="message"
       :style="bgpicture ? { 'background-image': `url(http://localhost:3000/uploads/img/${note.image_url})` } : ''">
       <van-text-ellipsis @click.native.stop :content="!bgpicture ? note.content : ''" expand-text="展开" collapse-text="收起"
-        rows="5" />
+        rows="7" />
     </div>
     <div class="foot">
       <div class="foot-left">
-        <span ref="postid"  v-show="false">{{ note.postid }}</span>
+        <span ref="postid" style="font-size: 16px; font-weight: 200;" >{{ note.postid }}</span>
         <span v-show="hidden" v-red-on-hover-click class="iconfont icon-favorites">{{
           note.like_count
         }}</span>
@@ -38,7 +38,7 @@
 
   min-height: 11.625rem;
   min-width: 10.25rem;
-  height: 12rem;
+  height: 14rem;
   width: 13rem;
   background-color: rgba(252, 175, 162, 0.3);
   box-sizing: border-box;
@@ -47,6 +47,7 @@
   margin-left: 2rem;
 
   .top {
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     padding: 0 0.625rem;
@@ -64,21 +65,23 @@
   }
 
   .message {
-    height: 6.75rem;
+    height: 7.75rem;
     color: $gray-1;
     letter-spacing: 0;
     line-height: 1.375rem;
     text-align: justify;
     padding: 0 0.75rem;
+    
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
+    background-size:contain;
     overflow: auto;
 
     font-size: 0.725rem;
   }
 
   .foot {
+    height: 1.25rem;
     display: flex;
     justify-content: space-around;
     position: absolute;

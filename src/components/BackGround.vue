@@ -101,11 +101,6 @@ body{
   backdrop-filter: blur(9.375rem) opacity(90%);
   -webkit-backdrop-filter: blur(9.375rem) opacity(90%);
     z-index: 2; 
-
-    
- 
- 
- 
 }
 .sun,
 .moon,

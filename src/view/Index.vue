@@ -1,16 +1,18 @@
 <template>
 
-    <div :class="$store.state.mode === 1 ?'sun':'moon'">
+    <div class="index" :class="$store.state.mode === 1 ?'sun':'moon'">
         <back-ground></back-ground>
         <top-bar :username="pvalue"></top-bar>
        <login @update-topbar-value="handleUpdateTopbarValue"></login>
-        <router-view></router-view>
-        
+      
+       <router-view>  </router-view>
+       <live-two class="live2d"></live-two>
         <foot-bar></foot-bar>
     </div>
 </template>
 
 <script>
+import  LiveTwo from '@/components/live2d/live2d.vue';
 import TopBar from "@/components/TopBar";
 import FootBar from "@/components/FootBar.vue";
 import  BackGround from '@/components/BackGround.vue';
@@ -25,6 +27,7 @@ export default{
         document.documentElement.scrollTop=700.79998
     },
     components:{
+        LiveTwo,
         TopBar,
         FootBar,
         BackGround,
@@ -46,6 +49,7 @@ export default{
 </script>
 
 <style lang="scss" scoped>
+
   .sun{
     background: radial-gradient(circle at center top, red 0%, orange 50%, #eee8aa 100%);}
   .moon{

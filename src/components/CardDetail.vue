@@ -1,10 +1,10 @@
 <template>
   <div class="card-detail">
     <div class="top-bt">
-      <!-- <p class="revoke">联系墙主撕掉该便签</p> -->
+      <p class="revoke" @click="deleteCard(this.$refs.nodecard.$refs.postid.textContent)">删除</p>
       <p class="report" v-report>举报</p>
     </div>
-    <node-card :note="card" class="nodecard" :hidden="false"></node-card>
+    <node-card ref="nodecard" :note="card" class="nodecard" :hidden="false"></node-card>
     <div class="form">
       <textarea class="message" v-model="content" placeholder="请输入评论"></textarea>
       <div class="bt">
@@ -50,7 +50,12 @@
     align-items: center;
     justify-content: space-between;
     display: flex;
-
+    .revoke{
+      font-size: $size-14;
+      color: red;
+      cursor: pointer;
+    
+    }
     .report {
       font-size: $size-14;
       cursor: pointer;
@@ -228,6 +233,9 @@ export default {
     PrButton,
   },
   methods: {
+    deleteCard(postid){
+console.log(postid);
+    },
     filter(data) {
       return NodeCardmethods.methods.filter(data);
     },
