@@ -234,7 +234,22 @@ export default {
   },
   methods: {
     deleteCard(postid){
-console.log(postid);
+      axios.deleteCard({
+        postid:postid,
+        userid:this.$store.state.userid,
+      }).then(result =>{
+        this.$emit('closecarddetail')
+        showToast({
+              message: result.data.message,
+
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+           this.$emit('deleteCard',postid)
+          
+      }).catch(err =>{})
     },
     filter(data) {
       return NodeCardmethods.methods.filter(data);

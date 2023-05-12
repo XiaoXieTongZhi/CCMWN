@@ -41,14 +41,14 @@ export default {
         visibilitychange: [
           {
             selector: "document",
-            texts: ['欢迎你回来'],
+            texts: ['欢迎你回来,(＾▽＾) 祝您在这里度过愉快的时光！','网站处于测试阶段,欢迎体验'],
           },
         ],
         scroll:[
         {
           
             selector: "document",
-            texts: ['欢迎来到CCMWN'],
+            texts: ["欢迎来到CCMWN,(✿◠‿◠) 欢迎光临！"],
           },
         ],
         mouseover: [
@@ -70,7 +70,7 @@ export default {
           },
           {
             selector: ".vue-live2d-tool .custom-fa-info-circle",
-            texts: ["(＾Ｕ＾)ノ~ＹＯ"],
+            texts: ["(＾Ｕ＾)ノ~ＹＯ,站长的博客"],
           },
           {
             selector: ".vue-live2d-tool .custom-fa-times",

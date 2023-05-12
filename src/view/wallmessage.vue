@@ -3,6 +3,7 @@
     <p class="title">
       {{ $store.state.school }}
     </p>
+  
     <div class="school">
       <school-select></school-select>
     </div>
@@ -27,6 +28,7 @@
         {{ item }}
       </p>
     </div>
+   
     <div class="card">
       <node-card
         v-for="(data, index) in note"
@@ -48,6 +50,7 @@
         force-ellipses
       />
     </div>
+    
     <div
       class="add"
       :style="{ bottom: addBottom + 'px' }"
@@ -57,19 +60,27 @@
       <span class="iconfont icon-add"></span>
     </div>
     <modal :title="title" @close="changeModal($event)" :isModal="modal">
+      <person-info v-if="$store.state.isperson">
+        
+      </person-info>
       <!-- -1说明没选中卡片 -->
       <new-card
         @addclose="changeModal"
         @addshowCard="addshowCard"
-        v-if="cardselected == -1"
+        v-else-if="cardselected == -1"
       ></new-card>
+     
       <card-detail
         v-else
         :card="note[cardselected]"
         :postid="postid"
         :reportpostid="reportpostid"
+        @deleteCard="deleteCard"
+        @closecarddetail="closecarddetail"
       ></card-detail>
+     
     </modal>
+    
   </div>
 </template>
 
@@ -82,6 +93,7 @@ import NodeCard from "@/components/NodeCard.vue";
 import NewCard from "@/components/NewCard.vue";
 import SchoolSelect from "@/components/SchoolSelect.vue";
 import CardDetail from "@/components/CardDetail.vue";
+import personInfo from "@/components/personInfo/person.vue";
 export default {
   components: {
     NodeCard,
@@ -89,11 +101,12 @@ export default {
     NewCard,
     SchoolSelect,
     CardDetail,
+    personInfo
   },
   data() {
     return {
       total: 0,
-      tempnote: "",
+      tempnote: [],
       currentPage: 1,
       reportpostid: [],
       redpostid: [],
@@ -112,9 +125,21 @@ export default {
     currentPage(newval) {
       let start = (newval - 1) * 9;
       let end = newval * 9;
-
       this.note = this.tempnote.slice(start, end);
     },
+    inputselectvalue(newvalue){
+   
+      this.note= newvalue
+    },
+    '$store.state.isperson'(newVal) {
+    if (newVal) {
+      // 在这里更新数据状态
+      this.title = '用户信息';
+      this.cardselected = -1;
+      this.modal = true;
+    }
+  }
+
   },
   mounted() {
     //判断用户对哪些点了喜欢
@@ -155,7 +180,7 @@ export default {
         },
       })
       .then((res) => {
-        //在vuex 存一个所有id的数组
+        //在vuex 存一个所有postid的数组
         let postarray = res.data.data.map((res) => res.postid);
         this.$store.commit("allpostid", postarray);
         this.tempnote = res.data.data.reverse();
@@ -173,8 +198,31 @@ export default {
   unmounted() {
     window.addEventListener("scroll", this.scrollBottom);
   },
-
+computed:{
+    inputselectvalue(){
+      return this.$store.state.inputselectvalue;
+    },
+ 
+},
   methods: {
+
+    closecarddetail(){
+      this.$store.commit('changeisperson',false)
+      this.cardselected = -1;
+          this.modal = false;
+    },
+
+    deleteCard(postid){
+     
+ let index = this.tempnote.findIndex(note => note.postid == postid)
+ this.tempnote.splice(index, 1)
+ this.currentPagemethod()
+    },
+    currentPagemethod() {
+      let start = (this.currentPage - 1) * 9;
+      let end = this.currentPage  * 9;
+      this.note = this.tempnote.slice(start, end);
+    },
     selectid(value) {
       this.postid = value;
     },
@@ -183,8 +231,11 @@ export default {
       this.changeModal();
     },
     addshowCard(data) {
-      
       this.tempnote.unshift(data);
+      this.total = this.tempnote.length;
+      if ( this.currentPage==1) {
+        this.currentPagemethod()
+      }
       this.currentPage=1
     },
     selectNode(e, item) {
@@ -230,21 +281,25 @@ export default {
     },
     //切换侧边栏
     changeModal() {
+      this.$store.commit('changeisperson',false)
       this.cardselected = -1;
       this.modal = !this.modal;
     },
     //切换选择的卡片
     selectedcard(data) {
-      this.title = "详情";
+      this.title = "卡片详情";
       if (data != this.cardselected) {
+        this.$store.commit('changeisperson',false)
         this.cardselected = data;
         this.modal = true;
       } else {
+        this.$store.commit('changeisperson',false)
         this.cardselected = -1;
         this.modal = false;
       }
       setTimeout(() => {
         if (this.$store.state.isModal) {
+          this.$store.commit('changeisperson',false)
           this.cardselected = -1;
           this.modal = false;
         }

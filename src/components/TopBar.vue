@@ -4,6 +4,7 @@
       <img src="@/assets/logo.png" class="logo-img" alt="" />
       <p class="logo-name">CCMWN</p>
     </div>
+   
     <div class="menu">
       <router-link to="/wall">
         <pr-button
@@ -25,9 +26,11 @@
         >
       </router-link>
     </div>
-
+    <div class="search">
+      <search-modal></search-modal>
+    </div>
     <div class="user">
-      <div class="user-head"></div>
+      <div class="user-head" @click="userheadclick(dusername)"></div>
       <span class="name">{{ dusername }}</span>
       <div class="user-login">
         <van-button type="small" :color="'#989898'" @click="changelogin()">{{
@@ -58,7 +61,7 @@
   box-sizing: border-box;
 
   .logo {
-    width: 6.25rem;
+    width: 5.25rem;
     display: flex;
     align-items: center;
 
@@ -76,23 +79,25 @@
   }
 
   .user {
-    width: 10.25rem;
+    width: 9.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     .name{
-      min-width: 70px;
+      min-width: 20px;
+  
     }
     .user-head {
       border-radius: 50%;
       height: 1.5rem;
       width: 1.5rem;
       background-image: linear-gradient(180deg, #7be7ff, #1e85e2);
-    
+    cursor: pointer;
     }
   }
 
   .menu {
+    
     display: flex;
     align-items: center;
 
@@ -105,9 +110,9 @@
 
 <script>
 import PrButton from "@/components/PrButton.vue";
-
+import SearchModal from '@/components/search/search.vue'
 import { inject, ref } from "vue";
-
+import { showToast } from "vant";
 export default {
   props:{
       username:{
@@ -128,6 +133,7 @@ export default {
     return { topBar, login,istoken,dusername };
   },
   components: {
+    SearchModal,
     PrButton,
   },
   computed:{
@@ -168,7 +174,22 @@ export default {
       }
     },
   methods: {
+    userheadclick(value){
+      if (value !== '登录发言' && localStorage.getItem('name')&&localStorage.getItem('token')) {
+        this.$store.commit('changeisperson',true)
+        
+      }else{
+        showToast({
+              message: '请先登录才能查看信息哦',
 
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+      }
+      
+    },
     changelogin() {
       if (this.login=='登录') {
         this.$store.commit("changeModal");

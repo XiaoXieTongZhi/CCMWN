@@ -39,3 +39,10 @@ export const userreport = (data) => service.get("/userReport", data)
 //发布新评论
 
 export const addCommit = (data) => service.post("/addCommit", data)
+
+//删除卡片 
+export const deleteCard= (data) => service.post("/deleteCard", data)
+
+//搜索卡片
+
+export const selectCard=(data)=>service.get("/inputSelectCard", data)

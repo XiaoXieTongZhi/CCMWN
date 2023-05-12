@@ -2,7 +2,7 @@
 
     <div class="index" :class="$store.state.mode === 1 ?'sun':'moon'">
         <back-ground></back-ground>
-        <top-bar :username="pvalue"></top-bar>
+        <top-bar :username="pvalue"  ></top-bar>
        <login @update-topbar-value="handleUpdateTopbarValue"></login>
       
        <router-view>  </router-view>
@@ -40,7 +40,7 @@ export default{
 
     },
     methods:{
-       
+ 
         handleUpdateTopbarValue(newvalue){
                 this.pvalue=newvalue
         }

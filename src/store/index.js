@@ -31,7 +31,10 @@ const store = createStore({
     //选择的postid
        postid:0,
        //所有的postid
-       allpostid:[]
+       allpostid:[],
+       //用户搜索得结果
+       inputselectvalue:[],
+       isperson:false
     };
   },
   mutations: {
@@ -66,6 +69,12 @@ const store = createStore({
     },
     allpostid(state,data){
       state.allpostid=data
+    },
+    inputselectvalue(state,data){
+state.inputselectvalue=data
+    },
+    changeisperson(state,data){
+      state.isperson=data
     }
   },
 });
