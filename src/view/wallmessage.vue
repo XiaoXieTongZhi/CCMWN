@@ -94,6 +94,7 @@ import NewCard from "@/components/NewCard.vue";
 import SchoolSelect from "@/components/SchoolSelect.vue";
 import CardDetail from "@/components/CardDetail.vue";
 import personInfo from "@/components/personInfo/person.vue";
+import { showToast } from "vant";
 export default {
   components: {
     NodeCard,
@@ -302,6 +303,19 @@ computed:{
           this.$store.commit('changeisperson',false)
           this.cardselected = -1;
           this.modal = false;
+        }
+        if(!localStorage.getItem('name') || !localStorage.getItem('vuex')){
+          this.$store.commit('changeisperson',false)
+          this.cardselected = -1;
+          this.modal = false;
+          showToast({
+                message: "登陆状态有问题，请退出重新登陆",
+
+                style: {
+                  backgroundColor: "transparent",
+                  fontWeight: "600",
+                },
+              });
         }
       }, 500);
     },

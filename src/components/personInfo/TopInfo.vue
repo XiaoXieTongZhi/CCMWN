@@ -8,7 +8,7 @@
             'background-image': `url(http://localhost:3000/uploads/img/默认.png)`,
           }"
         ></div>
-        <div class="name">姓名</div>
+        <div class="name">{{  name }}</div>
       </div>
       <div class="follow">
         <div class="follower">粉丝数:232</div>
@@ -17,11 +17,27 @@
     </div>
     <div class="right">
       <button class="button">关注</button>
-      <button class="button">私信</button>
+   
     </div>
   </div>
 </template>
 
+
+<script>
+export default{
+  data(){
+    return {
+     fensi:0,
+     guanzhu:0
+    }
+  },
+  computed:{
+    name(){
+      return localStorage.getItem('name')
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
 .top-info {
   display: flex;
