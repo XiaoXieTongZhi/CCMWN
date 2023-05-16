@@ -22,7 +22,7 @@
           note.comment_count
         }}</span>
       </div>
-      <div class="name">{{ note.username }}</div>
+      <div class="name" @click="userheadclick(note.username)">{{ note.username }}</div>
     </div>
   </div>
 </template>
@@ -120,6 +120,7 @@
 
 import * as axios from "@/api/index";
 import moment from "moment";
+import { showToast } from "vant";
 export default {
   directives: {
     "red-on-hover-click": {
@@ -215,6 +216,36 @@ export default {
 
 
   methods: {
+    userheadclick(value){
+      if (value !== '登录发言' && localStorage.getItem('name')&&localStorage.getItem('token')) {
+        this.$store.commit('changeisperson',true)
+        this.$store.commit('changepersonname',value)
+        axios
+          .selectFollow({
+            params: {
+              username: value,
+            },
+          })
+          .then((res) => {
+            this.$store.commit('changepersonfensi',res.data.fensiId);
+            this.$store.commit('changepersonguanzhu',res.data.guanzhuId);
+          
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }else{
+        showToast({
+              message: '请先登录才能查看信息哦',
+
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+      }
+      
+    },
     filter(data) {
       return moment(data).format("YYYY-MM-DD");
     },

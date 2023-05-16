@@ -4,7 +4,7 @@
       <img src="@/assets/logo.png" class="logo-img" alt="" />
       <p class="logo-name">CCMWN</p>
     </div>
-   
+
     <div class="menu">
       <router-link to="/wall">
         <pr-button
@@ -83,21 +83,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .name{
+    .name {
       min-width: 20px;
-  
     }
     .user-head {
       border-radius: 50%;
       height: 1.5rem;
       width: 1.5rem;
       background-image: linear-gradient(180deg, #7be7ff, #1e85e2);
-    cursor: pointer;
+      cursor: pointer;
     }
   }
 
   .menu {
-    
     display: flex;
     align-items: center;
 
@@ -109,101 +107,113 @@
 </style>
 
 <script>
+import * as axios from "@/api/index";
 import PrButton from "@/components/PrButton.vue";
-import SearchModal from '@/components/search/search.vue'
+import SearchModal from "@/components/search/search.vue";
 import { inject, ref } from "vue";
 import { showToast } from "vant";
 export default {
-  props:{
-      username:{
-        Type:String,
-        default:''
-      }
+  props: {
+    username: {
+      Type: String,
+      default: "",
+    },
   },
   setup() {
     const bus = inject("bus");
     let topBar = ref(null);
     let login = ref("登录");
-    let istoken =ref(" ");
+    let istoken = ref(" ");
     let dusername = ref("登陆发言");
     bus.getTopBarHeight = () => {
       return +topBar.value.clientHeight;
     };
 
-    return { topBar, login,istoken,dusername };
+    return { topBar, login, istoken, dusername };
   },
   components: {
     SearchModal,
     PrButton,
   },
-  computed:{
-        isbutton(){
-          
-          return this.$store.state.isModal
-        },
-      
+  computed: {
+    isbutton() {
+      return this.$store.state.isModal;
+    },
   },
 
-  watch:{
-    username(newvalue){
-      this.dusername =newvalue
-      localStorage.setItem('name',newvalue)
-      this.$store.commit('updatename',newvalue)
+  watch: {
+    username(newvalue) {
+      this.dusername = newvalue;
+      localStorage.setItem("name", newvalue);
+      this.$store.commit("updatename", newvalue);
     },
-    isbutton(){
-      this.istoken=localStorage.getItem('token');
-   
+    isbutton() {
+      this.istoken = localStorage.getItem("token");
+
       if (this.istoken) {
-       this.login='退出'; 
-      }else{
-        this.login='登录'; 
+        this.login = "退出";
+      } else {
+        this.login = "登录";
       }
+    },
+  },
+  mounted() {
+    if (localStorage.getItem("name")) {
+      this.dusername = localStorage.getItem("name");
+    }
+
+    //判断是否有本地local来决定按钮显示内容
+    this.istoken = localStorage.getItem("token");
+    if (this.istoken) {
+      this.login = "退出";
+    } else {
+      this.login = "登录";
     }
   },
-  mounted(){
-      if (localStorage.getItem('name')) {
-        this.dusername =localStorage.getItem('name')
-      }
-
-      //判断是否有本地local来决定按钮显示内容
-      this.istoken=localStorage.getItem('token');
-      if (this.istoken) {
-       this.login='退出'; 
-      }else{
-        this.login='登录'; 
-      }
-    },
   methods: {
-    userheadclick(value){
-      if (value !== '登录发言' && localStorage.getItem('name')&&localStorage.getItem('token')) {
-        this.$store.commit('changeisperson',true)
-        
-      }else{
+    userheadclick(value) {
+      if (
+        value !== "登录发言" &&
+        localStorage.getItem("name") &&
+        localStorage.getItem("token")
+      ) {
+        this.$store.commit("changeisperson", true);
+        this.$store.commit("changepersonname", localStorage.getItem("name"));
+        axios
+          .selectFollow({
+            params: {
+              username: localStorage.getItem("name"),
+            },
+          })
+          .then((res) => {
+            this.$store.commit('changepersonfensi',res.data.fensiId);
+            this.$store.commit('changepersonguanzhu',res.data.guanzhuId);
+          
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
         showToast({
-              message: '请先登录才能查看信息哦',
+          message: "请先登录才能查看信息哦",
 
-              style: {
-                backgroundColor: "transparent",
-                fontWeight: "600",
-              },
-            });
+          style: {
+            backgroundColor: "transparent",
+            fontWeight: "600",
+          },
+        });
       }
-      
     },
     changelogin() {
-      if (this.login=='登录') {
+      if (this.login == "登录") {
         this.$store.commit("changeModal");
-      }else{
-        this.dusername ='登陆发言'
-        localStorage.removeItem('token')
-        localStorage.removeItem('name')
-        this.login='登录'; 
+      } else {
+        this.dusername = "登陆发言";
+        localStorage.removeItem("token");
+        localStorage.removeItem("name");
+        this.login = "登录";
       }
-       
-  
-    
     },
   },
- 
 };
 </script>

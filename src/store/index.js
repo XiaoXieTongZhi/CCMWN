@@ -1,15 +1,16 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 const store = createStore({
-  plugins: [createPersistedState(
-    {//默认存储所有的state
-     reducer:(state)=>{
-        return{
-          userid:state.userid,
-        }
-      }
-    }
-  )],
+  plugins: [
+    createPersistedState({
+      //默认存储所有的state
+      reducer: (state) => {
+        return {
+          userid: state.userid,
+        };
+      },
+    }),
+  ],
   state() {
     return {
       //切换moon和light模式
@@ -25,16 +26,19 @@ const store = createStore({
       //用户id
       userid: 0,
       //喜爱反馈
-      like:false,
+      like: false,
       //举报反馈
-      report:false,
-    //选择的postid
-       postid:0,
-       //所有的postid
-       allpostid:[],
-       //用户搜索得结果
-       inputselectvalue:[],
-       isperson:false
+      report: false,
+      //选择的postid
+      postid: 0,
+      //所有的postid
+      allpostid: [],
+      //用户搜索得结果
+      inputselectvalue: [],
+      //个人信息的显示与隐藏
+      isperson: false,
+      //个人信息变量
+      personMessage: { name: "", fensi: [], guanzhu: [] },
     };
   },
   mutations: {
@@ -58,23 +62,33 @@ const store = createStore({
     updateuserid(state, data) {
       state.userid = data;
     },
-    changeLike(state,data){
-      state.like=data
+    changeLike(state, data) {
+      state.like = data;
     },
-    changereport(state,data){
-      state.report=data
+    changereport(state, data) {
+      state.report = data;
     },
-    updatepostid(state,data){
-      state.postid=data
+    updatepostid(state, data) {
+      state.postid = data;
     },
-    allpostid(state,data){
-      state.allpostid=data
+    allpostid(state, data) {
+      state.allpostid = data;
     },
-    inputselectvalue(state,data){
-state.inputselectvalue=data
+    inputselectvalue(state, data) {
+      state.inputselectvalue = data;
     },
-    changeisperson(state,data){
-      state.isperson=data
+    changeisperson(state, data) {
+      state.isperson = data;
+    },
+    changepersonname(state, data) {
+      state.personMessage.name = data;
+    },
+    changepersonfensi(state, data) {
+      state.personMessage.fensi = data;
+    },
+    changepersonguanzhu(state,data){
+      state.personMessage.guanzhu = data;
+  
     }
   },
 });

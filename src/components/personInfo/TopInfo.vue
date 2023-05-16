@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="right">
-      <button class="button">关注</button>
+      <button :class="isguanzhu?'buttonF':'buttonT'" >{{isguanzhu?'已关注':'关注'}}</button>
    
     </div>
   </div>
@@ -27,13 +27,18 @@
 export default{
   data(){
     return {
-     fensi:0,
-     guanzhu:0
+    isguanzhu:false
     }
   },
   computed:{
     name(){
-      return localStorage.getItem('name')
+      return this.$store.state.personMessage.name
+    },
+    fensi(){
+      return this.$store.state.personMessage.fensi.length
+    },
+    guanzhu(){
+      return this.$store.state.personMessage.guanzhu.length
     }
   }
 }
@@ -76,7 +81,7 @@ font-size: 0.86rem;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    .button {
+    .buttonT {
       cursor: pointer;
       background-color: #b3e6ff; /* 淡蓝色背景 */
       border: 2px solid white; /* 白色边框 */
@@ -90,8 +95,26 @@ font-size: 0.86rem;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影 */
     }
 
-    .button:hover {
+    .buttonT:hover {
       background-color: #ffd9d9; /* 淡粉色背景 */
+    }
+    .buttonF {
+      cursor: pointer;
+      background-color: #ffd9d9; /* 淡粉色背景 */
+      border: 2px solid white; /* 白色边框 */
+      color: white; /* 白色文字 */
+      /* 内边距 */
+      text-align: center; /* 文字居中 */
+      text-decoration: none; /* 无下划线 */
+      display: inline-block; /* 行内块元素 */
+      font-size: 1rem; /* 文字大小 */
+      border-radius: 8px; /* 圆角 */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影 */
+    }
+
+    .buttonF:hover {
+      background-color: #b3e6ff; /* 淡蓝色背景 */
+    
     }
   }
 }

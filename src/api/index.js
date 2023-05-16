@@ -46,3 +46,7 @@ export const deleteCard= (data) => service.post("/deleteCard", data)
 //搜索卡片
 
 export const selectCard=(data)=>service.get("/inputSelectCard", data)
+
+//获取粉丝和关注
+
+export const selectFollow =(data)=>service.get("/selectFollow",data)
