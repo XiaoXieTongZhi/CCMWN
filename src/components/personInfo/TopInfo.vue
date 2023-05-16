@@ -11,8 +11,8 @@
         <div class="name">{{  name }}</div>
       </div>
       <div class="follow">
-        <div class="follower">粉丝数:232</div>
-        <div class="followed">关注数:212</div>
+        <div class="follower">粉丝数:{{ fensi }}</div>
+        <div class="followed">关注数:{{ guanzhu }}</div>
       </div>
     </div>
     <div class="right">
@@ -37,7 +37,7 @@ export default{
     }
   }
 }
-</script>
+</script> 
 <style lang="scss" scoped>
 .top-info {
   display: flex;
