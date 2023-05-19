@@ -309,7 +309,7 @@ computed:{
           this.cardselected = -1;
           this.modal = false;
           showToast({
-                message: "登陆状态有问题，请退出重新登陆",
+                message: "登陆状态有问题，请登陆，如已经登录则退出重新登录",
 
                 style: {
                   backgroundColor: "transparent",

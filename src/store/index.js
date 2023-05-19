@@ -23,14 +23,17 @@ const store = createStore({
       isModal: false,
       //newcard名称 发布时的名称
       name: localStorage.getItem("name"),
-      //用户id
+      //登录用户的id
       userid: 0,
+   
       //喜爱反馈
       like: false,
       //举报反馈
       report: false,
       //选择的postid
       postid: 0,
+         //选择的用户id
+         selectuserid:0,
       //所有的postid
       allpostid: [],
       //用户搜索得结果
@@ -38,7 +41,7 @@ const store = createStore({
       //个人信息的显示与隐藏
       isperson: false,
       //个人信息变量
-      personMessage: { name: "", fensi: [], guanzhu: [] },
+      personMessage: { name: "", fensi: [], guanzhu: [],isguanzhu:false },
     };
   },
   mutations: {
@@ -86,9 +89,22 @@ const store = createStore({
     changepersonfensi(state, data) {
       state.personMessage.fensi = data;
     },
+    addpersonfensi(state, data) {
+      state.personMessage.fensi.push(data);
+    },
+    deletepersonfensi(state, data) {
+        let index = state.personMessage.fensi.indexOf(data);
+        state.personMessage.fensi.splice(index, 1)
+      },
     changepersonguanzhu(state,data){
       state.personMessage.guanzhu = data;
   
+    },
+    changeisguanzhu(state,data){
+      state.personMessage.isguanzhu=data;
+    },
+    changeselectuserid(state, data) { 
+      state.selectuserid=data
     }
   },
 });

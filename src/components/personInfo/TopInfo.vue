@@ -16,18 +16,20 @@
       </div>
     </div>
     <div class="right">
-      <button :class="isguanzhu?'buttonF':'buttonT'" >{{isguanzhu?'已关注':'关注'}}</button>
+      <button :class="isguanzhu?'buttonF':'buttonT'" @click="changeisguanzhu(isguanzhu?'已关注':'关注')">{{isguanzhu?'已关注':'关注'}}</button>
    
-    </div>
+    </div> 
   </div>
 </template>
 
 
 <script>
+import * as axios from "@/api/index";
+import { showToast } from "vant";
 export default{
   data(){
     return {
-    isguanzhu:false
+   
     }
   },
   computed:{
@@ -39,6 +41,65 @@ export default{
     },
     guanzhu(){
       return this.$store.state.personMessage.guanzhu.length
+    },
+    isguanzhu(){
+      return this.$store.state.personMessage.isguanzhu
+    }
+  },
+  methods:{
+    changeisguanzhu(value){
+      if (value =='关注') {
+        if (this.$store.state.selectuserid == this.$store.state.userid) {
+          showToast({
+              message: '自己关注自己不太好吧(-_-)',
+
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+           
+        }else{
+          axios.guanzhuT({
+            followerid:this.$store.state.userid,
+            followedid:this.$store.state.selectuserid
+          }).then(res => {
+            if (res.data.code==200) {
+              showToast({
+              message: '关注成功',
+
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+              this.$store.commit('changeisguanzhu',true)
+              this.$store.commit('addpersonfensi',this.$store.state.userid)
+            }
+          }).catch(err =>{})
+        }
+       
+      } else if(value =='已关注') {
+        axios.guanzhuF({
+          followerid:this.$store.state.userid,
+            followedid:this.$store.state.selectuserid
+        
+        }).then(res => {
+          if (res.data.code==200) {
+            showToast({
+              message: '取消关注',
+
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+            this.$store.commit('changeisguanzhu',false)
+            
+            this.$store.commit('deletepersonfensi',this.$store.state.userid)
+          }
+        }).catch(err =>{})
+      }
     }
   }
 }

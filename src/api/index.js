@@ -50,3 +50,11 @@ export const selectCard=(data)=>service.get("/inputSelectCard", data)
 //获取粉丝和关注
 
 export const selectFollow =(data)=>service.get("/selectFollow",data)
+
+//关注用户
+
+export const guanzhuT =(data)=>service.post("/guanzhuT",data)
+
+//取消关注用户
+
+export const guanzhuF =(data)=>service.post("/guanzhuF",data)
