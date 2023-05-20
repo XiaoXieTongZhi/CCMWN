@@ -58,3 +58,5 @@ export const guanzhuT =(data)=>service.post("/guanzhuT",data)
 //取消关注用户
 
 export const guanzhuF =(data)=>service.post("/guanzhuF",data)
+//获取用户帖子数量
+export const usercardCount = (data)=>service.get("/usercardCount",data)

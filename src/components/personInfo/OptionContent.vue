@@ -1,9 +1,33 @@
 <template>
   <div class="options">
-    <span class="iconfont icon-form works" title="用户发布的帖子">12</span>
-    <span class="iconfont icon-comments setting" title="消息">2</span>
-    <span class="iconfont icon-set message" title="设置"></span>
-    <span class="iconfont icon-assessedbadge authen" title="认证"></span>
+    <span
+      class="iconfont icon-form works"
+      :class="{ active: selectedIcon === 'works' }"
+      @click="selectIcon('works')"
+      title="用户发布的帖子"
+      >{{  postcount }}</span
+    >
+    <span
+      v-show="$store.state.userid == $store.state.selectuserid"
+      class="iconfont icon-comments setting"
+      :class="{ active: selectedIcon === 'setting' }"
+      @click="selectIcon('setting')"
+      title="消息"
+      ></span
+    >
+    <span
+      v-show="$store.state.userid == $store.state.selectuserid"
+      class="iconfont icon-set message"
+      :class="{ active: selectedIcon === 'message' }"
+      @click="selectIcon('message')"
+      title="设置"
+    ></span>
+    <span
+      class="iconfont icon-assessedbadge authen"
+      :class="{ active: selectedIcon === 'authen' }"
+      @click="selectIcon('authen')"
+      title="认证"
+    ></span>
   </div>
 </template>
 
@@ -27,17 +51,49 @@
     cursor: pointer;
     font-size: 1.1rem;
   }
-  .authen{
+  .authen {
     cursor: pointer;
     font-size: 1.1rem;
   }
   .works:hover,
   .message:hover,
   .setting:hover,
-  .authen:hover {
+  .authen:hover,
+  .active {
     color: red;
   }
 }
 </style>
 
-<script></script>
+<script>
+import * as axios from "@/api/index";
+export default {
+  data() {
+    return {
+      selectedIcon: "works", // 将selectedIcon设置为第一个图标的值
+    };
+  },
+  computed:{
+  postcount(){
+  return this.$store.state.personMessage.posts.length
+  }  },
+  mounted() {
+    axios
+      .usercardCount({
+        params: {
+          userid: this.$store.state.selectuserid,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.data);
+        this.$store.commit("changeposts", res.data.data);
+      })
+      .catch((err) => {});
+  },
+  methods: {
+    selectIcon(icon) {
+      this.selectedIcon = icon;
+    },
+  },
+};
+</script>

@@ -1,6 +1,6 @@
 <template>
     <div class="foot-content">
-        foot
+       <user-postid></user-postid>
     </div>
 </template>
 
@@ -12,3 +12,22 @@
         }
      
 </style>
+<script>
+import UserPostid from './FootCommponent/UserPostid.vue';
+export default {
+    data(){
+        return{
+
+        }
+    },
+
+
+components:{
+    UserPostid
+}
+
+}
+
+
+
+</script>

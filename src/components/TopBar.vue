@@ -177,6 +177,7 @@ export default {
         localStorage.getItem("name") &&
         localStorage.getItem("token")
       ) {
+        this.$store.commit('changeselectuserid',this.$store.state.userid)
         this.$store.commit("changeisperson", true);
         this.$store.commit("changepersonname", localStorage.getItem("name"));
         axios

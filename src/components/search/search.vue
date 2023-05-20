@@ -82,6 +82,7 @@ export default {
         axios
           .selectCard({
             params: {
+               branch:this.$store.state.school,
               value: this.searchvalue,
               type: "postid",
             },
@@ -92,7 +93,7 @@ export default {
               this.$store.commit('inputselectvalue',res.data.message)
             }else{
               
-              this.$store.commit('inputselectvalue',[{content:'没有搜索到任何内容捏,注意搜索框只能搜索帖子的id和用户姓名',image_url:'默认.png'}])
+              this.$store.commit('inputselectvalue',[{content:'没有搜索到任何内容捏,注意搜索框只能搜索帖子的id和用户姓名,你只能搜索到主留言墙，和你认证的留言墙的帖子',image_url:'默认.png'}])
             }
           })
           .catch((err) => {});
@@ -100,6 +101,7 @@ export default {
         axios
           .selectCard({
             params: {
+               branch:this.$store.state.school,
               value: this.searchvalue,
               type: "username",
             },
@@ -111,7 +113,7 @@ export default {
                 this.$store.commit('inputselectvalue',res.data.message)
        
             }else{
-              this.$store.commit('inputselectvalue',[{content:'没有搜索到任何内容捏,注意搜索框只能搜索帖子的id和用户姓名',image_url:'默认.png'}])
+              this.$store.commit('inputselectvalue',[{content:'没有搜索到任何内容捏,注意搜索框只能搜索帖子的id和用户姓名你只能搜索到主留言墙,和你认证的留言墙的帖子',image_url:'默认.png'}])
        
             }
           })
