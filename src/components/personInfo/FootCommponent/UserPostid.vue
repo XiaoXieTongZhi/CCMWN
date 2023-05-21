@@ -1,7 +1,7 @@
 <template>
     <div class="body">
       <ul class="post-list">
-        <li v-for="data in posts" :key="data" class="post-item">
+        <li title="点击查看详情" v-for="data in posts" :key="data" class="post-item">
           {{ data }}
         </li>
       </ul>
