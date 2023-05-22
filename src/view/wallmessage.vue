@@ -168,7 +168,9 @@ export default {
       .then((res) => {
         this.reportpostid = res.data.postid;
       })
-      .catch((err) => {});
+      .catch(
+        (err) => {}
+        );
 
     //获取后台默认已有的内容数据
     axios
@@ -299,12 +301,8 @@ computed:{
         this.modal = false;
       }
       setTimeout(() => {
-        if (this.$store.state.isModal) {
-          this.$store.commit('changeisperson',false)
-          this.cardselected = -1;
-          this.modal = false;
-        }
-        if(!localStorage.getItem('name') || !localStorage.getItem('vuex')){
+        
+        if(!localStorage.getItem('name') || !localStorage.getItem('vuex') ||this.$store.state.isModal){
           this.$store.commit('changeisperson',false)
           this.cardselected = -1;
           this.modal = false;

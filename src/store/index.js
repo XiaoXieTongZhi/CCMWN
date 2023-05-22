@@ -20,6 +20,7 @@ const store = createStore({
       //滚动条
       color: "rgba(221, 59, 19, 0.949)",
       school: "主留言墙",
+      //模态框的状态
       isModal: false,
       //newcard名称 发布时的名称
       name: localStorage.getItem("name"),
@@ -38,7 +39,7 @@ const store = createStore({
       allpostid: [],
       //用户搜索得结果
       inputselectvalue: [],
-      //个人信息的显示与隐藏
+      //个人信息的显示与隐藏 
       isperson: false,
       //个人信息变量
       personMessage: { name: "", fensi: [], guanzhu: [], isguanzhu: false,posts:[] },

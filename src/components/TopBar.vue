@@ -7,23 +7,13 @@
 
     <div class="menu">
       <router-link to="/wall">
-        <pr-button
-          :size="'max'"
-          :nom="$route.path == '/wall' ? 'primary' : 'secondary'"
-          class="menu-message"
-        >
+        <pr-button :size="'max'" :nom="$route.path == '/wall' ? 'primary' : 'secondary'" class="menu-message">
           {{
             $store.state.school == "主留言墙" ? "主留言墙" : "校园留言墙"
-          }}</pr-button
-        >
+          }}</pr-button>
       </router-link>
       <router-link to="/tool">
-        <pr-button
-          :size="'max'"
-          :nom="$route.path == '/tool' ? 'primary' : 'secondary'"
-          class="menu-mine"
-          >工具</pr-button
-        >
+        <pr-button :size="'max'" :nom="$route.path == '/tool' ? 'primary' : 'secondary'" class="menu-mine">工具</pr-button>
       </router-link>
     </div>
     <div class="search">
@@ -44,6 +34,7 @@
 .van-button--small {
   min-width: 30px;
 }
+
 .top-bar {
   width: 100%;
   height: 4.05rem;
@@ -83,9 +74,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .name {
       min-width: 20px;
     }
+
     .user-head {
       border-radius: 50%;
       height: 1.5rem;
@@ -177,7 +170,7 @@ export default {
         localStorage.getItem("name") &&
         localStorage.getItem("token")
       ) {
-        this.$store.commit('changeselectuserid',this.$store.state.userid)
+        this.$store.commit('changeselectuserid', this.$store.state.userid)
         this.$store.commit("changeisperson", true);
         this.$store.commit("changepersonname", localStorage.getItem("name"));
         axios
@@ -187,18 +180,34 @@ export default {
             },
           })
           .then((res) => {
-            this.$store.commit('changeselectuserid',res.data.userid)
-          
-            this.$store.commit('changepersonfensi',res.data.fensiId);
-            this.$store.commit('changepersonguanzhu',res.data.guanzhuId);
-            if (res.data.fensiId.map(res =>res.follower_id).includes(JSON.parse(localStorage.getItem('vuex')).userid)) {
-              this.$store.commit('changeisguanzhu',true)
-            }else{
-              this.$store.commit('changeisguanzhu',false)
+
+            this.$store.commit('changeselectuserid', res.data.userid)
+
+            this.$store.commit('changepersonfensi', res.data.fensiId);
+            this.$store.commit('changepersonguanzhu', res.data.guanzhuId);
+            if (res.data.fensiId.map(res => res.follower_id).includes(JSON.parse(localStorage.getItem('vuex')).userid)) {
+              this.$store.commit('changeisguanzhu', true)
+            } else {
+              this.$store.commit('changeisguanzhu', false)
             }
+
+
           })
           .catch((err) => {
-            console.log(err);
+
+            if (this.$store.state.isModal) {
+             
+              this.$store.commit('changeModal')
+              
+              showToast({
+                message: "登陆状态已过期，请重新登录",
+
+                style: {
+                  backgroundColor: "transparent",
+                  fontWeight: "600",
+                },
+              });
+            }
           });
       } else {
         showToast({
@@ -210,6 +219,8 @@ export default {
           },
         });
       }
+
+
     },
     changelogin() {
       if (this.login == "登录") {
