@@ -3,15 +3,16 @@
     <span
       class="iconfont icon-form works"
       :class="{ active: selectedIcon === 'works' }"
-      @click="selectIcon('works')"
+      @click="selectIcon('works'),changeoption(1)"
       title="用户发布的帖子"
+
       >{{  postcount }}</span
     >
     <span
       v-show="$store.state.userid == $store.state.selectuserid"
       class="iconfont icon-comments setting"
       :class="{ active: selectedIcon === 'setting' }"
-      @click="selectIcon('setting')"
+      @click="selectIcon('setting'),changeoption(2)"
       title="消息"
       ></span
     >
@@ -19,13 +20,13 @@
       v-show="$store.state.userid == $store.state.selectuserid"
       class="iconfont icon-set message"
       :class="{ active: selectedIcon === 'message' }"
-      @click="selectIcon('message')"
+      @click="selectIcon('message'),changeoption(3)"
       title="设置"
     ></span>
     <span
       class="iconfont icon-assessedbadge authen"
       :class="{ active: selectedIcon === 'authen' }"
-      @click="selectIcon('authen')"
+      @click="selectIcon('authen'),changeoption(4)"
       title="认证"
     ></span>
   </div>
@@ -91,6 +92,9 @@ export default {
       .catch((err) => {});
   },
   methods: {
+    changeoption(value){
+      this.$emit('changeoption',value)
+    },
     selectIcon(icon) {
       this.selectedIcon = icon;
     },

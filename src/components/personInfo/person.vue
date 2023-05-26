@@ -3,8 +3,8 @@
         <div class="bgc" :style="{ 'background-image': `url(http://localhost:3000/uploads/img/默认.png)` }"></div>
       
          <top-info></top-info>
-    <option-content></option-content>
-    <foot-content></foot-content>
+    <option-content @changeoption="changeoption"></option-content>
+    <foot-content :type="optionvalue"></foot-content>
     
     </div>
 </template>
@@ -34,11 +34,20 @@ import FootContent from './FootContent.vue';
 import OptionContent from './OptionContent.vue';
 import TopInfo from './TopInfo.vue';
 export default{
-
+    data(){
+        return {
+            optionvalue:1
+        }
+    },
     components:{
         FootContent,
         OptionContent,
         TopInfo
+    },
+    methods:{
+        changeoption(value){
+            this.optionvalue=value;
+        }
     }
 }
 

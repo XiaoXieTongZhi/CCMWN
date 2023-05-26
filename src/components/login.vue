@@ -291,7 +291,7 @@ export default {
               this.$store.commit("updateuserid", res.data.userid);
               this.$store.commit("updatename", res.data.username);
               showToast({
-                message: "登录成功",
+                message: "登录成功,24小时内有效",
                 style: {
                   backgroundColor: "transparent",
                   fontWeight: "600",
