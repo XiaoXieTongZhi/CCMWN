@@ -8,7 +8,8 @@
       <p class="label">{{ note.type }}</p>
     </div>
     <div class="message"
-      :style="bgpicture ? { 'background-image': `url(http://localhost:3000/uploads/img/${note.image_url})` } : ''">
+    ref="bgc"
+      :style="bgpicture ? { 'background-image': `url(http://localhost:3000/uploads/img/${note.image_name})` } : ''">
       <van-text-ellipsis @click.native.stop :content="!bgpicture ? note.content : ''" expand-text="展开" collapse-text="收起"
         rows="7" />
     </div>
@@ -22,7 +23,7 @@
           note.comment_count
         }}</span>
       </div>
-      <div class="name" @click="userheadclick(note.username)">{{ note.username }}</div>
+      <div class="name" @click="note.username !== '匿名' ? userheadclick(note.username) : null">{{ note.username }}</div>
     </div>
   </div>
 </template>
@@ -197,6 +198,7 @@ export default {
     };
   },
   props: {
+    //判断背景图片是否显示
     hidden: {
       type: Boolean,
       //默认为true显示，cardDetial传过来的false给详情卡片的里的用
@@ -213,11 +215,9 @@ export default {
    
   },
 
-
-
   methods: {
     userheadclick(value){
-      if (value !== '登录发言' && localStorage.getItem('name')&&localStorage.getItem('token')) {
+      if (localStorage.getItem('name')&&localStorage.getItem('token')) {
         this.$store.commit('changeisperson',true)
         this.$store.commit('changepersonname',value)
         axios

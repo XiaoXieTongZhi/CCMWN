@@ -39,10 +39,16 @@ const store = createStore({
       allpostid: [],
       //用户搜索得结果
       inputselectvalue: [],
-      //个人信息的显示与隐藏 
+      //个人信息的显示与隐藏
       isperson: false,
       //个人信息变量
-      personMessage: { name: "", fensi: [], guanzhu: [], isguanzhu: false,posts:[] },
+      personMessage: {
+        name: "",
+        fensi: [],
+        guanzhu: [],
+        isguanzhu: false,
+        posts: [],
+      },
     };
   },
   mutations: {
@@ -106,9 +112,9 @@ const store = createStore({
     changeselectuserid(state, data) {
       state.selectuserid = data;
     },
-    changeposts(state, data){
-state.personMessage.posts =data
-    }
+    changeposts(state, data) {
+      state.personMessage.posts = data;
+    },
   },
 });
 

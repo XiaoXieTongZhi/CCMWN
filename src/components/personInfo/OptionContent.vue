@@ -77,20 +77,32 @@ export default {
   computed:{
   postcount(){
   return this.$store.state.personMessage.posts.length
-  }  },
-  mounted() {
-    axios
-      .usercardCount({
-        params: {
-          userid: this.$store.state.selectuserid,
-        },
-      })
-      .then((res) => {
-        console.log(res.data.data);
-        this.$store.commit("changeposts", res.data.data);
-      })
-      .catch((err) => {});
-  },
+  }  ,
+  selectuseridchange(){
+    return this.$store.state.selectuserid
+  }
+},
+watch:{
+  //监听变化  跟随更新  不知道为什么  点击头像更新 触发不了这个监听器 所以下面只能再用个mounted了
+  selectuseridchange: {
+    immediate: true,
+    handler() {
+      axios
+        .usercardCount({
+          params: {
+            userid: this.$store.state.selectuserid,
+          },
+        })
+        .then((res) => {
+          this.$store.commit("changeposts", res.data.data);
+        })
+        .catch((err) => {});
+    }
+  }
+},
+ 
+   
+  
   methods: {
     changeoption(value){
       this.$emit('changeoption',value)

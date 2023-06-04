@@ -3,7 +3,7 @@
       <ul class="post-list">
         <span class="main">主留言墙</span>
         <li title="类型——ID" :style="{backgroundColor:data.color}" v-for="data in posts" :key="data" class="post-item">
-          {{ data.type }}{{ data.postid }}
+          {{$store.state.userid !== $store.state.selectuserid&&data.username=='匿名' ?'匿名' :data.type }}{{ $store.state.userid !== $store.state.selectuserid&&data.username=='匿名' ?'内容' :data.postid }}
         </li>
       </ul>
     </div>
@@ -17,6 +17,7 @@
       },
      
     },
+   
   }
   </script>
   
@@ -56,7 +57,7 @@
   }
   
 .post-item:hover {
-    background-color: #e0e0e0 !important;
+    background-color: #d2a6e5ce !important;
 
   }
   </style>

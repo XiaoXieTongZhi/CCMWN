@@ -29,6 +29,8 @@
       :max-count="1"
       preview-size="4rem"
       :preview-options="{ closeable: true }"
+      :max-size="2097152"
+      :before-read=" beforeRead"
       accept=".png, .jpg, .jpeg"
     >
       <van-button size="small" icon="add-o" type="primary">上传图片</van-button>
@@ -104,7 +106,26 @@ export default {
     PrButton,
   },
   methods: {
+    beforeRead(file){
+      //符合这两种情况 都取消上传 return false
+       if ( ['.png', '.jpg', '.jpeg'].includes(file.name.replace(/.+\./,'.').toLowerCase()) && file.size<=2097152) {
+        return  true
+       
+      
+      }else{
+        showToast({
+          message: "上传格式不符合要求,支持.png, .jpg, .jpeg,并且要小于2MB",
+
+          style: {
+            backgroundColor: "transparent",
+            fontWeight: "600",
+          },
+        });
+      }
+
+    },
     addCard() {
+     
       if (!localStorage.getItem("name") || !localStorage.getItem("vuex")) {
         showToast({
           message: "登陆状态有问题，请登陆，如已经登录则退出重新登录",
@@ -117,6 +138,7 @@ export default {
       } else {
         if (this.message.length > 15) {
           let formData = new FormData();
+         
           if (this.fileList[0]) {
             formData.set("image", this.fileList[0].file);
           }
@@ -132,6 +154,7 @@ export default {
             .addCard(formData)
             .then((res) => {
               if (res.data.code == 200) {
+            
                 this.$emit("addshowCard", res.data);
                 this.message = "";
                 showToast({

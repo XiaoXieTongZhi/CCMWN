@@ -181,8 +181,7 @@ export default {
           })
           .then((res) => {
 
-            this.$store.commit('changeselectuserid', res.data.userid)
-
+      
             this.$store.commit('changepersonfensi', res.data.fensiId);
             this.$store.commit('changepersonguanzhu', res.data.guanzhuId);
             if (res.data.fensiId.map(res => res.follower_id).includes(JSON.parse(localStorage.getItem('vuex')).userid)) {

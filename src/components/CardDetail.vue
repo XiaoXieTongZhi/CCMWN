@@ -1,15 +1,31 @@
 <template>
   <div class="card-detail">
     <div class="top-bt">
-      <p class="revoke" @click="deleteCard(this.$refs.nodecard.$refs.postid.textContent)">删除</p>
+      <p
+        class="revoke"
+        @click="deleteCard(this.$refs.nodecard.$refs.postid.textContent)"
+      >
+        删除
+      </p>
       <p class="report" v-report>举报</p>
     </div>
-    <node-card ref="nodecard" :note="card" class="nodecard" :hidden="false"></node-card>
+    <node-card
+      ref="nodecard"
+      :note="card"
+      class="nodecard"
+      :hidden="false"
+    ></node-card>
     <div class="form">
-      <textarea class="message" v-model="content" placeholder="请输入评论"></textarea>
+      <textarea
+        class="message"
+        v-model="content"
+        placeholder="请输入评论"
+      ></textarea>
       <div class="bt">
-        <select class="name" ref="name" >
-          <option  :value="computedname" class="option">{{ computedname }}</option>
+        <select class="name" ref="name">
+          <option :value="computedname" class="option">
+            {{ computedname }}
+          </option>
           <option :value="'匿名'" class="option">匿名</option>
         </select>
         <pr-button :size="'small'" @click="addcommit">确定</pr-button>
@@ -50,11 +66,10 @@
     align-items: center;
     justify-content: space-between;
     display: flex;
-    .revoke{
+    .revoke {
       font-size: $size-14;
       color: red;
       cursor: pointer;
-    
     }
     .report {
       font-size: $size-14;
@@ -132,7 +147,6 @@
     }
 
     .content {
-     
       padding-top: $padding-4;
       word-wrap: break-word;
       width: 10.25rem;
@@ -183,14 +197,13 @@ export default {
                 el.textContent = "举报";
               }
             })
-            .catch((err) => { });
+            .catch((err) => {});
         });
       },
       updated(el, binding) {
-
         const store = binding.instance.$store;
         const thiss = binding.instance;
-     
+
         if (thiss.vreport.includes(Number(store.state.postid))) {
           el.style.color = "red";
           el.textContent = "已举报";
@@ -203,7 +216,7 @@ export default {
   },
   data() {
     return {
-      content:'',
+      content: "",
       vreport: [],
       commont: "",
       portrait,
@@ -233,52 +246,67 @@ export default {
     PrButton,
   },
   methods: {
-    deleteCard(postid){
-      axios.deleteCard({
-        postid:postid,
-        userid:this.$store.state.userid,
-      }).then(result =>{
-        this.$emit('closecarddetail')
-        showToast({
-              message: result.data.message,
+    deleteCard(postid) {
+      axios
+        .deleteCard({
+          postid: postid,
+          userid: this.$store.state.userid,
+        })
+        .then((result) => {
+         if (result.data.code ==300) {
+          showToast({
+            message: result.data.message,
 
-              style: {
-                backgroundColor: "transparent",
-                fontWeight: "600",
-              },
-            });
-           this.$emit('deleteCard',postid)
+            style: {
+              backgroundColor: "transparent",
+              fontWeight: "600",
+            },
+          });
+         } else{
+          this.$emit("closecarddetail");
+          showToast({
+            message: result.data.message,
+
+            style: {
+              backgroundColor: "transparent",
+              fontWeight: "600",
+            },
+          });
+          this.$emit("deleteCard", postid);
+         }
           
-      }).catch(err =>{})
+        })
+        .catch((err) => {});
     },
     filter(data) {
       return NodeCardmethods.methods.filter(data);
     },
-    addcommit(){
+    addcommit() {
       if (!this.content.length == 0) {
-        axios.addCommit({
-        postid:this.$store.state.postid,
-        userid:this.$store.state.userid,
-        commitcontent:this.content,
-        username:this.$refs.name.value
-      }).then(res =>{
-        this.commont.unshift(res.data.data);
-        this.content=''
-        this.card.comment_count=this.card.comment_count+1
-
-      }).catch(err =>{})
-      }else{
+        axios
+          .addCommit({
+            postid: this.$store.state.postid,
+            userid: this.$store.state.userid,
+            commitcontent: this.content,
+            username: this.$refs.name.value,
+          })
+          .then((res) => {
+            this.commont.unshift(res.data.data);
+            this.content = "";
+            this.card.comment_count = this.card.comment_count + 1;
+          })
+          .catch((err) => {});
+      } else {
         showToast({
-              message: "不能为空",
+          message: "不能为空",
 
-              style: {
-                backgroundColor: "transparent",
-                fontWeight: "600",
-              },
-            });
+          style: {
+            backgroundColor: "transparent",
+            fontWeight: "600",
+          },
+        });
       }
-     
-    }
+    },
   },
   watch: {
     postid: {
@@ -293,7 +321,7 @@ export default {
           .then((res) => {
             this.commont = res.data.message.reverse();
           })
-          .catch((res) => { });
+          .catch((res) => {});
       },
     },
   },
