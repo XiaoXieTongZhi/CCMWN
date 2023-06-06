@@ -3,7 +3,7 @@
     <p class="title">
       {{ $store.state.school }}
     </p>
-  
+
     <div class="school">
       <school-select></school-select>
     </div>
@@ -28,7 +28,7 @@
         {{ item }}
       </p>
     </div>
-   
+
     <div class="card">
       <node-card
         v-for="(data, index) in note"
@@ -50,7 +50,7 @@
         force-ellipses
       />
     </div>
-    
+
     <div
       class="add"
       :style="{ bottom: addBottom + 'px' }"
@@ -60,16 +60,14 @@
       <span class="iconfont icon-add"></span>
     </div>
     <modal :title="title" @close="changeModal($event)" :isModal="modal">
-      <person-info v-if="$store.state.isperson">
-        
-      </person-info>
+      <person-info v-if="$store.state.isperson"> </person-info>
       <!-- -1说明没选中卡片 -->
       <new-card
         @addclose="changeModal"
         @addshowCard="addshowCard"
         v-else-if="cardselected == -1"
       ></new-card>
-     
+
       <card-detail
         v-else
         :card="note[cardselected]"
@@ -78,9 +76,7 @@
         @deleteCard="deleteCard"
         @closecarddetail="closecarddetail"
       ></card-detail>
-     
     </modal>
-    
   </div>
 </template>
 
@@ -102,7 +98,7 @@ export default {
     NewCard,
     SchoolSelect,
     CardDetail,
-    personInfo
+    personInfo,
   },
   data() {
     return {
@@ -128,19 +124,17 @@ export default {
       let end = newval * 9;
       this.note = this.tempnote.slice(start, end);
     },
-    inputselectvalue(newvalue){
-   
-      this.note= newvalue
+    inputselectvalue(newvalue) {
+      this.note = newvalue;
     },
-    '$store.state.isperson'(newVal) {
-    if (newVal) {
-      // 在这里更新数据状态
-      this.title = '用户信息';
-      this.cardselected = -1;
-      this.modal = true;
-    }
-  }
-
+    "$store.state.isperson"(newVal) {
+      if (newVal) {
+        // 在这里更新数据状态
+        this.title = "用户信息";
+        this.cardselected = -1;
+        this.modal = true;
+      }
+    },
   },
   mounted() {
     //判断用户对哪些点了喜欢
@@ -168,9 +162,7 @@ export default {
       .then((res) => {
         this.reportpostid = res.data.postid;
       })
-      .catch(
-        (err) => {}
-        );
+      .catch((err) => {});
 
     //获取后台默认已有的内容数据
     axios
@@ -201,29 +193,26 @@ export default {
   unmounted() {
     window.addEventListener("scroll", this.scrollBottom);
   },
-computed:{
-    inputselectvalue(){
+  computed: {
+    inputselectvalue() {
       return this.$store.state.inputselectvalue;
     },
- 
-},
+  },
   methods: {
-
-    closecarddetail(){
-      this.$store.commit('changeisperson',false)
+    closecarddetail() {
+      this.$store.commit("changeisperson", false);
       this.cardselected = -1;
-          this.modal = false;
+      this.modal = false;
     },
 
-    deleteCard(postid){
-     
- let index = this.tempnote.findIndex(note => note.postid == postid)
- this.tempnote.splice(index, 1)
- this.currentPagemethod()
+    deleteCard(postid) {
+      let index = this.tempnote.findIndex((note) => note.postid == postid);
+      this.tempnote.splice(index, 1);
+      this.currentPagemethod();
     },
     currentPagemethod() {
       let start = (this.currentPage - 1) * 9;
-      let end = this.currentPage  * 9;
+      let end = this.currentPage * 9;
       this.note = this.tempnote.slice(start, end);
     },
     selectid(value) {
@@ -236,10 +225,10 @@ computed:{
     addshowCard(data) {
       this.tempnote.unshift(data);
       this.total = this.tempnote.length;
-      if ( this.currentPage==1) {
-        this.currentPagemethod()
+      if (this.currentPage == 1) {
+        this.currentPagemethod();
       }
-      this.currentPage=1
+      this.currentPage = 1;
     },
     selectNode(e, item) {
       axios
@@ -251,15 +240,13 @@ computed:{
           },
         })
         .then((res) => {
-
           this.tempnote = res.data.data.reverse();
 
-        this.total = this.tempnote.length;
-        let start = (this.currentPage - 1) * 9;
-        let end = this.currentPage * 9;
+          this.total = this.tempnote.length;
+          let start = (this.currentPage - 1) * 9;
+          let end = this.currentPage * 9;
 
-        this.note = this.tempnote.slice(start, end);
-
+          this.note = this.tempnote.slice(start, end);
         })
         .catch((res) => {});
       this.nlabel = e;
@@ -284,7 +271,7 @@ computed:{
     },
     //切换侧边栏
     changeModal() {
-      this.$store.commit('changeisperson',false)
+      this.$store.commit("changeisperson", false);
       this.cardselected = -1;
       this.modal = !this.modal;
     },
@@ -292,28 +279,31 @@ computed:{
     selectedcard(data) {
       this.title = "卡片详情";
       if (data != this.cardselected) {
-        this.$store.commit('changeisperson',false)
+        this.$store.commit("changeisperson", false);
         this.cardselected = data;
         this.modal = true;
       } else {
-        this.$store.commit('changeisperson',false)
+        this.$store.commit("changeisperson", false);
         this.cardselected = -1;
         this.modal = false;
       }
       setTimeout(() => {
-        
-        if(!localStorage.getItem('name') || !localStorage.getItem('vuex') ||this.$store.state.isModal){
-          this.$store.commit('changeisperson',false)
+        if (
+          !localStorage.getItem("name") ||
+          !localStorage.getItem("vuex") ||
+          this.$store.state.isModal
+        ) {
+          this.$store.commit("changeisperson", false);
           this.cardselected = -1;
           this.modal = false;
           showToast({
-                message: "登陆状态有问题，请登陆，如已经登录则退出重新登录",
+            message: "登陆状态有问题，请登陆，如已经登录则退出重新登录",
 
-                style: {
-                  backgroundColor: "transparent",
-                  fontWeight: "600",
-                },
-              });
+            style: {
+              backgroundColor: "transparent",
+              fontWeight: "600",
+            },
+          });
         }
       }, 500);
     },

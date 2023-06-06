@@ -60,3 +60,10 @@ export const guanzhuT =(data)=>service.post("/guanzhuT",data)
 export const guanzhuF =(data)=>service.post("/guanzhuF",data)
 //获取用户帖子数量
 export const usercardCount = (data)=>service.get("/usercardCount",data)
+
+//头像修改
+export const userhead =(data)=>service.post("/userhead",data)
+
+//查询指定用户的所有数据
+
+export const selectuserall =(data)=>service.get("/selectuserall",data)

@@ -9,7 +9,7 @@
       >{{  postcount }}</span
     >
     <span
-      v-show="$store.state.userid == $store.state.selectuserid"
+      v-if="$store.state.userid == $store.state.selectuserid"
       class="iconfont icon-comments setting"
       :class="{ active: selectedIcon === 'setting' }"
       @click="selectIcon('setting'),changeoption(2)"
@@ -17,7 +17,7 @@
       ></span
     >
     <span
-      v-show="$store.state.userid == $store.state.selectuserid"
+      v-if="$store.state.userid == $store.state.selectuserid"
       class="iconfont icon-set message"
       :class="{ active: selectedIcon === 'message' }"
       @click="selectIcon('message'),changeoption(3)"

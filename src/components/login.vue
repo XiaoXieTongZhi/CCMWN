@@ -290,6 +290,10 @@ export default {
               this.$store.commit("changeModal");
               this.$store.commit("updateuserid", res.data.userid);
               this.$store.commit("updatename", res.data.username);
+              if (res.data.avatar) {
+                this.$store.commit('changeuserhead', res.data.avatar)
+          
+              }
               showToast({
                 message: "登录成功,24小时内有效",
                 style: {
@@ -297,6 +301,7 @@ export default {
                   fontWeight: "600",
                 },
               });
+             
               this.sms = "";
               this.username = "";
               this.password = "";
@@ -381,9 +386,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .van-cell {
-
   border: 1px solid transparent;
   animation: border-animation 3s linear infinite;
   background: transparent;
@@ -420,12 +423,11 @@ export default {
 
 :deep(.van-button) {
   background: linear-gradient(to right, #fbc2eb, #a6c1ee);
- color: black;
+  color: black;
   min-width: 120px;
   width: 5.375rem;
   border: 3px solid transparent;
   animation: border-animation 3s linear infinite;
-
 }
 
 :deep(.van-icon) {
@@ -434,7 +436,6 @@ export default {
 }
 
 :deep(.van-cell-group) {
-  
   min-width: 21.25rem;
   max-width: 25rem;
 }
@@ -456,7 +457,6 @@ export default {
   }
 }
 .van-cell-group--inset {
-  
   animation: gradient 5s linear infinite;
   opacity: 0.8;
 }

@@ -7,6 +7,7 @@ const store = createStore({
       reducer: (state) => {
         return {
           userid: state.userid,
+          personMessage:state.personMessage
         };
       },
     }),
@@ -48,6 +49,7 @@ const store = createStore({
         guanzhu: [],
         isguanzhu: false,
         posts: [],
+        userhead:'默认.png'
       },
     };
   },
@@ -115,6 +117,9 @@ const store = createStore({
     changeposts(state, data) {
       state.personMessage.posts = data;
     },
+    changeuserhead(state, data) {
+      state.personMessage.userhead=data
+    }
   },
 });
 

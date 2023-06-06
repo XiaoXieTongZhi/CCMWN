@@ -5,10 +5,10 @@
         <div
           class="logo"
           :style="{
-            'background-image': `url(http://localhost:3000/uploads/img/默认.png)`,
+            'background-image': `url(http://localhost:3000/uploads/userimg/${address})`,
           }"
         ></div>
-        <div class="name">{{  name }}</div>
+        <div class="name">{{ name }}</div>
       </div>
       <div class="follow">
         <div class="follower">粉丝数:{{ fensi }}</div>
@@ -16,94 +16,101 @@
       </div>
     </div>
     <div class="right">
-      <button :class="isguanzhu?'buttonF':'buttonT'" @click="changeisguanzhu(isguanzhu?'已关注':'关注')">{{isguanzhu?'已关注':'关注'}}</button>
-   
-    </div> 
+      <button
+        :class="isguanzhu ? 'buttonF' : 'buttonT'"
+        @click="changeisguanzhu(isguanzhu ? '已关注' : '关注')"
+      >
+        {{ isguanzhu ? "已关注" : "关注" }}
+      </button>
+    </div>
   </div>
 </template>
-
 
 <script>
 import * as axios from "@/api/index";
 import { showToast } from "vant";
-export default{
-  data(){
-    return {
-   
-    }
+export default {
+  data() {
+    return {};
   },
-  computed:{
-    name(){
-      return this.$store.state.personMessage.name
+  computed: {
+    address(){
+      return this.$store.state.personMessage.userhead;
     },
-    fensi(){
-      return this.$store.state.personMessage.fensi.length
+    name() {
+      return this.$store.state.personMessage.name;
     },
-    guanzhu(){
-      return this.$store.state.personMessage.guanzhu.length
+    fensi() {
+      return this.$store.state.personMessage.fensi.length;
     },
-    isguanzhu(){
-      return this.$store.state.personMessage.isguanzhu
-    }
+    guanzhu() {
+      return this.$store.state.personMessage.guanzhu.length;
+    },
+    isguanzhu() {
+      return this.$store.state.personMessage.isguanzhu;
+    },
   },
-  methods:{
-    changeisguanzhu(value){
-      if (value =='关注') {
+  methods: {
+    changeisguanzhu(value) {
+      if (value == "关注") {
         if (this.$store.state.selectuserid == this.$store.state.userid) {
           showToast({
-              message: '自己关注自己不太好吧(-_-)',
+            message: "自己关注自己不太好吧(-_-)",
 
-              style: {
-                backgroundColor: "transparent",
-                fontWeight: "600",
-              },
-            });
-           
-        }else{
-          axios.guanzhuT({
-            followerid:this.$store.state.userid,
-            followedid:this.$store.state.selectuserid
-          }).then(res => {
-            if (res.data.code==200) {
-              showToast({
-              message: '关注成功',
+            style: {
+              backgroundColor: "transparent",
+              fontWeight: "600",
+            },
+          });
+        } else {
+          axios
+            .guanzhuT({
+              followerid: this.$store.state.userid,
+              followedid: this.$store.state.selectuserid,
+            })
+            .then((res) => {
+              if (res.data.code == 200) {
+                showToast({
+                  message: "关注成功",
 
-              style: {
-                backgroundColor: "transparent",
-                fontWeight: "600",
-              },
-            });
-              this.$store.commit('changeisguanzhu',true)
-              this.$store.commit('addpersonfensi',this.$store.state.userid)
-            }
-          }).catch(err =>{})
+                  style: {
+                    backgroundColor: "transparent",
+                    fontWeight: "600",
+                  },
+                });
+                this.$store.commit("changeisguanzhu", true);
+                this.$store.commit("addpersonfensi", this.$store.state.userid);
+              }
+            })
+            .catch((err) => {});
         }
-       
-      } else if(value =='已关注') {
-        axios.guanzhuF({
-          followerid:this.$store.state.userid,
-            followedid:this.$store.state.selectuserid
-        
-        }).then(res => {
-          if (res.data.code==200) {
-            showToast({
-              message: '取消关注',
+      } else if (value == "已关注") {
+        axios
+          .guanzhuF({
+            followerid: this.$store.state.userid,
+            followedid: this.$store.state.selectuserid,
+          })
+          .then((res) => {
+            if (res.data.code == 200) {
+              showToast({
+                message: "取消关注",
 
-              style: {
-                backgroundColor: "transparent",
-                fontWeight: "600",
-              },
-            });
-            this.$store.commit('changeisguanzhu',false)
-            
-            this.$store.commit('deletepersonfensi',this.$store.state.userid)
-          }
-        }).catch(err =>{})
+                style: {
+                  backgroundColor: "transparent",
+                  fontWeight: "600",
+                },
+              });
+              this.$store.commit("changeisguanzhu", false);
+
+              this.$store.commit("deletepersonfensi", this.$store.state.userid);
+            }
+          })
+          .catch((err) => {});
       }
-    }
-  }
-}
-</script> 
+    },
+  },
+};
+</script>
 <style lang="scss" scoped>
 .top-info {
   display: flex;
@@ -112,7 +119,7 @@ export default{
   .left {
     width: 70%;
     height: 100%;
-font-size: 0.86rem;
+    font-size: 0.86rem;
     .logo-user {
       display: flex;
       width: 100%;
@@ -120,7 +127,6 @@ font-size: 0.86rem;
       justify-content: space-around;
       align-items: center;
       .logo {
-        background-color: red;
         border-radius: 50%;
         width: 2.75rem;
         height: 2.75rem;
@@ -175,7 +181,6 @@ font-size: 0.86rem;
 
     .buttonF:hover {
       background-color: #b3e6ff; /* 淡蓝色背景 */
-    
     }
   }
 }

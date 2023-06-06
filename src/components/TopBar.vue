@@ -7,20 +7,36 @@
 
     <div class="menu">
       <router-link to="/wall">
-        <pr-button :size="'max'" :nom="$route.path == '/wall' ? 'primary' : 'secondary'" class="menu-message">
+        <pr-button
+          :size="'max'"
+          :nom="$route.path == '/wall' ? 'primary' : 'secondary'"
+          class="menu-message"
+        >
           {{
             $store.state.school == "主留言墙" ? "主留言墙" : "校园留言墙"
-          }}</pr-button>
+          }}</pr-button
+        >
       </router-link>
       <router-link to="/tool">
-        <pr-button :size="'max'" :nom="$route.path == '/tool' ? 'primary' : 'secondary'" class="menu-mine">工具</pr-button>
+        <pr-button
+          :size="'max'"
+          :nom="$route.path == '/tool' ? 'primary' : 'secondary'"
+          class="menu-mine"
+          >工具</pr-button
+        >
       </router-link>
     </div>
     <div class="search">
       <search-modal></search-modal>
     </div>
     <div class="user">
-      <div class="user-head" @click="userheadclick(dusername)"></div>
+      <div
+        class="user-head"
+        :style="{
+          'background-image': `url(http://localhost:3000/uploads/userimg/${address})`,
+        }"
+        @click="userheadclick(dusername)"
+      ></div>
       <span class="name">{{ dusername }}</span>
       <div class="user-login">
         <van-button type="small" :color="'#989898'" @click="changelogin()">{{
@@ -80,11 +96,11 @@
     }
 
     .user-head {
-      border-radius: 50%;
-      height: 1.5rem;
-      width: 1.5rem;
-      background-image: linear-gradient(180deg, #7be7ff, #1e85e2);
       cursor: pointer;
+      border-radius: 50%;
+      width: 2.75rem;
+      height: 2.75rem;
+      background-size: cover;
     }
   }
 
@@ -129,6 +145,9 @@ export default {
     PrButton,
   },
   computed: {
+    address() {
+      return this.$store.state.personMessage.userhead;
+    },
     isbutton() {
       return this.$store.state.isModal;
     },
@@ -170,7 +189,7 @@ export default {
         localStorage.getItem("name") &&
         localStorage.getItem("token")
       ) {
-        this.$store.commit('changeselectuserid', this.$store.state.userid)
+        this.$store.commit("changeselectuserid", this.$store.state.userid);
         this.$store.commit("changeisperson", true);
         this.$store.commit("changepersonname", localStorage.getItem("name"));
         axios
@@ -180,24 +199,22 @@ export default {
             },
           })
           .then((res) => {
-
-      
-            this.$store.commit('changepersonfensi', res.data.fensiId);
-            this.$store.commit('changepersonguanzhu', res.data.guanzhuId);
-            if (res.data.fensiId.map(res => res.follower_id).includes(JSON.parse(localStorage.getItem('vuex')).userid)) {
-              this.$store.commit('changeisguanzhu', true)
+            this.$store.commit("changepersonfensi", res.data.fensiId);
+            this.$store.commit("changepersonguanzhu", res.data.guanzhuId);
+            if (
+              res.data.fensiId
+                .map((res) => res.follower_id)
+                .includes(JSON.parse(localStorage.getItem("vuex")).userid)
+            ) {
+              this.$store.commit("changeisguanzhu", true);
             } else {
-              this.$store.commit('changeisguanzhu', false)
+              this.$store.commit("changeisguanzhu", false);
             }
-
-
           })
           .catch((err) => {
-
             if (this.$store.state.isModal) {
-        
-              this.$store.commit('changeModal')
-             
+              this.$store.commit("changeModal");
+
               showToast({
                 message: "登陆状态已过期，请重新登录",
 
@@ -218,8 +235,6 @@ export default {
           },
         });
       }
-
-
     },
     changelogin() {
       if (this.login == "登录") {
@@ -228,6 +243,7 @@ export default {
         this.dusername = "登陆发言";
         localStorage.removeItem("token");
         localStorage.removeItem("name");
+        localStorage.removeItem("vuex");
         this.login = "登录";
       }
     },

@@ -138,7 +138,6 @@ export default {
       } else {
         if (this.message.length > 15) {
           let formData = new FormData();
-         
           if (this.fileList[0]) {
             formData.set("image", this.fileList[0].file);
           }
