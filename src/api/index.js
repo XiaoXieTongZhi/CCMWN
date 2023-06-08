@@ -67,3 +67,8 @@ export const userhead =(data)=>service.post("/userhead",data)
 //查询指定用户的所有数据
 
 export const selectuserall =(data)=>service.get("/selectuserall",data)
+
+
+//背景图片修改
+
+export const bgcpicture =(data)=>service.post("/bgcpicture",data)

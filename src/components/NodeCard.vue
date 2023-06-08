@@ -240,6 +240,7 @@ export default {
               userid:res.data.userid
             }}).then(res =>{
               this.$store.commit('changewatchuserhead',res.data.avatar)
+              this.$store.commit('changebgcpicture',res.data.background)
             }).catch(err =>{
               console.log(err);
             })

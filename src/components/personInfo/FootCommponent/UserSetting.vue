@@ -3,19 +3,9 @@
     <div class="user-head">
       <div>头像设置</div>
       <div class="user-head-message">
-        <van-uploader
-          v-model="fileList"
-          multiple
-          :max-count="1"
-          preview-size="4rem"
-          :preview-options="{ closeable: true }"
-          :max-size="2097152"
-          :before-read="beforeRead"
-          accept=".png, .jpg, .jpeg"
-        >
-          <van-button size="small" icon="add-o" type="primary"
-            >上传图片</van-button
-          >
+        <van-uploader v-model="fileList" multiple :max-count="1" preview-size="4rem"
+          :preview-options="{ closeable: true }" :max-size="2097152" :before-read="beforeRead" accept=".png, .jpg, .jpeg">
+          <van-button size="small" icon="add-o" type="primary">上传图片</van-button>
         </van-uploader>
         <button class="btn" @click="submituserhead">提交</button>
       </div>
@@ -23,19 +13,9 @@
     <div class="bgc-head">
       <div>背景设置</div>
       <div class="bgc-head-message">
-        <van-uploader
-          v-model="fileListtwo"
-          multiple
-          :max-count="1"
-          preview-size="4rem"
-          :preview-options="{ closeable: true }"
-          :max-size="2097152"
-          :before-read="beforeRead"
-          accept=".png, .jpg, .jpeg"
-        >
-          <van-button size="small" icon="add-o" type="primary"
-            >上传图片</van-button
-          >
+        <van-uploader v-model="fileListtwo" multiple :max-count="1" preview-size="4rem"
+          :preview-options="{ closeable: true }" :max-size="2097152" :before-read="beforeRead" accept=".png, .jpg, .jpeg">
+          <van-button size="small" icon="add-o" type="primary">上传图片</van-button>
         </van-uploader>
         <button class="btn" @click="submitbgc">提交</button>
       </div>
@@ -69,11 +49,14 @@
     border-bottom: 1px solid black;
     text-align: center;
     font-weight: 600;
-    .user-head-message,.bgc-head-message {
+
+    .user-head-message,
+    .bgc-head-message {
       height: 70%;
       display: flex;
       justify-content: space-around;
       align-items: center;
+
       .btn {
         display: inline-block;
         padding: 10px 20px;
@@ -135,22 +118,56 @@ let submituserhead = () => {
     let formData = new FormData();
     formData.set("image", fileList.value[0].file);
     formData.set("userid", store.state.userid);
-    axios.userhead(formData).then(res =>{
-      if (res.data.code==200) {
-        store.commit('changeuserhead',res.data.data)
-        store.commit('changewatchuserhead',res.data.data)
-        
-        fileList.value=[]
+    axios.userhead(formData).then(res => {
+      if (res.data.code == 200) {
+        store.commit('changeuserhead', res.data.data)
+        store.commit('changewatchuserhead', res.data.data)
+
+        fileList.value = []
         showToast({
-      message: res.data.message,
+          message: res.data.message,
+
+          style: {
+            backgroundColor: "transparent",
+            fontWeight: "600",
+          },
+        });
+      }
+
+    }).catch(err => console.log(err))
+  } else {
+    showToast({
+      message: "请选择图片后，在进行提交",
 
       style: {
         backgroundColor: "transparent",
         fontWeight: "600",
       },
     });
+  }
+};
+
+
+let submitbgc = () => {
+  if (fileListtwo.value[0]) {
+    let formData = new FormData();
+    formData.set("image", fileListtwo.value[0].file);
+    formData.set("userid", store.state.userid);
+    axios.bgcpicture(formData).then(res => {
+      if (res.data.code == 200) {
+        console.log(res.data.data);
+        store.commit('changebgcpicture', res.data.data)
+        fileListtwo.value = []
+        showToast({
+          message: res.data.message,
+
+          style: {
+            backgroundColor: "transparent",
+            fontWeight: "600",
+          },
+        });
       }
-    
+
     }).catch(err => console.log(err))
   } else {
     showToast({

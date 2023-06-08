@@ -1,6 +1,6 @@
 <template>
     <div class="body" >
-        <div class="bgc" :style="{ 'background-image': `url(http://localhost:3000/uploads/userimg/默认.png)` }"></div>
+        <div class="bgc" :style="{ 'background-image': `url(http://localhost:3000/uploads/bgcimg/${$store.state.personMessage.bgcpicture})` }"></div>
       
          <top-info></top-info>
     <option-content @changeoption="changeoption"></option-content>
@@ -18,6 +18,7 @@
             position: absolute;
             z-index: -1;
             background-position: center;
+            background-size: cover;
         }
        
         position: relative;

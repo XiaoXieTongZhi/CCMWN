@@ -127,6 +127,9 @@ const store = createStore({
     },
     changewatchuserhead(state, data) {
       state.personMessage.watchuserhead=data
+    },
+    changebgcpicture(state, data) {
+      state.personMessage.bgcpicture=data
     }
   },
 });
