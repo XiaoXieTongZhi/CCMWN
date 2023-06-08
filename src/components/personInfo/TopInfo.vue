@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     address(){
-      return this.$store.state.personMessage.userhead;
+      return this.$store.state.personMessage.watchuserhead;
     },
     name() {
       return this.$store.state.personMessage.name;

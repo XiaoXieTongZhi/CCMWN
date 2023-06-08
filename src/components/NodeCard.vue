@@ -235,6 +235,14 @@ export default {
             }else{
               this.$store.commit('changeisguanzhu',false)
             }
+           
+            axios.selectuserall({params:{
+              userid:res.data.userid
+            }}).then(res =>{
+              this.$store.commit('changewatchuserhead',res.data.avatar)
+            }).catch(err =>{
+              console.log(err);
+            })
           })
           .catch((err) => {
             console.log(err);

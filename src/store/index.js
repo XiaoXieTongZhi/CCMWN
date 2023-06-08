@@ -42,14 +42,19 @@ const store = createStore({
       inputselectvalue: [],
       //个人信息的显示与隐藏
       isperson: false,
-      //个人信息变量
+      //用户信息变量
       personMessage: {
         name: "",
         fensi: [],
         guanzhu: [],
         isguanzhu: false,
         posts: [],
-        userhead:'默认.png'
+        //顶部栏的个人头像
+        userhead:'默认.png',
+        //查看个人信息显示的头像
+        watchuserhead:'默认.png',
+        bgcpicture:'默认.png',
+        personsignature:'这个人好像没啥个性',
       },
     };
   },
@@ -119,6 +124,9 @@ const store = createStore({
     },
     changeuserhead(state, data) {
       state.personMessage.userhead=data
+    },
+    changewatchuserhead(state, data) {
+      state.personMessage.watchuserhead=data
     }
   },
 });

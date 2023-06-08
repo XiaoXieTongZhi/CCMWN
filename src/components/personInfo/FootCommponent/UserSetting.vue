@@ -138,6 +138,9 @@ let submituserhead = () => {
     axios.userhead(formData).then(res =>{
       if (res.data.code==200) {
         store.commit('changeuserhead',res.data.data)
+        store.commit('changewatchuserhead',res.data.data)
+        
+        fileList.value=[]
         showToast({
       message: res.data.message,
 

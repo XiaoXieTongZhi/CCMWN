@@ -199,6 +199,7 @@ export default {
             },
           })
           .then((res) => {
+       
             this.$store.commit("changepersonfensi", res.data.fensiId);
             this.$store.commit("changepersonguanzhu", res.data.guanzhuId);
             if (
@@ -210,6 +211,16 @@ export default {
             } else {
               this.$store.commit("changeisguanzhu", false);
             }
+
+            axios.selectuserall({params:{
+              userid:res.data.userid
+            }}).then(res =>{
+            
+              this.$store.commit('changewatchuserhead',res.data.avatar)
+            }).catch(err =>{
+              console.log(err);
+            })
+
           })
           .catch((err) => {
             if (this.$store.state.isModal) {
