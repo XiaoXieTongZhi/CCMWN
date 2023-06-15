@@ -16,7 +16,7 @@
     <div class="foot">
       <div class="foot-left">
         <span ref="postid" style="font-size: 16px; font-weight: 200;" >{{ note.postid }}</span>
-        <span v-show="hidden" v-red-on-hover-click class="iconfont icon-favorites">{{
+        <span  v-red-on-hover-click class="iconfont icon-favorites">{{
           note.like_count
         }}</span>
         <span v-show="hidden" v-red-on-hover class="iconfont icon-comments" @click="selectwall">{{
@@ -126,12 +126,14 @@ export default {
   directives: {
     "red-on-hover-click": {
       mounted(el, binding,) {
+       
         el.style.transition = "color 0.8s";
 
         const store = binding.instance.$store;
         const thiss = binding.instance
 
         if ((Object.values(thiss.postid)).includes(Number(thiss.$refs.postid.textContent))) {
+       
           var clicked = true;
           el.style.color = "red";
         } else {
@@ -141,11 +143,17 @@ export default {
 
         el.addEventListener("click", function () {
           if (!clicked) {
+
             this.style.color = "red";
             clicked = true;
             store.commit('changeLike', true)
+            //删除临时状态数组的内容
+            thiss.postid.push(Number(thiss.$refs.postid.textContent));
+            
           } else {
-            this.style.color = "";
+            let index = thiss.postid.indexOf(Number(thiss.$refs.postid.textContent));
+            thiss.postid.splice(index, 1);
+           this.style.color = "";
             clicked = false;
             store.commit('changeLike', false)
           }
@@ -155,6 +163,7 @@ export default {
             postid: thiss.$refs.postid.textContent,
             like: store.state.like,
           }).then(res => {
+            
             if (res.data.like) {
 
               thiss.note.like_count = thiss.note.like_count + 1
@@ -191,7 +200,7 @@ export default {
   },
   data() {
     return {
-
+      postid:[],
       text: this.note.message,
       //判断背景图片是否显示
       bgpicture: false,
@@ -208,7 +217,7 @@ export default {
       type: [Object, String],
       default: {},
     },
-    postid: {
+    postidp: {
       type: Array,
       default: [],
     },
@@ -275,7 +284,15 @@ export default {
       this.$emit('selected')
     }
   },
-
+watch:{
+  postidp:{
+    immediate: true,
+    handler(){
+      this.postid = this.postidp
+    }
+    
+  }
+}
 
 };
 </script>

@@ -38,7 +38,7 @@
         :class="{ cardselected: index == cardselected }"
         @selected="selectedcard(index)"
         @selectpostid="selectid"
-        :postid="redpostid"
+        :postidp="redpostid"
       ></node-card>
     </div>
     <div class="pagination">

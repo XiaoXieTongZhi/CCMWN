@@ -22,9 +22,14 @@
     </div>
     <div class="user-name">
       <div>用户名称设置</div>
+    <div class="name-tool">
+      <input class="name-input" type="text" v-model="newName" placeholder="输入新名称">
+    <button class="btn" @click="updateName">确定</button>
+    </div>
     </div>
     <div class="campus-certification">
       <div>校园信息设置</div>
+
     </div>
     <div class="personal-signature">
       <div>个性签名设置</div>
@@ -36,6 +41,34 @@
 </template>
 
 <style lang="scss" scoped>
+.name-tool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+}
+
+.name-input {
+  padding: 5px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
 .body {
   height: 100%;
 
@@ -83,16 +116,40 @@
 <script setup>
 import * as axios from "@/api/index";
 import { useStore } from "vuex";
-import { ref, reactive } from "vue";
+import { ref, reactive,watch } from "vue";
 import { showToast } from "vant";
 //图片信息状态存储
 const data = reactive({
   fileList: [],
   fileListtwo: [],
+  newName:''
 });
 const fileList = ref(data.fileList);
 const fileListtwo = ref(data.fileListtwo);
+const newName = ref(data.newName)
 let store = useStore();
+const updateName=()=>{
+
+  //发起请求后台数据库内容
+  axios.updatename({
+    userid:store.state.userid,
+    username:newName.value
+  }).then(res=>{
+    console.log(res.data.code);
+    if (res.data.code==200) {
+      store.commit('changename',res.data.data);
+    }
+    showToast({
+      message: "姓名修改成功",
+
+      style: {
+        backgroundColor: "transparent",
+        fontWeight: "600",
+      },
+    });
+   
+  }).catch(err => {console.log(err);})
+}
 const beforeRead = (file) => {
   //符合这两种情况 都取消上传 return false
   if (

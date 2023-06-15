@@ -151,14 +151,19 @@ export default {
     isbutton() {
       return this.$store.state.isModal;
     },
+   
   },
 
   watch: {
-    username(newvalue) {
-      this.dusername = newvalue;
-      localStorage.setItem("name", newvalue);
-      this.$store.commit("updatename", newvalue);
-    },
+    username: {
+      
+    handler(newValue) {
+      console.log(1);
+      this.dusername = newValue;
+      localStorage.setItem("name", newValue);
+      this.$store.commit("updatename", newValue);
+    }
+  },
     isbutton() {
       this.istoken = localStorage.getItem("token");
 

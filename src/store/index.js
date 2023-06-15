@@ -7,7 +7,8 @@ const store = createStore({
       reducer: (state) => {
         return {
           userid: state.userid,
-          personMessage:state.personMessage
+          personMessage:state.personMessage,
+          like:state.like
         };
       },
     }),
@@ -130,6 +131,9 @@ const store = createStore({
     },
     changebgcpicture(state, data) {
       state.personMessage.bgcpicture=data
+    },
+    changename(state, data) {
+      state.personMessage.name=data;
     }
   },
 });

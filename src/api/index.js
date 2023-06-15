@@ -72,3 +72,7 @@ export const selectuserall =(data)=>service.get("/selectuserall",data)
 //背景图片修改
 
 export const bgcpicture =(data)=>service.post("/bgcpicture",data)
+
+//修改姓名
+
+export const updatename =(data)=>service.post("/updatename",data)

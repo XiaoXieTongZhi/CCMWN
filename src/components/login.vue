@@ -289,8 +289,9 @@ export default {
               this.ispass = "";
               this.$store.commit("changeModal");
               this.$store.commit("updateuserid", res.data.userid);
-              this.$store.commit("updatename", res.data.username);
-              if (res.data.avatar) {
+               this.$store.commit("updatename", res.data.username);
+               
+             if (res.data.avatar) {
                 this.$store.commit('changeuserhead', res.data.avatar)
           
               }
