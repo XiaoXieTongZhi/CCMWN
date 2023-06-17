@@ -158,7 +158,7 @@ export default {
     username: {
       
     handler(newValue) {
-      console.log(1);
+  
       this.dusername = newValue;
       localStorage.setItem("name", newValue);
       this.$store.commit("updatename", newValue);

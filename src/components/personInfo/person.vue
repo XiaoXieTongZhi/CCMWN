@@ -1,10 +1,12 @@
 <template>
     <div class="body" >
         <div class="bgc" :style="{ 'background-image': `url(http://localhost:3000/uploads/bgcimg/${$store.state.personMessage.bgcpicture})` }"></div>
-      
-         <top-info></top-info>
+      <div class="message">
+        <top-info></top-info>
     <option-content @changeoption="changeoption"></option-content>
     <foot-content :type="optionvalue"></foot-content>
+    
+      </div>
     
     </div>
 </template>
@@ -19,8 +21,12 @@
             z-index: -1;
             background-position: center;
             background-size: cover;
+           
         }
-       
+       .message{
+       height: 100%;
+       overflow: scroll;
+       }
         position: relative;
         margin: 0;
         padding: 0;

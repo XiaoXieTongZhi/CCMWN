@@ -284,6 +284,7 @@ export default {
           .loginUser({ ...formData, new: 1 })
           .then((res) => {
             if (res.data.code == 205) {
+             
               this.$emit("update-topbar-value", res.data.username);
               this.isuseremail = "";
               this.ispass = "";
@@ -307,6 +308,7 @@ export default {
               this.username = "";
               this.password = "";
               this.email = "";
+             
             } else if (res.data.code == 315) {
               this.ispass = "";
               this.ispass = res.data.message;
@@ -314,6 +316,7 @@ export default {
               this.isuseremail = "";
               this.isuseremail = res.data.message;
             }
+            this.$router.go(0)
           })
           .catch((err) =>
             showToast({

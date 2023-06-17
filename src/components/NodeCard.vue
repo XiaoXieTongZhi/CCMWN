@@ -126,7 +126,7 @@ export default {
   directives: {
     "red-on-hover-click": {
       mounted(el, binding,) {
-       
+   
         el.style.transition = "color 0.8s";
 
         const store = binding.instance.$store;
@@ -137,11 +137,15 @@ export default {
           var clicked = true;
           el.style.color = "red";
         } else {
+          
           el.style.color = "";
           clicked = false;
         }
 
         el.addEventListener("click", function () {
+          if (localStorage.getItem('name')&&localStorage.getItem('token')) {
+            
+         
           if (!clicked) {
 
             this.style.color = "red";
@@ -157,7 +161,7 @@ export default {
             clicked = false;
             store.commit('changeLike', false)
           }
-
+        }
           axios.changefeedbacks({
             userid: store.state.userid,
             postid: thiss.$refs.postid.textContent,
@@ -286,10 +290,12 @@ export default {
   },
 watch:{
   postidp:{
+
     immediate: true,
     handler(){
       this.postid = this.postidp
-    }
+    //   console.log(Object.values(this.postid));
+     }
     
   }
 }

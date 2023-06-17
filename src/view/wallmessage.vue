@@ -137,6 +137,7 @@ export default {
     },
   },
   mounted() {
+
     //判断用户对哪些点了喜欢
     axios
       .userlike({
@@ -148,6 +149,7 @@ export default {
       })
       .then((res) => {
         this.redpostid = res.data.postid;
+   
       })
       .catch((err) => {});
     //判断用户对哪些点了举报
@@ -190,6 +192,7 @@ export default {
 
     window.addEventListener("scroll", this.scrollBottom);
   },
+ 
   unmounted() {
     window.addEventListener("scroll", this.scrollBottom);
   },

@@ -23,7 +23,7 @@
     <div class="user-name">
       <div>用户名称设置</div>
     <div class="name-tool">
-      <input class="name-input" type="text" v-model="newName" placeholder="输入新名称">
+      <input class="name-input" type="text" v-model="newName" placeholder="新名称不能超过五位" maxlength="5" title="字母和中文不能超过五位">
     <button class="btn" @click="updateName">确定</button>
     </div>
     </div>
@@ -129,6 +129,9 @@ const fileListtwo = ref(data.fileListtwo);
 const newName = ref(data.newName)
 let store = useStore();
 const updateName=()=>{
+  if (/^[\u4e00-\u9fa5a-zA-Z]{1,5}$/.test(newName.value)) {
+    
+ 
 
   //发起请求后台数据库内容
   axios.updatename({
@@ -149,6 +152,16 @@ const updateName=()=>{
     });
    
   }).catch(err => {console.log(err);})
+} else {
+  showToast({
+      message: "新名称不符合要求",
+
+      style: {
+        backgroundColor: "transparent",
+        fontWeight: "600",
+      },
+    });
+}
 }
 const beforeRead = (file) => {
   //符合这两种情况 都取消上传 return false

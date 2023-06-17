@@ -169,21 +169,34 @@ export default {
       mounted(el, binding) {
         const store = binding.instance.$store;
         const thiss = binding.instance;
-
         thiss.vreport = Object.values(thiss.reportpostid);
+        if (thiss.vreport.includes(Number(store.state.postid))) {
+          el.style.color = "red";
+          el.textContent = "已举报";
+        } else {
+          el.style.color = "";
+          el.textContent = "举报";
+        }
         el.addEventListener("click", () => {
+          if (localStorage.getItem('name')&&localStorage.getItem('token')) {
+            
           if (el.textContent === "举报") {
             el.style.color = "red";
             el.textContent = "已举报";
             store.commit("changereport", true);
             thiss.vreport.push(Number(store.state.postid));
+            thiss.reportpostid.push(Number(store.state.postid));
+           
           } else {
             el.style.color = "";
             el.textContent = "举报";
             store.commit("changereport", false);
             let index = thiss.vreport.indexOf(Number(store.state.postid));
             thiss.vreport.splice(index, 1);
+            let index2 = thiss.reportpostid.indexOf(Number(store.state.postid));
+            thiss.reportpostid.splice(index2, 1);
           }
+        }
           axios
             .changefeedbacksreport({
               userid: store.state.userid,
