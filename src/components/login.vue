@@ -308,7 +308,7 @@ export default {
               this.username = "";
               this.password = "";
               this.email = "";
-             
+              this.$router.go(0)
             } else if (res.data.code == 315) {
               this.ispass = "";
               this.ispass = res.data.message;
@@ -316,7 +316,7 @@ export default {
               this.isuseremail = "";
               this.isuseremail = res.data.message;
             }
-            this.$router.go(0)
+         
           })
           .catch((err) =>
             showToast({

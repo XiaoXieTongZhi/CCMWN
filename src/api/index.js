@@ -76,3 +76,7 @@ export const bgcpicture =(data)=>service.post("/bgcpicture",data)
 //修改姓名
 
 export const updatename =(data)=>service.post("/updatename",data)
+
+//修改个性签名
+
+export const updatebio =(data)=>service.post("/updatebio",data)

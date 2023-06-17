@@ -7,8 +7,8 @@ const store = createStore({
       reducer: (state) => {
         return {
           userid: state.userid,
-          personMessage:state.personMessage,
-          like:state.like
+          personMessage: state.personMessage,
+          like: state.like
         };
       },
     }),
@@ -51,11 +51,11 @@ const store = createStore({
         isguanzhu: false,
         posts: [],
         //顶部栏的个人头像
-        userhead:'默认.png',
+        userhead: '默认.png',
         //查看个人信息显示的头像
-        watchuserhead:'默认.png',
-        bgcpicture:'默认.png',
-        personsignature:'这个人好像没啥个性',
+        watchuserhead: '默认.png',
+        bgcpicture: '默认.png',
+        personsignature: '',
       },
     };
   },
@@ -124,17 +124,20 @@ const store = createStore({
       state.personMessage.posts = data;
     },
     changeuserhead(state, data) {
-      state.personMessage.userhead=data
+      state.personMessage.userhead = data
     },
     changewatchuserhead(state, data) {
-      state.personMessage.watchuserhead=data
+      state.personMessage.watchuserhead = data
     },
     changebgcpicture(state, data) {
-      state.personMessage.bgcpicture=data
+      state.personMessage.bgcpicture = data
     },
     changename(state, data) {
-      state.personMessage.name=data;
-    }
+      state.personMessage.name = data;
+    },
+    changepersonsignature(state, data) {
+      state.personMessage.personsignature = data;
+    },
   },
 });
 

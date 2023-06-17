@@ -19,8 +19,9 @@
             opacity: 0.2;
             position: absolute;
             z-index: -1;
-            background-position: center;
+            background-position:center;
             background-size: cover;
+            
            
         }
        .message{
