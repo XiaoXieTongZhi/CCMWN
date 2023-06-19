@@ -158,8 +158,6 @@ export default {
     username: {
       
     handler(newValue) {
-  
-      this.dusername = newValue;
       localStorage.setItem("name", newValue);
       this.$store.commit("updatename", newValue);
     }

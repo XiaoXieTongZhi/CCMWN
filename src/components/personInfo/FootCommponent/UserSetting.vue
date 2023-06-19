@@ -189,6 +189,9 @@ import * as axios from "@/api/index";
 import { useStore } from "vuex";
 import { ref, reactive, watch } from "vue";
 import { showToast } from "vant";
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 //图片信息状态存储
 const data = reactive({
   fileList: [],
@@ -210,7 +213,16 @@ const updatepersonmessage = () => {
       store.commit('changepersonsignature',newpersonmessage.value)
       newpersonmessage.value=''
       showToast({
-      message: "个性签名修改成功",
+      message: res.data.data + `本月还剩${res.data.count}次机会`,
+
+      style: {
+        backgroundColor: "transparent",
+        fontWeight: "600",
+      },
+    });
+     }else{
+      showToast({
+        message: res.data.data,
 
       style: {
         backgroundColor: "transparent",
@@ -233,15 +245,28 @@ const updateName = () => {
         console.log(res.data.code);
         if (res.data.code == 200) {
           store.commit("changename", res.data.data);
-        }
-        showToast({
-          message: "姓名修改成功",
+          showToast({
+          message: `姓名修改成功，本月还剩${res.data.count}次机会`,
+
+          style: {
+            backgroundColor: "transparent",
+            fontWeight: "600",
+          },
+        
+        });
+        router.go(0)
+        } else{
+          showToast({
+          message: res.data.data,
 
           style: {
             backgroundColor: "transparent",
             fontWeight: "600",
           },
         });
+       
+        }
+       
       })
       .catch((err) => {
         console.log(err);
@@ -291,6 +316,15 @@ let submituserhead = () => {
 
           fileList.value = [];
           showToast({
+            message: res.data.message+ '修改次数还剩' + res.data.count,
+
+            style: {
+              backgroundColor: "transparent",
+              fontWeight: "600",
+            },
+          });
+        }else{
+          showToast({
             message: res.data.message,
 
             style: {
@@ -326,7 +360,16 @@ let submitbgc = () => {
           store.commit("changebgcpicture", res.data.data);
           fileListtwo.value = [];
           showToast({
-            message: res.data.message,
+            message: res.data.message + '修改次数还剩' + res.data.count,
+
+            style: {
+              backgroundColor: "transparent",
+              fontWeight: "600",
+            },
+          });
+        }else{
+          showToast({
+            message: res.data.data,
 
             style: {
               backgroundColor: "transparent",

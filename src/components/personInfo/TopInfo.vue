@@ -34,7 +34,7 @@ export default {
     return {};
   },
   computed: {
-    address(){
+    address() {
       return this.$store.state.personMessage.watchuserhead;
     },
     name() {
@@ -142,6 +142,10 @@ export default {
       font-weight: 600;
       justify-content: space-around;
       align-items: center;
+      .follower,
+      .followed {
+        cursor: pointer;
+      }
     }
   }
   .right {

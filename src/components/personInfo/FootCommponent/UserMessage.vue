@@ -1,6 +1,6 @@
 <template>
     <div>
-        用户信息
+        信息通知模块正在研发中
     </div>
 </template>
 
