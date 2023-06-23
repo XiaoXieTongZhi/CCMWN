@@ -242,8 +242,9 @@ const updateName = () => {
         username: newName.value,
       })
       .then((res) => {
-        console.log(res.data.code);
+     
         if (res.data.code == 200) {
+          store.commit('changeusername', res.data.data)
           store.commit("changename", res.data.data);
           showToast({
           message: `姓名修改成功，本月还剩${res.data.count}次机会`,

@@ -7,23 +7,48 @@
       </p>
       <p class="label">{{ note.type }}</p>
     </div>
-    <div class="message"
-    ref="bgc"
-      :style="bgpicture ? { 'background-image': `url(http://localhost:3000/uploads/img/${note.image_name})` } : ''">
-      <van-text-ellipsis @click.native.stop :content="!bgpicture ? note.content : ''" expand-text="展开" collapse-text="收起"
-        rows="7" />
+    <div
+      class="message"
+      ref="bgc"
+      :style="
+        bgpicture
+          ? {
+              'background-image': `url(http://localhost:3000/uploads/img/${note.image_name})`,
+            }
+          : ''
+      "
+    >
+      <van-text-ellipsis
+        @click.native.stop
+        :content="!bgpicture ? note.content : ''"
+        expand-text="展开"
+        collapse-text="收起"
+        rows="7"
+      />
     </div>
     <div class="foot">
       <div class="foot-left">
-        <span ref="postid" style="font-size: 16px; font-weight: 200;" >{{ note.postid }}</span>
-        <span  v-red-on-hover-click class="iconfont icon-favorites">{{
+        <span ref="postid" style="font-size: 16px; font-weight: 200">{{
+          note.postid
+        }}</span>
+        <span v-red-on-hover-click class="iconfont icon-favorites">{{
           note.like_count
         }}</span>
-        <span v-show="hidden" v-red-on-hover class="iconfont icon-comments" @click="selectwall">{{
-          note.comment_count
-        }}</span>
+        <span
+          v-show="hidden"
+          v-red-on-hover
+          class="iconfont icon-comments"
+          @click="selectwall(note.username)"
+          >{{ note.comment_count }}</span
+        >
       </div>
-      <div class="name" @click="note.username !== '匿名' ? userheadclick(note.username) : null">{{ note.username }}</div>
+      <div
+      ref="username"
+        class="name"
+        @click="note.username !== '匿名' ? userheadclick(note.username) : null"
+      >
+        {{ note.username }}
+      </div>
     </div>
   </div>
 </template>
@@ -72,10 +97,10 @@
     line-height: 1.375rem;
     text-align: justify;
     padding: 0 0.75rem;
-    
+
     background-repeat: no-repeat;
     background-position: center;
-    background-size:contain;
+    background-size: contain;
     overflow: auto;
 
     font-size: 0.725rem;
@@ -118,65 +143,73 @@
 </style>
 
 <script>
-
 import * as axios from "@/api/index";
 import moment from "moment";
 import { showToast } from "vant";
 export default {
   directives: {
     "red-on-hover-click": {
-      mounted(el, binding,) {
-   
+      mounted(el, binding) {
         el.style.transition = "color 0.8s";
 
         const store = binding.instance.$store;
-        const thiss = binding.instance
+        const thiss = binding.instance;
 
-        if ((Object.values(thiss.postid)).includes(Number(thiss.$refs.postid.textContent))) {
-       
+        if (
+          Object.values(thiss.postid).includes(
+            Number(thiss.$refs.postid.textContent)
+          )
+        ) {
           var clicked = true;
           el.style.color = "red";
         } else {
-          
           el.style.color = "";
           clicked = false;
         }
 
         el.addEventListener("click", function () {
-          if (localStorage.getItem('name')&&localStorage.getItem('token')) {
-            
-         
-          if (!clicked) {
-
-            this.style.color = "red";
-            clicked = true;
-            store.commit('changeLike', true)
-            //删除临时状态数组的内容
-            thiss.postid.push(Number(thiss.$refs.postid.textContent));
-            
-          } else {
-            let index = thiss.postid.indexOf(Number(thiss.$refs.postid.textContent));
-            thiss.postid.splice(index, 1);
-           this.style.color = "";
-            clicked = false;
-            store.commit('changeLike', false)
-          }
-        }
-          axios.changefeedbacks({
-            userid: store.state.userid,
-            postid: thiss.$refs.postid.textContent,
-            like: store.state.like,
-          }).then(res => {
-            
-            if (res.data.like) {
-
-              thiss.note.like_count = thiss.note.like_count + 1
+          if (localStorage.getItem("name") && localStorage.getItem("token")) {
+            if (!clicked) {
+              this.style.color = "red";
+              clicked = true;
+              store.commit("changeLike", true);
+              //删除临时状态数组的内容
+              thiss.postid.push(Number(thiss.$refs.postid.textContent));
             } else {
-              thiss.note.like_count = thiss.note.like_count - 1
-
+              let index = thiss.postid.indexOf(
+                Number(thiss.$refs.postid.textContent)
+              );
+              thiss.postid.splice(index, 1);
+              this.style.color = "";
+              clicked = false;
+              store.commit("changeLike", false);
             }
-          }).catch(err => { })
+          }
 
+          axios
+        .selectFollow({
+          params: {
+            username: thiss.note.username,
+          },
+        })
+        .then((res) => {
+          axios
+            .changefeedbacks({
+              userid: store.state.userid,
+              postid: thiss.$refs.postid.textContent,
+              like: store.state.like,
+              useredid:res.data.userid
+            })
+            .then((res) => {
+              if (res.data.like) {
+                thiss.note.like_count = thiss.note.like_count + 1;
+              } else {
+                thiss.note.like_count = thiss.note.like_count - 1;
+              }
+            })
+            .catch((err) => {});
+        });
+         
         });
         el.addEventListener("mouseenter", function () {
           if (!clicked) {
@@ -204,7 +237,7 @@ export default {
   },
   data() {
     return {
-      postid:[],
+      postid: [],
       text: this.note.message,
       //判断背景图片是否显示
       bgpicture: false,
@@ -225,14 +258,13 @@ export default {
       type: Array,
       default: [],
     },
-   
   },
 
   methods: {
-    userheadclick(value){
-      if (localStorage.getItem('name')&&localStorage.getItem('token')) {
-        this.$store.commit('changeisperson',true)
-        this.$store.commit('changepersonname',value)
+    userheadclick(value) {
+      if (localStorage.getItem("name") && localStorage.getItem("token")) {
+        this.$store.commit("changeisperson", true);
+        this.$store.commit("changepersonname", value);
         axios
           .selectFollow({
             params: {
@@ -240,38 +272,46 @@ export default {
             },
           })
           .then((res) => {
-           this.$store.commit('changeselectuserid',res.data.userid)          
-          this.$store.commit('changepersonfensi',res.data.fensiId);
-          this.$store.commit('changepersonguanzhu',res.data.guanzhuId);
-            if (res.data.fensiId.map(res =>res.follower_id).includes(JSON.parse(localStorage.getItem('vuex')).userid)) {
-              this.$store.commit('changeisguanzhu',true)
-            }else{
-              this.$store.commit('changeisguanzhu',false)
+            this.$store.commit("changeselectuserid", res.data.userid);
+            this.$store.commit("changepersonfensi", res.data.fensiId);
+            this.$store.commit("changepersonguanzhu", res.data.guanzhuId);
+            if (
+              res.data.fensiId
+                .map((res) => res.follower_id)
+                .includes(JSON.parse(localStorage.getItem("vuex")).userid)
+            ) {
+              this.$store.commit("changeisguanzhu", true);
+            } else {
+              this.$store.commit("changeisguanzhu", false);
             }
-           
-            axios.selectuserall({params:{
-              userid:res.data.userid
-            }}).then(res =>{
-              this.$store.commit('changewatchuserhead',res.data.avatar)
-              this.$store.commit('changebgcpicture',res.data.background)
-            }).catch(err =>{
-              console.log(err);
-            })
+
+            axios
+              .selectuserall({
+                params: {
+                  userid: res.data.userid,
+                },
+              })
+              .then((res) => {
+                this.$store.commit("changewatchuserhead", res.data.avatar);
+                this.$store.commit("changebgcpicture", res.data.background);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           })
           .catch((err) => {
             console.log(err);
           });
-      }else{
+      } else {
         showToast({
-              message: '请先登录才能查看信息哦',
+          message: "请先登录才能查看信息哦",
 
-              style: {
-                backgroundColor: "transparent",
-                fontWeight: "600",
-              },
-            });
+          style: {
+            backgroundColor: "transparent",
+            fontWeight: "600",
+          },
+        });
       }
-      
     },
     filter(data) {
       return moment(data).format("YYYY-MM-DD");
@@ -281,24 +321,32 @@ export default {
       this.bgpicture = !this.bgpicture;
     },
 
-    selectwall() {
-      this.$emit('selectpostid', this.$refs.postid.textContent);
+    selectwall(value) {
+      //借用一下这个关系请求  来更新一下  打开详情更新一下选中的userid
+      axios
+        .selectFollow({
+          params: {
+            username: value,
+          },
+        })
+        .then((res) => {
+          this.$store.commit("changeselectuserid", res.data.userid);
+        });
+
+      this.$emit("selectpostid", this.$refs.postid.textContent);
       //选择的postid
-      this.$store.commit('updatepostid',this.$refs.postid.textContent)
-      this.$emit('selected')
-    }
+      this.$store.commit("updatepostid", this.$refs.postid.textContent);
+      this.$emit("selected");
+    },
   },
-watch:{
-  postidp:{
-
-    immediate: true,
-    handler(){
-      this.postid = this.postidp
-    //   console.log(Object.values(this.postid));
-     }
-    
-  }
-}
-
+  watch: {
+    postidp: {
+      immediate: true,
+      handler() {
+        this.postid = this.postidp;
+        //   console.log(Object.values(this.postid));
+      },
+    },
+  },
 };
 </script>

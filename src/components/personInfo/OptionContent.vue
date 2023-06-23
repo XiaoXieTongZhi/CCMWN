@@ -108,6 +108,7 @@ watch:{
   methods: {
     changeoption(value){
       this.$emit('changeoption',value)
+      this.$store.commit('changefeedbackisshow',false)
     },
     selectIcon(icon) {
       this.selectedIcon = icon;

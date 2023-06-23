@@ -236,7 +236,8 @@ export default {
           .insertUser({ ...formData, new: 1 })
           .then((res) => {
             if (res.data.code == 305) {
-              this.isusername = res.data.messages;
+            
+              this.isusername = res.data.message;
             } else if (res.data.code == 306) {
               this.isusername = "";
               this.isuseremail = res.data.message;
@@ -289,6 +290,7 @@ export default {
               this.isuseremail = "";
               this.ispass = "";
               this.$store.commit("changeModal");
+              this.$store.commit("changeusername", res.data.username);
               this.$store.commit("updateuserid", res.data.userid);
                this.$store.commit("updatename", res.data.username);
                

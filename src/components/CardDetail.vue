@@ -37,14 +37,20 @@
     </p>
     <div class="commont">
       <div class="commont-li" v-for="(data, index) in commont" :key="index">
-        <div class="user-head" :style="{ backgroundImage: portrait[1] }"></div>
+        <div class="user-head" :style="{'background-image': `url(http://localhost:3000/uploads/userimg/${data.username=='匿名'?'默认.png':data.avatar})` }"></div>
         <div class="comm-m">
           <div class="m-top">
-            <p class="name">{{ data.username }}</p>
+            <p class="name">{{ data.username == $refs.nodecard.$refs.username.innerText ?data.username+'&emsp;'+'作者':data.username }}</p>
             <p class="time">{{ filter(Date.parse(data.comment_date)) }}</p>
           </div>
           <div class="content">
-            {{ data.content }}
+            <van-text-ellipsis
+        @click.native.stop
+        :content="data.content"
+        expand-text="展开"
+        collapse-text="收起"
+        rows="5"
+      />
           </div>
         </div>
       </div>
@@ -125,7 +131,9 @@
       border-radius: 50%;
       overflow: hidden;
       width: 1.75rem;
-      height: 1.75rem;
+      height: 2.3rem;
+      background-position: center;
+      background-size: cover;
     }
 
     .comm-m {
@@ -160,7 +168,7 @@ import * as axios from "@/api/index";
 import NodeCard from "./NodeCard.vue";
 import PrButton from "./PrButton.vue";
 // import {commont} from '../../mock/index';
-import { portrait } from "@/utils/data";
+// import { portrait } from "@/utils/data";
 import NodeCardmethods from "@/components/NodeCard.vue";
 import { showToast } from "vant";
 export default {
@@ -232,12 +240,12 @@ export default {
       content: "",
       vreport: [],
       commont: "",
-      portrait,
+      
     };
   },
   computed: {
     computedname() {
-      return this.$store.state.name;
+      return this.$store.state.username;
     },
   },
   props: {
@@ -295,13 +303,16 @@ export default {
       return NodeCardmethods.methods.filter(data);
     },
     addcommit() {
+      
       if (!this.content.length == 0) {
-        axios
+        if (this.content.length<300) {
+          axios
           .addCommit({
             postid: this.$store.state.postid,
             userid: this.$store.state.userid,
             commitcontent: this.content,
             username: this.$refs.name.value,
+            useredid:this.$store.state.selectuserid
           })
           .then((res) => {
             this.commont.unshift(res.data.data);
@@ -309,6 +320,17 @@ export default {
             this.card.comment_count = this.card.comment_count + 1;
           })
           .catch((err) => {});
+        }else{
+          showToast({
+          message: "最多评论300个字",
+
+          style: {
+            backgroundColor: "transparent",
+            fontWeight: "600",
+          },
+        });
+        }
+      
       } else {
         showToast({
           message: "不能为空",
@@ -332,6 +354,7 @@ export default {
             },
           })
           .then((res) => {
+            
             this.commont = res.data.message.reverse();
           })
           .catch((res) => {});

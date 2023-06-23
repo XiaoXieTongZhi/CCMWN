@@ -80,3 +80,11 @@ export const updatename =(data)=>service.post("/updatename",data)
 //修改个性签名
 
 export const updatebio =(data)=>service.post("/updatebio",data)
+
+//获取评论消息
+
+ export const commentmessage = (data)=>service.get("/commentmessage",data) 
+
+ //删除评论消息
+
+ export const deletemessage = (data)=>service.post("/deleteemessage",data)

@@ -158,6 +158,7 @@ export default {
     username: {
       
     handler(newValue) {
+  
       localStorage.setItem("name", newValue);
       this.$store.commit("updatename", newValue);
     }
@@ -173,8 +174,8 @@ export default {
     },
   },
   mounted() {
-    if (localStorage.getItem("name")) {
-      this.dusername = localStorage.getItem("name");
+    if (this.$store.state.username!==' ') {
+     this.dusername= this.$store.state.username;
     }
 
     //判断是否有本地local来决定按钮显示内容
@@ -194,15 +195,15 @@ export default {
       ) {
         this.$store.commit("changeselectuserid", this.$store.state.userid);
         this.$store.commit("changeisperson", true);
-        this.$store.commit("changepersonname", localStorage.getItem("name"));
+        this.$store.commit("changepersonname", this.$store.state.username);
         axios
           .selectFollow({
             params: {
-              username: localStorage.getItem("name"),
+              username: this.$store.state.username,
             },
           })
           .then((res) => {
-       
+           
             this.$store.commit("changepersonfensi", res.data.fensiId);
             this.$store.commit("changepersonguanzhu", res.data.guanzhuId);
             if (

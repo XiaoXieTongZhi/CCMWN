@@ -5,11 +5,15 @@ const store = createStore({
     createPersistedState({
       //默认存储所有的state
       reducer: (state) => {
-        return {
-          userid: state.userid,
-          personMessage: state.personMessage,
-          like: state.like
-        };
+        if (localStorage.getItem("token")) {
+          return {
+            userid: state.userid,
+            personMessage: state.personMessage,
+            like: state.like,
+            username: state.username,
+          };
+        }
+    
       },
     }),
   ],
@@ -28,7 +32,8 @@ const store = createStore({
       name: localStorage.getItem("name"),
       //登录用户的id
       userid: 0,
-
+      //登陆用户的姓名
+      username:' ',
       //喜爱反馈
       like: false,
       //举报反馈
@@ -56,10 +61,26 @@ const store = createStore({
         watchuserhead: '默认.png',
         bgcpicture: '默认.png',
         personsignature: '',
+        usercount:0,
+        likecount:0,
+        fanscount:0
       },
+      feedbackisshow: false
     };
   },
   mutations: {
+    changelikecount(state,data){
+      state.personMessage.likecount=data
+    },
+    changefanscount(state,data){
+      state.personMessage.fanscount=data
+    },
+    changeusercount(state,data){
+      state.personMessage.usercount=data
+    },
+    changeusername(state,data){
+      state.username=data
+    },
     //滚动条设置
     changeColor(state, data) {
       //设置滚动条
@@ -138,6 +159,9 @@ const store = createStore({
     changepersonsignature(state, data) {
       state.personMessage.personsignature = data;
     },
+    changefeedbackisshow(state, data){
+      state.feedbackisshow=data
+    }
   },
 });
 

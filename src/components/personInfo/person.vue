@@ -2,10 +2,10 @@
     <div class="body" >
         <div class="bgc" :style="{ 'background-image': `url(http://localhost:3000/uploads/bgcimg/${$store.state.personMessage.bgcpicture})` }"></div>
       <div class="message">
-        <top-info></top-info>
+        <top-info @followsclick="followsclick"></top-info>
     <option-content @changeoption="changeoption"></option-content>
-    <foot-content :type="optionvalue"></foot-content>
-    
+    <foot-content v-if="!$store.state.feedbackisshow"  :type="optionvalue"></foot-content>
+    <feed-backs v-else :followdata="followdata"></feed-backs>
       </div>
     
     </div>
@@ -41,18 +41,24 @@
 import FootContent from './FootContent.vue';
 import OptionContent from './OptionContent.vue';
 import TopInfo from './TopInfo.vue';
+import FeedBacks from './FeedBacks.vue';
 export default{
     data(){
         return {
-            optionvalue:1
+            optionvalue:1,
+            followdata:'',
         }
     },
     components:{
         FootContent,
         OptionContent,
-        TopInfo
+        TopInfo,
+        FeedBacks
     },
     methods:{
+        followsclick(data){
+           this.followdata=data
+        },
         changeoption(value){
             this.optionvalue=value;
         }

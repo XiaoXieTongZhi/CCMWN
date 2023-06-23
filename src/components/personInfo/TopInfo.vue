@@ -11,8 +11,8 @@
         <div class="name">{{ name }}</div>
       </div>
       <div class="follow">
-        <div class="follower">粉丝数:{{ fensi }}</div>
-        <div class="followed">关注数:{{ guanzhu }}</div>
+        <div class="follower" @click="clickefollows('follower')">粉丝数:{{ fensi }}</div>
+        <div class="followed" @click="clickefollows('followed')">关注数:{{ guanzhu }}</div>
       </div>
     </div>
     <div class="right">
@@ -51,6 +51,12 @@ export default {
     },
   },
   methods: {
+    clickefollows(value){
+      this.$store.commit('changefeedbackisshow',true)
+
+        this.$emit('followsclick',value)
+    
+    },
     changeisguanzhu(value) {
       if (value == "关注") {
         if (this.$store.state.selectuserid == this.$store.state.userid) {
@@ -63,10 +69,12 @@ export default {
             },
           });
         } else {
+        
           axios
             .guanzhuT({
               followerid: this.$store.state.userid,
               followedid: this.$store.state.selectuserid,
+              
             })
             .then((res) => {
               if (res.data.code == 200) {
@@ -79,6 +87,7 @@ export default {
                   },
                 });
                 this.$store.commit("changeisguanzhu", true);
+              
                 this.$store.commit("addpersonfensi", this.$store.state.userid);
               }
             })

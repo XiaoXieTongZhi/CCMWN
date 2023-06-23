@@ -1,17 +1,69 @@
 <template>
-    <div>
-        信息通知模块正在研发中
+    <div class='body'>
+        <ul >
+            <li><span @click="data='1'" :style="data === '1' ? { color: 'red' } : {}">评论消息{{ $store.state.personMessage.usercount!==0 ?$store.state.personMessage.usercount:'' }}</span></li>
+            <li><span @click="data='2'" :style="data === '2' ? { color: 'red' } : {}">卡片反馈</span></li>
+            <li><span @click="data='3'" :style="data === '3' ? { color: 'red' } : {}">关注消息</span></li>
+        </ul>
+        <user-message v-show="data == 1" ref="likeMessage"> </user-message>
+        <like-message v-show="data == 2"></like-message>
+       
+        
+        <fans-follow v-show="data == 3"></fans-follow>
     </div>
 </template>
 
 
-<script>
+<script >
+import FansFollow from "./UserMessage/FansFollow.vue";
+import LikeMessage from "./UserMessage/LikeMessage.vue";
+import UserMessage from "./UserMessage/UserMessage.vue";
+
+export default {
+    data(){
+    return{
+        data:'1',
+        
+    }
+ },
+    components:{
+        FansFollow,
+        LikeMessage,
+        UserMessage
+    },
+   
+  
+    methods:{
+
+    }
+
+}
+
+
 
 
 </script>
 
 
 <style lang="scss" scoped>
-
+.body{
+    overflow: hidden;
+ 
+    ul{
+        padding: 10px 0px;
+        display: flex;
+        justify-content: space-around;
+        border-bottom: 1px solid black;
+        li{
+            
+            background-color: rgb(218, 219, 116);
+            padding: 5px;
+            cursor: pointer;
+            :hover{
+                color: red;
+            }
+        }
+    }
+}
 
 </style>
