@@ -37,21 +37,54 @@
     </p>
     <div class="commont">
       <div class="commont-li" v-for="(data, index) in commont" :key="index">
-        <div class="user-head" :style="{'background-image': `url(http://localhost:3000/uploads/userimg/${data.username=='匿名'?'默认.png':data.avatar})` }"></div>
+        <div
+          class="user-head"
+          :style="{
+            'background-image': `url(http://localhost:3000/uploads/userimg/${
+              data.username == '匿名' ? '默认.png' : data.avatar
+            })`,
+          }"
+        ></div>
         <div class="comm-m">
           <div class="m-top">
-            <p class="name">{{ data.username == $refs.nodecard.$refs.username.innerText ?data.username+'&emsp;'+'帖主':data.username }}</p>
+            <p class="name" @click="userheadclick(data.username)">
+              
+              {{
+                data.username == $refs.nodecard.$refs.username.innerText
+                  ? data.username + "&emsp;" + "帖主"
+                  : data.username
+              }}
+            </p>
             <p class="time">{{ filter(Date.parse(data.comment_date)) }}</p>
-            <p class="delete"  v-show="($refs.nodecard.$refs.username.textContent === $store.state.username ?  true : false)|| ($store.state.userlevel !== 'Level3' ? true :false)"  @click="deletecomment([data.commentid,data.userid,$store.state.userid])">删除 {{}}</p>
+            <p
+              class="delete"
+              v-show="
+                ($refs.nodecard.$refs.username.textContent ===
+                $store.state.username
+                  ? true
+                  : false) ||
+                ($store.state.userlevel !== 'Level3' ? true : false)||
+                ($store.state.userid==data.userid ?true:false)
+              " 
+              @click="
+                deletecomment([
+                  data.commentid,
+                  data.userid,
+                  $store.state.userid,
+                ])
+              "
+            >
+              删除 {{}}
+            </p>
           </div>
           <div class="content">
             <van-text-ellipsis
-        @click.native.stop
-        :content="data.content"
-        expand-text="展开"
-        collapse-text="收起"
-        rows="5"
-      />
+              @click.native.stop
+              :content="data.content"
+              expand-text="展开"
+              collapse-text="收起"
+              rows="5"
+            />
           </div>
         </div>
       </div>
@@ -111,6 +144,7 @@
         border: 1px solid rgba(148, 148, 148, 1);
         line-height: 1.25rem;
         background: none;
+       
       }
     }
   }
@@ -146,8 +180,9 @@
       justify-content: space-between;
       .name {
         font-weight: 600;
+        cursor: pointer;
       }
-      .delete{
+      .delete {
         color: red;
         cursor: pointer;
       }
@@ -190,25 +225,25 @@ export default {
           el.textContent = "举报";
         }
         el.addEventListener("click", () => {
-          if (localStorage.getItem('name')&&localStorage.getItem('token')) {
-            
-          if (el.textContent === "举报") {
-            el.style.color = "red";
-            el.textContent = "已举报";
-            store.commit("changereport", true);
-            thiss.vreport.push(Number(store.state.postid));
-            thiss.reportpostid.push(Number(store.state.postid));
-           
-          } else {
-            el.style.color = "";
-            el.textContent = "举报";
-            store.commit("changereport", false);
-            let index = thiss.vreport.indexOf(Number(store.state.postid));
-            thiss.vreport.splice(index, 1);
-            let index2 = thiss.reportpostid.indexOf(Number(store.state.postid));
-            thiss.reportpostid.splice(index2, 1);
+          if (localStorage.getItem("name") && localStorage.getItem("token")) {
+            if (el.textContent === "举报") {
+              el.style.color = "red";
+              el.textContent = "已举报";
+              store.commit("changereport", true);
+              thiss.vreport.push(Number(store.state.postid));
+              thiss.reportpostid.push(Number(store.state.postid));
+            } else {
+              el.style.color = "";
+              el.textContent = "举报";
+              store.commit("changereport", false);
+              let index = thiss.vreport.indexOf(Number(store.state.postid));
+              thiss.vreport.splice(index, 1);
+              let index2 = thiss.reportpostid.indexOf(
+                Number(store.state.postid)
+              );
+              thiss.reportpostid.splice(index2, 1);
+            }
           }
-        }
           axios
             .changefeedbacksreport({
               userid: store.state.userid,
@@ -244,7 +279,6 @@ export default {
       content: "",
       vreport: [],
       commont: "",
-      
     };
   },
   computed: {
@@ -270,40 +304,101 @@ export default {
     NodeCard,
     PrButton,
   },
-  mounted(){
-  },
+  mounted() {},
   methods: {
-    deletecomment(value){
-     axios.deletecomment({
-      params:{
-        commentid:value[0],
-    
-         commentuserid:value[1],
-         //登录账号的用户id
-         userid:value[2]
-      }
-      
-     }).then(res =>{
-      if (res.data.code==200) {
-        const index = this.commont.findIndex(item => item.commentid == value[0]);
-        
-        if (index !== -1) {
-          this.commont.splice(index, 1);
-          this.card.comment_count=this.card.comment_count -1
-        }
-      }else{
-        showToast({
-            message: res.data.message,
-
-            style: {
-              backgroundColor: "transparent",
-              fontWeight: "600",
+    userheadclick(value) {
+      if (localStorage.getItem("name") && localStorage.getItem("token")) {
+        this.$store.commit("changeisperson", true);
+        this.$store.commit("changepersonname", value);
+        axios
+          .selectFollow({
+            params: {
+              username: value,
             },
-          });
-      }
-     }).catch(err =>{})
+          })
+          .then((res) => {
+            this.$store.commit("changeselectuserid", res.data.userid);
+            this.$store.commit("changepersonfensi", res.data.fensiId);
+            this.$store.commit("changepersonguanzhu", res.data.guanzhuId);
+            if (
+              res.data.fensiId
+                .map((res) => res.follower_id)
+                .includes(JSON.parse(localStorage.getItem("vuex")).userid)
+            ) {
+              this.$store.commit("changeisguanzhu", true);
+            } else {
+              this.$store.commit("changeisguanzhu", false);
+            }
 
-      
+            axios
+              .selectuserall({
+                params: {
+                  userid: res.data.userid,
+                },
+              })
+              .then((res) => {
+                this.$store.commit("changewatchuserhead", res.data.avatar);
+                this.$store.commit("changebgcpicture", res.data.background);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        showToast({
+          message: "请先登录才能查看信息哦",
+
+          style: {
+            backgroundColor: "transparent",
+            fontWeight: "600",
+          },
+        });
+      }
+    },
+    deletecomment(value) {
+      axios
+        .deletecomment({
+          params: {
+            commentid: value[0],
+
+            commentuserid: value[1],
+            //登录账号的用户id
+            userid: value[2],
+          },
+        })
+        .then((res) => {
+          if (res.data.code == 200) {
+            const index = this.commont.findIndex(
+              (item) => item.commentid == value[0]
+            );
+
+            if (index !== -1) {
+              this.commont.splice(index, 1);
+              this.card.comment_count = this.card.comment_count - 1;
+              showToast({
+              message: '删除成功',
+
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+            }
+          } else {
+            showToast({
+              message: res.data.message,
+
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+          }
+        })
+        .catch((err) => {});
     },
     deleteCard(postid) {
       axios
@@ -312,28 +407,27 @@ export default {
           userid: this.$store.state.userid,
         })
         .then((result) => {
-         if (result.data.code ==300) {
-          showToast({
-            message: result.data.message,
+          if (result.data.code == 300) {
+            showToast({
+              message: result.data.message,
 
-            style: {
-              backgroundColor: "transparent",
-              fontWeight: "600",
-            },
-          });
-         } else{
-          this.$emit("closecarddetail");
-          showToast({
-            message: result.data.message,
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+          } else {
+            this.$emit("closecarddetail");
+            showToast({
+              message: result.data.message,
 
-            style: {
-              backgroundColor: "transparent",
-              fontWeight: "600",
-            },
-          });
-          this.$emit("deleteCard", postid);
-         }
-          
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+              },
+            });
+            this.$emit("deleteCard", postid);
+          }
         })
         .catch((err) => {});
     },
@@ -341,34 +435,50 @@ export default {
       return NodeCardmethods.methods.filter(data);
     },
     addcommit() {
-      
       if (!this.content.length == 0) {
-        if (this.content.length<300) {
+        if (this.content.length < 300) {
           axios
-          .addCommit({
-            postid: this.$store.state.postid,
-            userid: this.$store.state.userid,
-            commitcontent: this.content,
-            username: this.$refs.name.value,
-            useredid:this.$store.state.selectuserid
-          })
-          .then((res) => {
-            this.commont.unshift(res.data.data);
-            this.content = "";
-            this.card.comment_count = this.card.comment_count + 1;
-          })
-          .catch((err) => {});
-        }else{
-          showToast({
-          message: "最多评论300个字",
+            .addCommit({
+              postid: this.$store.state.postid,
+              userid: this.$store.state.userid,
+              commitcontent: this.content,
+              username: this.$refs.name.value,
+              useredid: this.$store.state.selectuserid,
+            })
+            .then((res) => {
+              if (res.data.code == 200) {
+                showToast({
+                  message:'评论发布成功',
+                  style: {
+                    backgroundColor: "transparent",
+                    fontWeight: "600",
+                  },
+                });
+                this.commont.unshift(res.data.data);
+                this.content = "";
+                this.card.comment_count = this.card.comment_count + 1;
+              } else {
+                showToast({
+                  message: res.data.data,
 
-          style: {
-            backgroundColor: "transparent",
-            fontWeight: "600",
-          },
-        });
+                  style: {
+                    backgroundColor: "transparent",
+                    fontWeight: "600",
+                  },
+                });
+              }
+            })
+            .catch((err) => {});
+        } else {
+          showToast({
+            message: "最多评论300个字",
+
+            style: {
+              backgroundColor: "transparent",
+              fontWeight: "600",
+            },
+          });
         }
-      
       } else {
         showToast({
           message: "不能为空",
@@ -392,7 +502,6 @@ export default {
             },
           })
           .then((res) => {
-            
             this.commont = res.data.message.reverse();
           })
           .catch((res) => {});
