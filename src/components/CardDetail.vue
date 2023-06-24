@@ -47,10 +47,10 @@
         ></div>
         <div class="comm-m">
           <div class="m-top">
-            <p class="name" @click="userheadclick(data.username)">
+            <p class="name"   @click="data.username !== '匿名' ? userheadclick(data.username) : null">
               
               {{
-                data.username == $refs.nodecard.$refs.username.innerText
+                data.username == $refs.nodecard.$refs.username.innerText &&$refs.nodecard.$refs.username.innerText!== '匿名'
                   ? data.username + "&emsp;" + "帖主"
                   : data.username
               }}
@@ -435,6 +435,7 @@ export default {
       return NodeCardmethods.methods.filter(data);
     },
     addcommit() {
+      console.log(this.$store.state.selectuserid);
       if (!this.content.length == 0) {
         if (this.content.length < 300) {
           axios

@@ -31,7 +31,7 @@
         <span ref="postid" style="font-size: 16px; font-weight: 200">{{
           note.postid
         }}</span>
-        <span v-red-on-hover-click class="iconfont icon-favorites">{{
+        <span  v-show="hidden" v-red-on-hover-click class="iconfont icon-favorites">{{
           note.like_count
         }}</span>
         <span
@@ -45,7 +45,7 @@
       <div
       ref="username"
         class="name"
-        @click="note.username !== '匿名' ? userheadclick(note.username) : null"
+        @click="note.username !== '匿名' ? userheadclick(note.postid) : null"
       >
         {{ note.username }}
       </div>
@@ -268,7 +268,7 @@ export default {
         axios
           .selectFollow({
             params: {
-              username: value,
+              postid: value,
             },
           })
           .then((res) => {
