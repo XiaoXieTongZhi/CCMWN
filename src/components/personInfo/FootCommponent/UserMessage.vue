@@ -2,14 +2,17 @@
     <div class='body'>
         <ul >
             <li><span @click="data='1'" :style="data === '1' ? { color: 'red' } : {}">评论消息{{ $store.state.personMessage.usercount!==0 ?$store.state.personMessage.usercount:'' }}</span></li>
-            <li><span @click="data='2'" :style="data === '2' ? { color: 'red' } : {}">卡片反馈</span></li>
-            <li><span @click="data='3'" :style="data === '3' ? { color: 'red' } : {}">关注消息</span></li>
+            <li><span @click="data='2'" :style="data === '2' ? { color: 'red' } : {}">系统消息</span></li>
+           
+            <li><span @click="data='3'" :style="data === '3' ? { color: 'red' } : {}">卡片反馈</span></li>
+            <li><span @click="data='4'" :style="data === '4' ? { color: 'red' } : {}">关注消息</span></li>
         </ul>
         <user-message v-show="data == 1" ref="likeMessage"> </user-message>
-        <like-message v-show="data == 2"></like-message>
+        <system-message v-show="data == 2"></system-message>
+        <like-message v-show="data == 3"></like-message>
        
         
-        <fans-follow v-show="data == 3"></fans-follow>
+        <fans-follow v-show="data == 4"></fans-follow>
     </div>
 </template>
 
@@ -18,7 +21,7 @@
 import FansFollow from "./UserMessage/FansFollow.vue";
 import LikeMessage from "./UserMessage/LikeMessage.vue";
 import UserMessage from "./UserMessage/UserMessage.vue";
-
+import SystemMessage from "./UserMessage/SystemMessage.vue";
 export default {
     data(){
     return{
@@ -29,7 +32,8 @@ export default {
     components:{
         FansFollow,
         LikeMessage,
-        UserMessage
+        UserMessage,
+        SystemMessage
     },
    
   

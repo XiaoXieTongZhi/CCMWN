@@ -11,6 +11,7 @@ const store = createStore({
             personMessage: state.personMessage,
             like: state.like,
             username: state.username,
+            userlevel:state.userlevel
           };
         }
     
@@ -34,6 +35,8 @@ const store = createStore({
       userid: 0,
       //登陆用户的姓名
       username:' ',
+      //登陆用户的权限
+      userlevel:' ',
       //喜爱反馈
       like: false,
       //举报反馈
@@ -69,6 +72,9 @@ const store = createStore({
     };
   },
   mutations: {
+    changeuserlevel(state,data){
+state.userlevel=data
+    },
     changelikecount(state,data){
       state.personMessage.likecount=data
     },

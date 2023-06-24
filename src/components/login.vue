@@ -285,7 +285,7 @@ export default {
           .loginUser({ ...formData, new: 1 })
           .then((res) => {
             if (res.data.code == 205) {
-             
+               
               this.$emit("update-topbar-value", res.data.username);
               this.isuseremail = "";
               this.ispass = "";
@@ -293,7 +293,7 @@ export default {
               this.$store.commit("changeusername", res.data.username);
               this.$store.commit("updateuserid", res.data.userid);
                this.$store.commit("updatename", res.data.username);
-               
+               this.$store.commit('changeuserlevel',res.data.permission)
              if (res.data.avatar) {
                 this.$store.commit('changeuserhead', res.data.avatar)
           

@@ -85,6 +85,11 @@ export const updatebio =(data)=>service.post("/updatebio",data)
 
  export const commentmessage = (data)=>service.get("/commentmessage",data) 
 
- //删除评论消息
+ //删除评论个人消息提醒
 
  export const deletemessage = (data)=>service.post("/deleteemessage",data)
+
+ //删除帖子的评论
+
+ export const deletecomment = (data)=>service.delete("/deletecomment",data)
+

@@ -40,8 +40,9 @@
         <div class="user-head" :style="{'background-image': `url(http://localhost:3000/uploads/userimg/${data.username=='匿名'?'默认.png':data.avatar})` }"></div>
         <div class="comm-m">
           <div class="m-top">
-            <p class="name">{{ data.username == $refs.nodecard.$refs.username.innerText ?data.username+'&emsp;'+'作者':data.username }}</p>
+            <p class="name">{{ data.username == $refs.nodecard.$refs.username.innerText ?data.username+'&emsp;'+'帖主':data.username }}</p>
             <p class="time">{{ filter(Date.parse(data.comment_date)) }}</p>
+            <p class="delete"  v-show="($refs.nodecard.$refs.username.textContent === $store.state.username ?  true : false)|| ($store.state.userlevel !== 'Level3' ? true :false)"  @click="deletecomment([data.commentid,data.userid,$store.state.userid])">删除 {{}}</p>
           </div>
           <div class="content">
             <van-text-ellipsis
@@ -142,11 +143,14 @@
 
     .m-top {
       display: flex;
-
+      justify-content: space-between;
       .name {
         font-weight: 600;
       }
-
+      .delete{
+        color: red;
+        cursor: pointer;
+      }
       .time {
         font-size: $size-12;
         padding-left: $padding-4;
@@ -266,7 +270,41 @@ export default {
     NodeCard,
     PrButton,
   },
+  mounted(){
+  },
   methods: {
+    deletecomment(value){
+     axios.deletecomment({
+      params:{
+        commentid:value[0],
+    
+         commentuserid:value[1],
+         //登录账号的用户id
+         userid:value[2]
+      }
+      
+     }).then(res =>{
+      if (res.data.code==200) {
+        const index = this.commont.findIndex(item => item.commentid == value[0]);
+        
+        if (index !== -1) {
+          this.commont.splice(index, 1);
+          this.card.comment_count=this.card.comment_count -1
+        }
+      }else{
+        showToast({
+            message: res.data.message,
+
+            style: {
+              backgroundColor: "transparent",
+              fontWeight: "600",
+            },
+          });
+      }
+     }).catch(err =>{})
+
+      
+    },
     deleteCard(postid) {
       axios
         .deleteCard({
