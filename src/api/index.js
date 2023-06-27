@@ -93,3 +93,10 @@ export const updatebio =(data)=>service.post("/updatebio",data)
 
  export const deletecomment = (data)=>service.delete("/deletecomment",data)
 
+// 卡片点赞反馈
+
+export const likemessage = (data)=>service.post("/likemessage",data)
+
+//删除 点赞反馈消息
+
+export const deletelikemessage = (data)=>service.post("/deletelikemessage",data)

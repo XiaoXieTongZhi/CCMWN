@@ -3,7 +3,7 @@ export const wallType = {
   slogan: "很多事情值得记录，当然也值得回味",
 };
 
-export const label = ["寻物", "告白", "交友", "学习", "日常",'二手交易'];
+export const label = ["寻物", "告白", "交友", "学习", "日常",'二手交易','大公告','公告','官方活动','推广活动'];
 
 export const cardcolor = [
   "rgba(252,175,162,0.9)",

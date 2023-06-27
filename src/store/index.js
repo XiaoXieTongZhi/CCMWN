@@ -8,10 +8,11 @@ const store = createStore({
         if (localStorage.getItem("token")) {
           return {
             userid: state.userid,
-            personMessage: state.personMessage,
+             ...state.personMessage,
             like: state.like,
             username: state.username,
-            userlevel:state.userlevel
+            userlevel:state.userlevel,
+            userschool: state.userschool
           };
         }
     
@@ -26,6 +27,7 @@ const store = createStore({
       maincolor: "linear-gradient(to bottom, red 0%, orange 50%, #eee8aa 100%)",
       //滚动条
       color: "rgba(221, 59, 19, 0.949)",
+      //当前所属留言墙
       school: "主留言墙",
       //模态框的状态
       isModal: false,
@@ -37,6 +39,8 @@ const store = createStore({
       username:' ',
       //登陆用户的权限
       userlevel:' ',
+      //用户自己的所属留言墙
+      userschool:'',
       //喜爱反馈
       like: false,
       //举报反馈
@@ -96,6 +100,9 @@ state.userlevel=data
     },
     changeSchool(state, data) {
       state.school = data;
+    },
+    changeuserschool(state, data) {
+      state.userschool = data;
     },
     //这里是修改模态框状态
     changeModal(state) {

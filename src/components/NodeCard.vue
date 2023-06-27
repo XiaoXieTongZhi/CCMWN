@@ -31,21 +31,21 @@
         <span ref="postid" style="font-size: 16px; font-weight: 200">{{
           note.postid
         }}</span>
-        <span  v-show="hidden" v-red-on-hover-click class="iconfont icon-favorites">{{
+        <span  v-show="hidden" v-red-on-hover-click=note.postid class="iconfont icon-favorites">{{
           note.like_count
         }}</span>
         <span
           v-show="hidden"
           v-red-on-hover
           class="iconfont icon-comments"
-          @click="selectwall(note.username)"
+          @click="selectwall(note.postid)"
           >{{ note.comment_count }}</span
         >
       </div>
       <div
       ref="username"
         class="name"
-        @click="note.username !== '匿名' ? userheadclick(note.postid) : null"
+        @click="note.username !== '匿名' ? userheadclick([note.postid,note.username]) : null"
       >
         {{ note.username }}
       </div>
@@ -166,7 +166,7 @@ export default {
           el.style.color = "";
           clicked = false;
         }
-
+        
         el.addEventListener("click", function () {
           if (localStorage.getItem("name") && localStorage.getItem("token")) {
             if (!clicked) {
@@ -185,14 +185,15 @@ export default {
               store.commit("changeLike", false);
             }
           }
-
+          
           axios
         .selectFollow({
           params: {
-            username: thiss.note.username,
+            postid: binding.value,
           },
         })
         .then((res) => {
+          
           axios
             .changefeedbacks({
               userid: store.state.userid,
@@ -201,7 +202,9 @@ export default {
               useredid:res.data.userid
             })
             .then((res) => {
+              
               if (res.data.like) {
+                console.log(1);
                 thiss.note.like_count = thiss.note.like_count + 1;
               } else {
                 thiss.note.like_count = thiss.note.like_count - 1;
@@ -264,11 +267,11 @@ export default {
     userheadclick(value) {
       if (localStorage.getItem("name") && localStorage.getItem("token")) {
         this.$store.commit("changeisperson", true);
-        this.$store.commit("changepersonname", value);
+        this.$store.commit("changepersonname", value[1]);
         axios
           .selectFollow({
             params: {
-              postid: value,
+              postid: value[0],
             },
           })
           .then((res) => {
@@ -326,7 +329,7 @@ export default {
       axios
         .selectFollow({
           params: {
-            username: value,
+            postid: value,
           },
         })
         .then((res) => {

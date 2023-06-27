@@ -33,7 +33,7 @@
   min-height: 109px;
   width: 100%;
   height: 7.5rem;
-  background-color: black;
+  background-color: rgb(68, 60, 60);
   position: absolute;
   bottom: 0.5;
   left: 0;

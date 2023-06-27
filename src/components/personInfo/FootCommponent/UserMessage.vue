@@ -1,7 +1,7 @@
 <template>
     <div class='body'>
         <ul >
-            <li><span @click="data='1'" :style="data === '1' ? { color: 'red' } : {}">评论消息{{ $store.state.personMessage.usercount!==0 ?$store.state.personMessage.usercount:'' }}</span></li>
+            <li><span @click="data='1'" :style="data === '1' ? { color: 'red' } : {}">评论消息{{ $store.state.personMessage.usercount!==0 ?$store.state.personMessage.usercount:' ' }}</span></li>
             <li><span @click="data='2'" :style="data === '2' ? { color: 'red' } : {}">系统消息</span></li>
            
             <li><span @click="data='3'" :style="data === '3' ? { color: 'red' } : {}">卡片反馈</span></li>

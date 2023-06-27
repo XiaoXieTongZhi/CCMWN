@@ -294,6 +294,7 @@ export default {
               this.$store.commit("updateuserid", res.data.userid);
                this.$store.commit("updatename", res.data.username);
                this.$store.commit('changeuserlevel',res.data.permission)
+               this.$store.commit('changeuserschool',res.data.branch)
              if (res.data.avatar) {
                 this.$store.commit('changeuserhead', res.data.avatar)
           

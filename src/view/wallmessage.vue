@@ -24,6 +24,7 @@
         @click="selectNode(index, item)"
         v-for="(item, index) in label"
         :key="index"
+        :style="index>5 ? {color:'red'}:''"
       >
         {{ item }}
       </p>
@@ -346,11 +347,13 @@ export default {
   }
 
   .label {
+    margin: 0 auto;
     font-size: 0.7125rem;
     display: flex;
     justify-content: center;
     margin-top: 2.5rem;
-
+    flex-wrap: wrap;
+      width: 600px;
     .label-list {
       cursor: pointer;
       padding: 0 14px;
@@ -358,6 +361,7 @@ export default {
       margin: $padding-4;
       color: $gray-2;
       box-sizing: border-box;
+    
     }
 
     .lbselected {

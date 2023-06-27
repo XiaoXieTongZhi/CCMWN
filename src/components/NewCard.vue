@@ -30,7 +30,7 @@
       preview-size="4rem"
       :preview-options="{ closeable: true }"
       :max-size="2097152"
-      :before-read=" beforeRead"
+      :before-read="beforeRead"
       accept=".png, .jpg, .jpeg"
     >
       <van-button size="small" icon="add-o" type="primary">上传图片</van-button>
@@ -44,6 +44,13 @@
           class="label-li"
           :class="{ labelselected: index == labelselected }"
           @click="changelabel(index, data)"
+          v-show="
+            $store.state.userlevel == 'Level1' ||
+            ($store.state.userschool == $store.state.school &&
+              $store.state.userschool !== '主留言墙' && $store.state.userlevel == 'Level2')
+              ? true
+              : index < 6
+          "
         >
           {{ data }}
         </p>
@@ -58,7 +65,8 @@
 
         2.用户在使用本网站时，应遵守当地法律法规，并承诺不会发布违法信息。用户应对其发布的内容负责，并确保其合法性。如果用户发布的内容违反了法律法规，用户将自行承担相应的法律责任。本网站会积极配合相关部门进行调查，并向相关部门提供用户信息。<br />
         3.本网站保留在任何时间删除违法信息的权利，并有权追究相关责任人的法律责任。尽管我们会尽力审核内容，但我们无法对所有内容进行完全审查。因此，如果发现任何违法信息，请及时向我们举报。<br />
-        我们希望通过审核机制来提高内容的质量和合法性，但并不能保证所有内容的审核都是绝对准确和完备的。用户在使用本网站时，需要理解并承担自行判断内容真实性和合法性的责任。如有任何问题或投诉，请联系官方人员。 vx:laq2215775451
+        我们希望通过审核机制来提高内容的质量和合法性，但并不能保证所有内容的审核都是绝对准确和完备的。用户在使用本网站时，需要理解并承担自行判断内容真实性和合法性的责任。如有任何问题或投诉，请联系官方人员。
+        vx:laq2215775451
       </p>
     </div>
     <div class="footbt">
@@ -107,13 +115,16 @@ export default {
     PrButton,
   },
   methods: {
-    beforeRead(file){
+    beforeRead(file) {
       //符合这两种情况 都取消上传 return false
-       if ( ['.png', '.jpg', '.jpeg'].includes(file.name.replace(/.+\./,'.').toLowerCase()) && file.size<=2097152) {
-        return  true
-       
-      
-      }else{
+      if (
+        [".png", ".jpg", ".jpeg"].includes(
+          file.name.replace(/.+\./, ".").toLowerCase()
+        ) &&
+        file.size <= 2097152
+      ) {
+        return true;
+      } else {
         showToast({
           message: "上传格式不符合要求,支持.png, .jpg, .jpeg,并且要小于2MB",
 
@@ -123,10 +134,8 @@ export default {
           },
         });
       }
-
     },
     addCard() {
-     
       if (!localStorage.getItem("name") || !localStorage.getItem("vuex")) {
         showToast({
           message: "登陆状态有问题，请登陆，如已经登录则退出重新登录",
@@ -154,7 +163,6 @@ export default {
             .addCard(formData)
             .then((res) => {
               if (res.data.code == 200) {
-            
                 this.$emit("addshowCard", res.data);
                 this.message = "";
                 showToast({
@@ -268,21 +276,24 @@ export default {
     margin-bottom: 0;
   }
   .label {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 
-    .label-li {
-      padding: 0.125rem 0.6rem 0px;
-      border-radius: 1.25rem;
-      margin: $padding-20 0.3125rem;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .labelselected {
-      background: #ebeb;
-      font-weight: 600;
-    }
-  }
+}
+
+.label-li {
+  padding: 0.125rem 0.6rem 0px;
+  border-radius: 1.25rem;
+  margin: $padding-20 0.3125rem;
+  cursor: pointer;
+  transition: all 0.3s;
+ 
+}
+
+.labelselected {
+  background: #ebeb;
+  font-weight: 600;
+}
   .mzsm {
     font-size: 0.75rem;
     color: $gray-3;
