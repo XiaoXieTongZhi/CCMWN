@@ -107,7 +107,7 @@ export default {
 
   computed: {
     computedname() {
-      return this.$store.state.name;
+      return this.$store.state.username;
     },
   },
 

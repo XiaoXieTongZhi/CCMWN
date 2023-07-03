@@ -14,7 +14,7 @@
                 <span class="head"   :style="{
           'background-image': `url(http://localhost:3000/uploads/userimg/${data.avatar})`,
         }"></span>
-                <span class="name">{{data.username}} &emsp; <span>ID:{{ data.follower_id
+                <span class="name">{{data.username}} &emsp; <span>ID:{{ data.followed_id
  }}</span></span>
             </li>
         </ul>

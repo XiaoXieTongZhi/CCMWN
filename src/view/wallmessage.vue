@@ -1,7 +1,7 @@
 <template>
   <div class="wall-message">
     <p class="title">
-      {{ $store.state.school }}
+      {{$store.state.school=='主留言墙' ? $store.state.school:$store.state.school+ '留言墙' }}
     </p>
 
     <div class="school">
@@ -56,7 +56,7 @@
       class="add"
       :style="{ bottom: addBottom + 'px' }"
       @click="CardDetails"
-      v-show="!modal"
+      v-show="!modal && ($store.state.school==$store.state.userschool || $store.state.school =='主留言墙' ?true :false)"
     >
       <span class="iconfont icon-add"></span>
     </div>

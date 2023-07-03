@@ -100,3 +100,11 @@ export const likemessage = (data)=>service.post("/likemessage",data)
 //删除 点赞反馈消息
 
 export const deletelikemessage = (data)=>service.post("/deletelikemessage",data)
+
+//关注消息反馈
+
+export const fansmessage= (data)=>service.post("/fansmessage",data)
+
+//删除关注消息反馈
+
+export const deletefansmessage= (data)=>service.post("/deletefansmessage",data)

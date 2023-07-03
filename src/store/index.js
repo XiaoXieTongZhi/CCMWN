@@ -8,11 +8,13 @@ const store = createStore({
         if (localStorage.getItem("token")) {
           return {
             userid: state.userid,
-             ...state.personMessage,
+            ...state.personMessage,
             like: state.like,
             username: state.username,
             userlevel:state.userlevel,
-            userschool: state.userschool
+            userschool: state.userschool,
+            school: state.school
+
           };
         }
     
@@ -31,7 +33,7 @@ const store = createStore({
       school: "主留言墙",
       //模态框的状态
       isModal: false,
-      //newcard名称 发布时的名称
+      //newcard名称 发布时的名称  待处理 这个东西需要改改 尽量少用
       name: localStorage.getItem("name"),
       //登录用户的id
       userid: 0,

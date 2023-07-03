@@ -117,6 +117,7 @@ export default {
       .then((res) => {
         if (res.data.code == 200) {
           this.data = res.data.message;
+          this.$store.commit('changelikecount',this.data.length)
         }
       })
       .catch((err) => {});
@@ -129,6 +130,7 @@ export default {
         if (res.data.code==200) {
            let index =this.data.findIndex(data => data.feedbacksid == value)
             this.data.splice(index,1)
+            this.$store.commit('changelikecount',this.data.length)
           }
       }).catch((err) => {});
     }

@@ -168,7 +168,7 @@ export default {
           } else if (this.checked == 3) {
             this.isuseremail = "";
             axios
-              .sendCode({ ...this.$refs.form.getValues() })
+              .sendCode({ ...this.$refs.form.getValues(),new: 2 })
               .then((res) => {
                 if (res.data.code == 306) {
                   this.isuseremail = res.data.message;
@@ -182,12 +182,13 @@ export default {
               })
               .catch((res) => {});
           }
-        } else {
+         } else {
           this.isuseremail = "邮箱格式不正确";
         }
       }
     },
     countDown() {
+      console.log(1);
       let timer;
       timer = setInterval(() => {
         if (
@@ -202,8 +203,9 @@ export default {
         } else {
           //判断邮箱是否通过
           if (
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.email)
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.email)&& this.isuseremail == ""
           ) {
+            console.log(2);
             if (this.count === 0) {
               clearInterval(timer);
               this.buttonText = "重新发送";

@@ -196,6 +196,7 @@ export default {
         this.$store.commit("changeselectuserid", this.$store.state.userid);
         this.$store.commit("changeisperson", true);
         this.$store.commit("changepersonname", this.$store.state.username);
+        
         axios
           .selectFollow({
             params: {
@@ -203,7 +204,7 @@ export default {
             },
           })
           .then((res) => {
-           
+    
             this.$store.commit("changepersonfensi", res.data.fensiId);
             this.$store.commit("changepersonguanzhu", res.data.guanzhuId);
             if (
