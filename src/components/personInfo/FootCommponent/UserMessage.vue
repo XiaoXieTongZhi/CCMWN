@@ -2,7 +2,7 @@
     <div class='body'>
         <ul >
             <li><span @click="data='1'" :style="data === '1' ? { color: 'red' } : {}">评论消息{{ $store.state.personMessage.usercount!==0 ?$store.state.personMessage.usercount:' ' }}</span></li>
-            <li><span @click="data='2'" :style="data === '2' ? { color: 'red' } : {}">系统消息</span></li>
+            <li><span @click="data='2'" :style="data === '2' ? { color: 'red' } : {}">系统消息{{ $store.state.personMessage.systemcount!==0 ?$store.state.personMessage.systemcount:' ' }}</span></li>
            
             <li><span @click="data='3'" :style="data === '3' ? { color: 'red' } : {}">卡片反馈{{ $store.state.personMessage.likecount!==0 ?$store.state.personMessage.likecount:' ' }}</span></li>
             <li><span @click="data='4'" :style="data === '4' ? { color: 'red' } : {}">关注消息{{ $store.state.personMessage.fanscount!==0 ?$store.state.personMessage.fanscount:' ' }}</span></li>

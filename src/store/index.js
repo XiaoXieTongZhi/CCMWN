@@ -1,5 +1,7 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
+import * as axios from "@/api/index";
+
 const store = createStore({
   plugins: [
     createPersistedState({
@@ -11,13 +13,11 @@ const store = createStore({
             ...state.personMessage,
             like: state.like,
             username: state.username,
-            userlevel:state.userlevel,
+            userlevel: state.userlevel,
             userschool: state.userschool,
-            school: state.school
-
+            school: state.school,
           };
         }
-    
       },
     }),
   ],
@@ -38,11 +38,11 @@ const store = createStore({
       //登录用户的id
       userid: 0,
       //登陆用户的姓名
-      username:' ',
+      username: " ",
       //登陆用户的权限
-      userlevel:' ',
-      //用户自己的所属留言墙
-      userschool:'',
+      userlevel: " ",
+      //用户自己的所属留言墙  待废弃
+      userschool: "",
       //喜爱反馈
       like: false,
       //举报反馈
@@ -65,33 +65,62 @@ const store = createStore({
         isguanzhu: false,
         posts: [],
         //顶部栏的个人头像
-        userhead: '默认.png',
+        userhead: "默认.png",
         //查看个人信息显示的头像
-        watchuserhead: '默认.png',
-        bgcpicture: '默认.png',
-        personsignature: '',
-        usercount:0,
-        likecount:0,
-        fanscount:0
+        watchuserhead: "默认.png",
+        bgcpicture: "默认.png",
+        personsignature: "",
+        usercount: 0,
+        likecount: 0,
+        fanscount: 0,
+        systemcount: 0,
       },
-      feedbackisshow: false
+      feedbackisshow: false,
+
+      //end
+      form: "users",
+      formmessage: [],
+      rowmessages: {},
     };
   },
+  actions: {
+    changeForm(ctx, value) {
+      axios
+        .getforms({
+          formname: value || 'users',
+        })
+        .then((res) => {
+          if (res.data.code == 200) {
+            ctx.commit('setFormmessage', res.data.data)
+          }
+        })
+    },
+  },
+
   mutations: {
-    changeuserlevel(state,data){
-state.userlevel=data
+    setrowmessage(state,data){
+     state.rowmessages=data
     },
-    changelikecount(state,data){
-      state.personMessage.likecount=data
+    setFormmessage(state, data) {
+      state.formmessage = data
     },
-    changefanscount(state,data){
-      state.personMessage.fanscount=data
+    changeuserlevel(state, data) {
+      state.userlevel = data;
     },
-    changeusercount(state,data){
-      state.personMessage.usercount=data
+    changelikecount(state, data) {
+      state.personMessage.likecount = data;
     },
-    changeusername(state,data){
-      state.username=data
+    changefanscount(state, data) {
+      state.personMessage.fanscount = data;
+    },
+    changeusercount(state, data) {
+      state.personMessage.usercount = data;
+    },
+    changesystemcount(state, data) {
+      state.personMessage.systemcount = data;
+    },
+    changeusername(state, data) {
+      state.username = data;
     },
     //滚动条设置
     changeColor(state, data) {
@@ -160,13 +189,13 @@ state.userlevel=data
       state.personMessage.posts = data;
     },
     changeuserhead(state, data) {
-      state.personMessage.userhead = data
+      state.personMessage.userhead = data;
     },
     changewatchuserhead(state, data) {
-      state.personMessage.watchuserhead = data
+      state.personMessage.watchuserhead = data;
     },
     changebgcpicture(state, data) {
-      state.personMessage.bgcpicture = data
+      state.personMessage.bgcpicture = data;
     },
     changename(state, data) {
       state.personMessage.name = data;
@@ -174,9 +203,9 @@ state.userlevel=data
     changepersonsignature(state, data) {
       state.personMessage.personsignature = data;
     },
-    changefeedbackisshow(state, data){
-      state.feedbackisshow=data
-    }
+    changefeedbackisshow(state, data) {
+      state.feedbackisshow = data;
+    },
   },
 });
 

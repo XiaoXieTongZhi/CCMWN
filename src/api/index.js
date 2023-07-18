@@ -108,3 +108,20 @@ export const fansmessage= (data)=>service.post("/fansmessage",data)
 //删除关注消息反馈
 
 export const deletefansmessage= (data)=>service.post("/deletefansmessage",data)
+
+//系统消息反馈
+
+export const systemmessage = (data)=>service.post("/systemmessage",data)
+
+//删除系统消息
+
+export const deletesystemmessage = (data)=> service.post('/deletesystemmessage',data)
+
+//end
+
+//获取表内容
+export const getforms = (data)=>service.post('/getforms',data)
+
+//修改数据库内容
+
+export const changeformvalue = (data)=>service.post('/changeformvalue',data);

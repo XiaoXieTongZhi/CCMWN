@@ -23,8 +23,8 @@
       ></textarea>
       <div class="bt">
         <select class="name" ref="name">
-          <option :value="computedname" class="option">
-            {{ computedname }}
+          <option :value="tokenusername" class="option">
+            {{ tokenusername }}
           </option>
           <option :value="'匿名'" class="option">匿名</option>
         </select>
@@ -60,10 +60,10 @@
               class="delete"
               v-show="
                 ($refs.nodecard.$refs.username.textContent ===
-                $store.state.username
+                tokenusername
                   ? true
                   : false) ||
-                ($store.state.userlevel !== 'Level3' ? true : false)||
+                ($store.state.userlevel!== 'Level3' ? true : false)||
                 ($store.state.userid==data.userid ?true:false)
               " 
               @click="
@@ -209,7 +209,9 @@ import PrButton from "./PrButton.vue";
 // import {commont} from '../../mock/index';
 // import { portrait } from "@/utils/data";
 import NodeCardmethods from "@/components/NodeCard.vue";
+import * as crypto from '../utils/crypto';
 import { showToast } from "vant";
+
 export default {
   directives: {
     report: {
@@ -282,9 +284,29 @@ export default {
     };
   },
   computed: {
-    computedname() {
-      return this.$store.state.username;
+    tokenusername(){
+      const parseTokenInfo = (token) => {
+        let info = token.split(".")[1];
+        info = window.atob(info);
+        info = JSON.parse(info);
+        const message = info.message;
+        let text = "";
+        for (let i of message) {
+          text += String.fromCodePoint(i);
+        }
+        return JSON.parse(text);
+      };
+
+      //示例：假设需要验证用户是否登录
+      if (localStorage.getItem("token") !== null) {
+        let payload = parseTokenInfo(localStorage.getItem("token"));
+        return payload.username;
+      } else {
+        return false;
+      }
     },
+   
+  
   },
   props: {
     reportpostid: {

@@ -45,7 +45,7 @@
           :class="{ labelselected: index == labelselected }"
           @click="changelabel(index, data)"
           v-show="
-            $store.state.userlevel == 'Level1' ||
+           $store.state.userlevel == 'Level1' ||
             ($store.state.userschool == $store.state.school &&
               $store.state.userschool !== '主留言墙' && $store.state.userlevel == 'Level2')
               ? true

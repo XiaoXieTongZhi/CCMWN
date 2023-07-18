@@ -1,7 +1,11 @@
 <template>
   <div class="wall-message">
     <p class="title">
-      {{$store.state.school=='主留言墙' ? $store.state.school:$store.state.school+ '留言墙' }}
+      {{
+        $store.state.school == "主留言墙"
+          ? $store.state.school
+          : $store.state.school + "留言墙"
+      }}
     </p>
 
     <div class="school">
@@ -24,7 +28,7 @@
         @click="selectNode(index, item)"
         v-for="(item, index) in label"
         :key="index"
-        :style="index>5 ? {color:'red'}:''"
+        :style="index > 5 ? { color: 'red' } : ''"
       >
         {{ item }}
       </p>
@@ -56,7 +60,14 @@
       class="add"
       :style="{ bottom: addBottom + 'px' }"
       @click="CardDetails"
-      v-show="!modal && ($store.state.school==$store.state.userschool || $store.state.school =='主留言墙' ?true :false)"
+      v-show="
+        !modal &&
+        ($store.state.school == userschool ||
+        $store.state.school == '主留言墙' ||
+        userlevel == 'Level1'
+          ? true
+          : false)
+      "
     >
       <span class="iconfont icon-add"></span>
     </div>
@@ -138,7 +149,6 @@ export default {
     },
   },
   mounted() {
-
     //判断用户对哪些点了喜欢
     axios
       .userlike({
@@ -150,7 +160,6 @@ export default {
       })
       .then((res) => {
         this.redpostid = res.data.postid;
-   
       })
       .catch((err) => {});
     //判断用户对哪些点了举报
@@ -193,13 +202,55 @@ export default {
 
     window.addEventListener("scroll", this.scrollBottom);
   },
- 
+
   unmounted() {
     window.addEventListener("scroll", this.scrollBottom);
   },
   computed: {
     inputselectvalue() {
       return this.$store.state.inputselectvalue;
+    },
+    userschool() {
+      const parseTokenInfo = (token) => {
+        let info = token.split(".")[1];
+        info = window.atob(info);
+        info = JSON.parse(info);
+        const message = info.message;
+        let text = "";
+        for (let i of message) {
+          text += String.fromCodePoint(i);
+        }
+        return JSON.parse(text);
+      };
+
+      //示例：假设需要验证用户是否登录
+      if (localStorage.getItem("token") !== null) {
+        let payload = parseTokenInfo(localStorage.getItem("token"));
+        return payload.branch;
+      } else {
+        return false;
+      }
+    },
+    userlevel() {
+      const parseTokenInfo = (token) => {
+        let info = token.split(".")[1];
+        info = window.atob(info);
+        info = JSON.parse(info);
+        const message = info.message;
+        let text = "";
+        for (let i of message) {
+          text += String.fromCodePoint(i);
+        }
+        return JSON.parse(text);
+      };
+
+      //示例：假设需要验证用户是否登录
+      if (localStorage.getItem("token") !== null) {
+        let payload = parseTokenInfo(localStorage.getItem("token"));
+        return payload.Permission;
+      } else {
+        return false;
+      }
     },
   },
   methods: {
@@ -353,7 +404,7 @@ export default {
     justify-content: center;
     margin-top: 2.5rem;
     flex-wrap: wrap;
-      width: 600px;
+    width: 600px;
     .label-list {
       cursor: pointer;
       padding: 0 14px;
@@ -361,7 +412,6 @@ export default {
       margin: $padding-4;
       color: $gray-2;
       box-sizing: border-box;
-    
     }
 
     .lbselected {
