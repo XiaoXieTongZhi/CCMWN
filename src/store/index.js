@@ -10,7 +10,7 @@ const store = createStore({
         if (localStorage.getItem("token")) {
           return {
             userid: state.userid,
-            ...state.personMessage,
+            personMessage: state.personMessage,
             like: state.like,
             username: state.username,
             userlevel: state.userlevel,
@@ -85,6 +85,7 @@ const store = createStore({
   },
   actions: {
     changeForm(ctx, value) {
+      ctx.commit('setform', value|| 'users')
       axios
         .getforms({
           formname: value || 'users',
@@ -98,6 +99,9 @@ const store = createStore({
   },
 
   mutations: {
+    setform(state,data){
+      state.form=data
+    },
     setrowmessage(state,data){
      state.rowmessages=data
     },

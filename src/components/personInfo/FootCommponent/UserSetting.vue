@@ -56,6 +56,8 @@
     </div>
     <div class="campus-certification">
       <div>校园信息设置</div>
+      <br>
+      <div> <h3>正在研发<br>目前可以加入群聊联系群主设置</h3> </div>
     </div>
     <div class="personal-signature">
       <div>个性签名设置</div>
@@ -72,6 +74,10 @@
     </div>
     <div class="c-authentication">
       <div>C认证设置</div>
+   <br>
+      
+
+      <div> <h3>正在研发 <br>目前可以加入群聊联系群主设置</h3> </div>
     </div>
   </div>
 </template>

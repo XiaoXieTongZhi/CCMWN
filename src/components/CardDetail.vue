@@ -457,7 +457,6 @@ export default {
       return NodeCardmethods.methods.filter(data);
     },
     addcommit() {
-      console.log(this.$store.state.selectuserid);
       if (!this.content.length == 0) {
         if (this.content.length < 300) {
           axios
@@ -471,7 +470,7 @@ export default {
             .then((res) => {
               if (res.data.code == 200) {
                 showToast({
-                  message:'评论发布成功',
+                  message:'评论发布成功,审核后将会显示',
                   style: {
                     backgroundColor: "transparent",
                     fontWeight: "600",

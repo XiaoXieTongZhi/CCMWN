@@ -22,6 +22,7 @@
     <div class="foot-right">
       <div class="content">
         <img class="zimage" src="@/assets/images/赞赏码.png" alt="微信打赏" />
+        <img class="zimage" src="@/assets/images/赞赏码.png" alt="微信打赏" />
       </div>
     </div>
   </div>
@@ -42,6 +43,7 @@
 
   .foot-right {
     .content {
+      display: flex;
       .zimage {
         margin: 0.625rem;
         width: 6.25rem;

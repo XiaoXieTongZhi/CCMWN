@@ -188,7 +188,7 @@ export default {
       }
     },
     countDown() {
-      console.log(1);
+    
       let timer;
       timer = setInterval(() => {
         if (
@@ -203,9 +203,9 @@ export default {
         } else {
           //判断邮箱是否通过
           if (
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.email)&& this.isuseremail == ""
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.email)&& this.isuseremail == "验证码发送成功"
           ) {
-            console.log(2);
+     
             if (this.count === 0) {
               clearInterval(timer);
               this.buttonText = "重新发送";
@@ -297,6 +297,7 @@ export default {
                this.$store.commit("updatename", res.data.username);
                this.$store.commit('changeuserlevel',res.data.permission)
                this.$store.commit('changeuserschool',res.data.branch)
+               
              if (res.data.avatar) {
                 this.$store.commit('changeuserhead', res.data.avatar)
           

@@ -1,58 +1,100 @@
 <template>
-  <el-table highlight-current-row :data="filterTableData" style="width: 100%"  @row-click="handleColumnClick"
-    :default-sort="{ prop: 'date', order: 'descending' }">
-
-    <!-- 错误出现在此处 -->
-    <el-table-column v-for="(value, key, index) in formmessage[0]" :label="key" :prop="key" :key="key" :sortable="index === 0"  
-      width="180">
-    
-    </el-table-column>
-
-    <!-- <el-table-column prop="postid" label="postid" width="180"></el-table-column>
-    <el-table-column prop="userid" label="userid" width="180"></el-table-column>
-    <el-table-column prop="username" label="username" width="180"></el-table-column>
-    <el-table-column prop="type" label="type" width="180"></el-table-column>
-    <el-table-column prop="color" label="color" width="180"></el-table-column>
-    <el-table-column prop="content" label="content" width="180"></el-table-column>
-    <el-table-column prop="image_name" label="image_name" width="180"></el-table-column>
-    <el-table-column prop="image_path" label="image_path" width="180"></el-table-column> -->
-
-    <el-table-column align="right">
-      <template #header>
-        <el-input v-model="search" size="small" placeholder="Type to search" />
-      </template>
-      <template #default="scope">
-        <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">delete</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div>
+    <el-input
+      v-model="search"
+      size="large"
+      placeholder="search"
+      @focus="filterfalsecolum = false"
+    />
+    <el-badge :value="filterfalselength" :max="99" class="item">
+      <el-button size="small" @click="filterfalsecolum = true"
+        >筛选待审核内容</el-button
+      >
+    </el-badge>
+    <el-table
+      highlight-current-row
+      :data="!filterfalsecolum ? filterTableData : filterfalse"
+      style="width: 100%"
+      @row-click="handleColumnClick"
+      :default-sort="{ prop: 'date', order: 'descending' }"
+    >
+      <el-table-column
+        v-for="(value, key, index) in formmessage[0]"
+        :label="key"
+        :prop="key"
+        :key="key"
+        sortable
+     
+        width="180"
+      >
+      
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.item {
+  margin-top: 10px;
+  margin-right: 40px;
+}
+</style>
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
       search: "",
+      filterfalsecolum: false,
     };
   },
   computed: {
-    ...mapState(['formmessage']),
+    ...mapState(["formmessage", "form"]),
     filterTableData() {
       return this.formmessage.filter((data) => {
-        return (
-          !this.search ||
-          JSON.stringify(data).includes(this.search)
-        );
+        return !this.search || JSON.stringify(data).includes(this.search);
       });
+    },
+    filterfalse() {
+      return this.formmessage.filter((data) => {
+        return this.filterfalsecolum
+          ? this.form == "users"
+            ? !(
+                data.avatar_username &&
+                data.avatar_reviewed &&
+                data.background_reviewed &&
+                data.bio_reviewed
+              )
+            : this.form == "posts"
+            ? !data.is_approved
+            : this.form == "comments"
+            ? !data.is_retrieved
+            : false
+          : false;
+      });
+    },
+    filterfalselength() {
+      return this.formmessage.filter((data) => {
+        return this.form == "users"
+          ? !(
+              data.avatar_username &&
+              data.avatar_reviewed &&
+              data.background_reviewed &&
+              data.bio_reviewed
+            )
+          : this.form == "posts"
+          ? !data.is_approved
+          : this.form == "comments"
+          ? !data.is_retrieved
+          : false;
+      }).length;
     },
   },
 
   methods: {
-    handleColumnClick($event){
-       this.$store.commit('setrowmessage',$event)
-      
+    handleColumnClick($event) {
+      this.$store.commit("setrowmessage", $event);
     },
     formatter(row, column) {
       return row.address;
