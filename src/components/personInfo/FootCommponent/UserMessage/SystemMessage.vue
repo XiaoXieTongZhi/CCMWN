@@ -3,6 +3,7 @@
     <ul ref="SystemList">
       <li v-for="(data, index) in data" :key="index">
         <div>
+          
           <span
             >{{ data.message_content }}
           </span>

@@ -22,7 +22,7 @@
     <div class="foot-right">
       <div class="content">
         <img class="zimage" src="@/assets/images/赞赏码.png" alt="微信打赏" />
-        <img class="zimage" src="@/assets/images/赞赏码.png" alt="微信打赏" />
+        <img class="zimage" src="@/assets/images/微信群.jpg" alt="加入群聊" />
       </div>
     </div>
   </div>

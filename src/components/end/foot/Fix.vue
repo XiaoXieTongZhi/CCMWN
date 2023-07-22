@@ -31,7 +31,9 @@
           v-model="textarea"
         >
         </el-input>
-        <el-button type="warning" @click="sendsystemmessage(rowmessages.userid)">发送系统消息</el-button>
+        <el-button type="warning" @click="sendsystemmessage(rowmessages.userid)"
+          >发送系统消息</el-button
+        >
       </el-tab-pane>
     </el-tabs>
     <div>
@@ -58,7 +60,6 @@ export default {
       //输入修改的值
       inputvalue: "",
       textarea: "",
-      condition: {},
     };
   },
 
@@ -92,30 +93,31 @@ export default {
     },
   },
   methods: {
-    sendsystemmessage(value){
-   
-      axios.sendsystemmessage({
-        userid:value,
-        message:this.textarea
-      }).then(res =>{
-        
-        if (res.data.code == 200) {
-          showToast({
-          message: res.data.message,
+    sendsystemmessage(value) {
+      axios
+        .sendsystemmessage({
+          userid: value,
+          message: this.textarea,
+        })
+        .then((res) => {
+          if (res.data.code == 200) {
+            showToast({
+              message: res.data.message,
 
-          style: {
-            backgroundColor: "transparent",
-            fontWeight: "600",
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-          },
+              style: {
+                backgroundColor: "transparent",
+                fontWeight: "600",
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+              },
+            });
+            this.textarea = "";
+          }
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        this.textarea=''
-        }
-      }).catch(err =>{
-
-      })
     },
     ...mapActions(["changeForm"]),
     inputvalueevent(event) {
@@ -123,54 +125,121 @@ export default {
     },
     deleterow() {
       if (JSON.stringify(this.rowmessages) !== "{}") {
-        if (this.form == "users") {
-          this.condition = {};
-          this.condition.userid = this.rowmessages.userid;
-          console.log(this.condition);
-        } else if (this.form == "posts") {
-          this.condition = {};
-          this.condition.postid = this.rowmessages.postid;
-        } else if (this.form == "follows") {
-          this.condition = {};
-          this.condition.id = this.rowmessages.id;
-        } else if (this.form == "feedbacks") {
-          this.condition = {};
-          this.condition.feedbacksid = this.rowmessages.feedbacksid;
-        } else if (this.form == "comments") {
-          this.condition = {};
-          this.condition.commentid = this.rowmessages.commentid;
-        } else if (this.form == "system_messages") {
-          this.condition = {};
-          this.condition.message_id = this.rowmessages.message_id;
-        }
         axios
           .deleterowmessage({
-           
             formname: this.form,
-            conditionkey: Object.keys(this.condition)[0],
-            conditionvalue: this.condition[Object.keys(this.condition)[0]],
+            conditionkey: this.conditionkey,
+            conditionvalue: this.conditionvalue,
           })
           .then((res) => {
-           if (res.data.code == 200) {
-            this.changeForm(this.form);
-            showToast({
-          message: res.data.message,
+            if (res.data.code == 200) {
+              this.changeForm(this.form);
+              showToast({
+                message: res.data.message,
 
-          style: {
-            backgroundColor: "transparent",
-            fontWeight: "600",
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-          },
-        });
-           }
+                style: {
+                  backgroundColor: "transparent",
+                  fontWeight: "600",
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                },
+              });
+            }
           })
-          .catch((err) => {});
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
     changevalue() {
       if (this.inputvalue !== "") {
+        if (this.form == "users") {
+          if (this.activeTab == "avatar_username" && this.inputvalue == 1) {
+            axios
+              .sendsystemmessage({
+                userid: this.rowmessages.userid,
+                message: "姓名修改审核成功",
+              })
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (
+            this.activeTab == "avatar_reviewed" &&
+            this.inputvalue == 1
+          ) {
+            axios
+              .sendsystemmessage({
+                userid: this.rowmessages.userid,
+                message: "头像修改审核成功",
+              })
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (
+            this.activeTab == "background_reviewed" &&
+            this.inputvalue == 1
+          ) {
+            axios
+              .sendsystemmessage({
+                userid: this.rowmessages.userid,
+                message: "背景修改审核成功",
+              })
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (this.activeTab == "bio_reviewed" && this.inputvalue == 1) {
+            axios
+              .sendsystemmessage({
+                userid: this.rowmessages.userid,
+                message: "个性签名修改审核成功",
+              })
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        } else if (this.form == "posts") {
+          if (this.activeTab == "is_approved" && this.inputvalue == 1) {
+            axios
+              .sendsystemmessage({
+                userid: this.rowmessages.userid,
+                message: "卡片发布审核成功",
+              })
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        } else if (this.form == "comments") {
+          if (this.activeTab == "is_approved" && this.inputvalue == 1) {
+            axios
+              .sendsystemmessage({
+                userid: this.rowmessages.userid,
+                message: "评论发布审核成功",
+              })
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        }
+
         axios
           .changeformvalue({
             formname: this.form,
@@ -195,7 +264,9 @@ export default {
               });
             }
           })
-          .catch((err) => {});
+          .catch((err) => {
+            console.log(err);
+          });
       } else {
         showToast({
           message: "没改变内容，就别修改了",
