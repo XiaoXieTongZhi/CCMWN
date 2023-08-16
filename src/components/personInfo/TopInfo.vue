@@ -5,7 +5,7 @@
         <div
           class="logo"
           :style="{
-            'background-image': `url(http://localhost:3000/uploads/userimg/${address})`,
+            'background-image': `url(${baseImgPath}/uploads/userimg/${address})`,
           }"
         ></div>
         <div class="name">{{ name }}</div>
@@ -16,6 +16,9 @@
       </div>
     </div>
     <div class="right">
+      <div>
+        UID{{ $store.state.selectuserid }}
+      </div>
       <button
         :class="isguanzhu ? 'buttonF' : 'buttonT'"
         @click="changeisguanzhu(isguanzhu ? '已关注' : '关注')"
@@ -25,13 +28,15 @@
     </div>
   </div>
 </template>
-
 <script>
+import { baseImgPath } from "@/utils/env";
 import * as axios from "@/api/index";
 import { showToast } from "vant";
 export default {
   data() {
-    return {};
+    return {
+      baseImgPath
+    };
   },
   computed: {
     address() {
@@ -53,41 +58,34 @@ export default {
   methods: {
     clickefollows(value){
       this.$store.commit('changefeedbackisshow',true)
-
         this.$emit('followsclick',value)
-    
     },
     changeisguanzhu(value) {
       if (value == "关注") {
         if (this.$store.state.selectuserid == this.$store.state.userid) {
           showToast({
             message: "自己关注自己不太好吧(-_-)",
-
             style: {
               backgroundColor: "transparent",
               fontWeight: "600",
             },
           });
         } else {
-        
           axios
             .guanzhuT({
               followerid: this.$store.state.userid,
               followedid: this.$store.state.selectuserid,
-              
             })
             .then((res) => {
               if (res.data.code == 200) {
                 showToast({
                   message: "关注成功",
-
                   style: {
                     backgroundColor: "transparent",
                     fontWeight: "600",
                   },
                 });
                 this.$store.commit("changeisguanzhu", true);
-              
                 this.$store.commit("addpersonfensi", this.$store.state.userid);
               }
             })
@@ -103,14 +101,12 @@ export default {
             if (res.data.code == 200) {
               showToast({
                 message: "取消关注",
-
                 style: {
                   backgroundColor: "transparent",
                   fontWeight: "600",
                 },
               });
               this.$store.commit("changeisguanzhu", false);
-
               this.$store.commit("deletepersonfensi", this.$store.state.userid);
             }
           })
@@ -158,6 +154,7 @@ export default {
     }
   }
   .right {
+    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -174,7 +171,6 @@ export default {
       border-radius: 8px; /* 圆角 */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影 */
     }
-
     .buttonT:hover {
       background-color: #ffd9d9; /* 淡粉色背景 */
     }
@@ -191,7 +187,6 @@ export default {
       border-radius: 8px; /* 圆角 */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影 */
     }
-
     .buttonF:hover {
       background-color: #b3e6ff; /* 淡蓝色背景 */
     }

@@ -75,13 +75,10 @@
     <div class="c-authentication">
       <div>C认证设置</div>
    <br>
-      
-
       <div> <h3>正在研发 <br>目前可以加入群聊联系群主设置</h3> </div>
     </div>
   </div>
 </template>
-
 <style lang="scss" scoped>
 .signature-container {
   display: flex;
@@ -89,7 +86,6 @@
   height: 85%;
   justify-content: space-around;
 }
-
 .signature-textarea {
   width: 250px;
   height: 80px;
@@ -99,7 +95,6 @@
   resize: none;
   background-color: antiquewhite;
 }
-
 .submit-button {
   margin-left: 10px;
   padding: 3px 15px;
@@ -110,7 +105,6 @@
   cursor: pointer;
   opacity: 0.8;
 }
-
 .submit-button:hover {
   opacity: 1;
 }
@@ -120,7 +114,6 @@
   justify-content: center;
   height: 60px;
 }
-
 .name-input {
   padding: 5px;
   font-size: 12px;
@@ -128,7 +121,6 @@
   border-radius: 4px;
   margin-right: 5px;
 }
-
 .btn {
   padding: 5px 10px;
   font-size: 12px;
@@ -138,7 +130,6 @@
   border-radius: 4px;
   cursor: pointer;
 }
-
 .btn:hover {
   background-color: #0056b3;
 }
@@ -159,14 +150,12 @@
     border-bottom: 1px solid black;
     text-align: center;
     font-weight: 600;
-
     .user-head-message,
     .bgc-head-message {
       height: 70%;
       display: flex;
       justify-content: space-around;
       align-items: center;
-
       .btn {
         display: inline-block;
         padding: 10px 20px;
@@ -181,7 +170,6 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
       }
-
       .btn:hover {
         background-color: #389e6e;
       }
@@ -189,7 +177,6 @@
   }
 }
 </style>
-
 <script setup>
 import * as axios from "@/api/index";
 import { useStore } from "vuex";
@@ -197,7 +184,6 @@ import { ref, reactive, watch } from "vue";
 import { showToast } from "vant";
 import { useRouter } from 'vue-router';
 const router = useRouter();
-
 //图片信息状态存储
 const data = reactive({
   fileList: [],
@@ -215,12 +201,10 @@ const updatepersonmessage = () => {
     .updatebio({ userid: store.state.userid, bio: newpersonmessage.value })
     .then((res) => {
      if (res.data.code==200) {
-      
       store.commit('changepersonsignature',newpersonmessage.value)
       newpersonmessage.value=''
       showToast({
       message: res.data.data + `本月还剩${res.data.count}次机会`,
-
       style: {
         backgroundColor: "transparent",
         fontWeight: "600",
@@ -229,7 +213,6 @@ const updatepersonmessage = () => {
      }else{
       showToast({
         message: res.data.data,
-
       style: {
         backgroundColor: "transparent",
         fontWeight: "600",
@@ -248,32 +231,26 @@ const updateName = () => {
         username: newName.value,
       })
       .then((res) => {
-     
         if (res.data.code == 200) {
-          store.commit('changeusername', res.data.data)
-          store.commit("changename", res.data.data);
+          store.commit('changeusername', '审核中')
+          store.commit("changename", '审核中');
           showToast({
           message: `姓名修改成功，本月还剩${res.data.count}次机会`,
-
           style: {
             backgroundColor: "transparent",
             fontWeight: "600",
           },
-        
         });
         router.go(0)
         } else{
           showToast({
           message: res.data.data,
-
           style: {
             backgroundColor: "transparent",
             fontWeight: "600",
           },
         });
-       
         }
-       
       })
       .catch((err) => {
         console.log(err);
@@ -281,7 +258,6 @@ const updateName = () => {
   } else {
     showToast({
       message: "新名称不符合要求",
-
       style: {
         backgroundColor: "transparent",
         fontWeight: "600",
@@ -301,7 +277,6 @@ const beforeRead = (file) => {
   } else {
     showToast({
       message: "上传格式不符合要求,支持.png, .jpg, .jpeg,并且要小于2MB",
-
       style: {
         backgroundColor: "transparent",
         fontWeight: "600",
@@ -318,13 +293,11 @@ let submituserhead = () => {
       .userhead(formData)
       .then((res) => {
         if (res.data.code == 200) {
-          store.commit("changeuserhead", res.data.data);
-          store.commit("changewatchuserhead", res.data.data);
-
+          store.commit("changeuserhead", '默认.png');
+          store.commit("changewatchuserhead", '默认.png');
           fileList.value = [];
           showToast({
             message: res.data.message+ '修改次数还剩' + res.data.count,
-
             style: {
               backgroundColor: "transparent",
               fontWeight: "600",
@@ -333,7 +306,6 @@ let submituserhead = () => {
         }else{
           showToast({
             message: res.data.message,
-
             style: {
               backgroundColor: "transparent",
               fontWeight: "600",
@@ -345,7 +317,6 @@ let submituserhead = () => {
   } else {
     showToast({
       message: "请选择图片后，在进行提交",
-
       style: {
         backgroundColor: "transparent",
         fontWeight: "600",
@@ -353,7 +324,6 @@ let submituserhead = () => {
     });
   }
 };
-
 let submitbgc = () => {
   if (fileListtwo.value[0]) {
     let formData = new FormData();
@@ -368,7 +338,6 @@ let submitbgc = () => {
           fileListtwo.value = [];
           showToast({
             message: res.data.message + '修改次数还剩' + res.data.count,
-
             style: {
               backgroundColor: "transparent",
               fontWeight: "600",
@@ -377,7 +346,6 @@ let submitbgc = () => {
         }else{
           showToast({
             message: res.data.data,
-
             style: {
               backgroundColor: "transparent",
               fontWeight: "600",
@@ -389,7 +357,6 @@ let submitbgc = () => {
   } else {
     showToast({
       message: "请选择图片后，在进行提交",
-
       style: {
         backgroundColor: "transparent",
         fontWeight: "600",

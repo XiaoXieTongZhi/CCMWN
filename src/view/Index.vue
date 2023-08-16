@@ -3,13 +3,12 @@
         <back-ground></back-ground>
         <top-bar :username="pvalue"></top-bar>
         <login @update-topbar-value="handleUpdateTopbarValue"></login>
-
-        <router-view> </router-view>
+        <router-view></router-view>
+        
         <live-two class="live2d"></live-two>
         <foot-bar></foot-bar>
     </div>
 </template>
-
 <script>
 import LiveTwo from "@/components/live2d/live2d.vue";
 import TopBar from "@/components/TopBar";
@@ -50,7 +49,6 @@ export default {
     },
 };
 </script>
-
 <style lang="scss" scoped>
 .sun {
     background: radial-gradient(circle at center top,
@@ -58,7 +56,6 @@ export default {
             orange 50%,
             #eee8aa 100%);
 }
-
 .moon {
     background: radial-gradient(circle at center top,
             #00008b 0%,

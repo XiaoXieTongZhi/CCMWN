@@ -22,7 +22,6 @@
         <option value="匿名" class="option">匿名</option>
       </select>
     </div>
-
     <van-uploader
       v-model="fileList"
       multiple
@@ -60,9 +59,7 @@
       <p class="title">免责声明</p>
       <p class="mzsm">
         CCMWN校园留言墙网站(以下简称“本网站”)提供一个交流平台，供用户发布各种类型的内容，包括但不限于日常趣事分享、学习交流、同校二手物品线下交易等。<br />
-
         1.本网站会对用户发布的内容进行审核，以确保内容的真实性、准确性和合法性。然而，审核并不代表本网站对内容的完全担保或保证。用户在本网站发布的内容仅代表用户个人观点，与本网站无关。<br />
-
         2.用户在使用本网站时，应遵守当地法律法规，并承诺不会发布违法信息。用户应对其发布的内容负责，并确保其合法性。如果用户发布的内容违反了法律法规，用户将自行承担相应的法律责任。本网站会积极配合相关部门进行调查，并向相关部门提供用户信息。<br />
         3.本网站保留在任何时间删除违法信息的权利，并有权追究相关责任人的法律责任。尽管我们会尽力审核内容，但我们无法对所有内容进行完全审查。因此，如果发现任何违法信息，请及时向我们举报。<br />
         我们希望通过审核机制来提高内容的质量和合法性，但并不能保证所有内容的审核都是绝对准确和完备的。用户在使用本网站时，需要理解并承担自行判断内容真实性和合法性的责任。如有任何问题或投诉，请联系官方人员。
@@ -81,7 +78,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import * as axios from "@/api/index";
 import { cardcolor } from "@/utils/data";
@@ -104,13 +100,11 @@ export default {
       message: "",
     };
   },
-
   computed: {
     computedname() {
       return this.$store.state.username;
     },
   },
-
   components: {
     PrButton,
   },
@@ -127,7 +121,6 @@ export default {
       } else {
         showToast({
           message: "上传格式不符合要求,支持.png, .jpg, .jpeg,并且要小于2MB",
-
           style: {
             backgroundColor: "transparent",
             fontWeight: "600",
@@ -139,7 +132,6 @@ export default {
       if (!localStorage.getItem("name") || !localStorage.getItem("vuex")) {
         showToast({
           message: "登陆状态有问题，请登陆，如已经登录则退出重新登录",
-
           style: {
             backgroundColor: "transparent",
             fontWeight: "600",
@@ -176,7 +168,6 @@ export default {
                 this.message = "";
                 showToast({
                   message: res.data.message,
-
                   style: {
                     backgroundColor: "transparent",
                     fontWeight: "600",
@@ -188,7 +179,6 @@ export default {
         } else {
           showToast({
             message: "输入内容不能少于15字",
-
             style: {
               backgroundColor: "transparent",
               fontWeight: "600",
@@ -212,27 +202,22 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .new-card {
   padding: 0 $padding-20;
-
   .color-card {
     padding-bottom: $padding-12;
     display: flex;
     align-items: center;
-
     .color-li {
       width: 1.3rem;
       height: 1.3rem;
       margin-right: $padding-8;
     }
-
     .colorselected {
       border: 1px solid rgba(59, 115, 240, 1);
     }
   }
-
   .card-main {
     height: 15rem;
     width: 100%;
@@ -250,7 +235,6 @@ export default {
       padding: 0.45rem 0;
       box-sizing: border-box;
     }
-
     .name {
       width: 50%;
       box-sizing: border-box;
@@ -262,7 +246,6 @@ export default {
       font-size: 0.75rem;
     }
   }
-
   .labels {
     overflow: hidden;
   }
@@ -278,18 +261,14 @@ export default {
   .label {
   display: flex;
   flex-wrap: wrap;
-
 }
-
 .label-li {
   padding: 0.125rem 0.6rem 0px;
   border-radius: 1.25rem;
   margin: $padding-20 0.3125rem;
   cursor: pointer;
   transition: all 0.3s;
- 
 }
-
 .labelselected {
   background: #ebeb;
   font-weight: 600;

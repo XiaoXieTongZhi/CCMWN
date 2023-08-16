@@ -37,10 +37,11 @@
     </p>
     <div class="commont">
       <div class="commont-li" v-for="(data, index) in commont" :key="index">
+        <span class="floor">{{commont.length-index }}</span>
         <div
           class="user-head"
           :style="{
-            'background-image': `url(http://localhost:3000/uploads/userimg/${
+            'background-image': `url(${baseImgPath}/uploads/userimg/${
               data.username == '匿名' ? '默认.png' : data.avatar
             })`,
           }"
@@ -48,7 +49,6 @@
         <div class="comm-m">
           <div class="m-top">
             <p class="name"   @click="data.username !== '匿名' ? userheadclick(data.username) : null">
-              
               {{
                 data.username == $refs.nodecard.$refs.username.innerText &&$refs.nodecard.$refs.username.innerText!== '匿名'
                   ? data.username + "&emsp;" + "帖主"
@@ -91,15 +91,12 @@
     </div>
   </div>
 </template>
-
 <style lang="scss" scoped>
 .card-detail {
   overflow: hidden;
-
   .nodecard {
     margin-left: 1.3625rem;
   }
-
   .top-bt {
     height: 0px;
     padding: $padding-20;
@@ -117,12 +114,9 @@
       color: black;
     }
   }
-
   .form {
     margin: 0 auto;
-
     width: 80%;
-
     .message {
       background: none;
       height: 7.125rem;
@@ -132,11 +126,9 @@
       width: 100%;
       margin-top: 0.75rem;
     }
-
     .bt {
       display: flex;
       justify-content: space-between;
-
       .name {
         width: 50%;
         box-sizing: border-box;
@@ -144,23 +136,23 @@
         border: 1px solid rgba(148, 148, 148, 1);
         line-height: 1.25rem;
         background: none;
-       
       }
     }
   }
-
   .title {
     margin-left: 0.925rem;
     font-weight: 600;
     padding: 1rem 0;
   }
-
   .commont-li {
     border-bottom: 1px solid #ccc;
     margin-left: 0.9375rem;
     display: flex;
     padding-bottom: 1rem;
-
+    .floor{
+      font-size:larger;
+      color: rgb(148, 118, 35);
+    }
     .user-head {
       flex: none;
       border-radius: 50%;
@@ -170,11 +162,9 @@
       background-position: center;
       background-size: cover;
     }
-
     .comm-m {
       padding: 0 $padding-8;
     }
-
     .m-top {
       display: flex;
       justify-content: space-between;
@@ -192,7 +182,6 @@
         color: $gray-3;
       }
     }
-
     .content {
       padding-top: $padding-4;
       word-wrap: break-word;
@@ -201,8 +190,8 @@
   }
 }
 </style>
-
 <script>
+import { baseImgPath } from "@/utils/env";
 import * as axios from "@/api/index";
 import NodeCard from "./NodeCard.vue";
 import PrButton from "./PrButton.vue";
@@ -211,7 +200,6 @@ import PrButton from "./PrButton.vue";
 import NodeCardmethods from "@/components/NodeCard.vue";
 import * as crypto from '../utils/crypto';
 import { showToast } from "vant";
-
 export default {
   directives: {
     report: {
@@ -265,7 +253,6 @@ export default {
       updated(el, binding) {
         const store = binding.instance.$store;
         const thiss = binding.instance;
-
         if (thiss.vreport.includes(Number(store.state.postid))) {
           el.style.color = "red";
           el.textContent = "已举报";
@@ -281,6 +268,7 @@ export default {
       content: "",
       vreport: [],
       commont: "",
+      baseImgPath
     };
   },
   computed: {
@@ -296,7 +284,6 @@ export default {
         }
         return JSON.parse(text);
       };
-
       //示例：假设需要验证用户是否登录
       if (localStorage.getItem("token") !== null) {
         let payload = parseTokenInfo(localStorage.getItem("token"));
@@ -305,8 +292,6 @@ export default {
         return false;
       }
     },
-   
-  
   },
   props: {
     reportpostid: {
@@ -351,7 +336,6 @@ export default {
             } else {
               this.$store.commit("changeisguanzhu", false);
             }
-
             axios
               .selectuserall({
                 params: {
@@ -372,7 +356,6 @@ export default {
       } else {
         showToast({
           message: "请先登录才能查看信息哦",
-
           style: {
             backgroundColor: "transparent",
             fontWeight: "600",
@@ -385,7 +368,6 @@ export default {
         .deletecomment({
           params: {
             commentid: value[0],
-
             commentuserid: value[1],
             //登录账号的用户id
             userid: value[2],
@@ -396,13 +378,11 @@ export default {
             const index = this.commont.findIndex(
               (item) => item.commentid == value[0]
             );
-
             if (index !== -1) {
               this.commont.splice(index, 1);
               this.card.comment_count = this.card.comment_count - 1;
               showToast({
               message: '删除成功',
-
               style: {
                 backgroundColor: "transparent",
                 fontWeight: "600",
@@ -412,7 +392,6 @@ export default {
           } else {
             showToast({
               message: res.data.message,
-
               style: {
                 backgroundColor: "transparent",
                 fontWeight: "600",
@@ -432,7 +411,6 @@ export default {
           if (result.data.code == 300) {
             showToast({
               message: result.data.message,
-
               style: {
                 backgroundColor: "transparent",
                 fontWeight: "600",
@@ -442,7 +420,6 @@ export default {
             this.$emit("closecarddetail");
             showToast({
               message: result.data.message,
-
               style: {
                 backgroundColor: "transparent",
                 fontWeight: "600",
@@ -482,7 +459,6 @@ export default {
               } else {
                 showToast({
                   message: res.data.data,
-
                   style: {
                     backgroundColor: "transparent",
                     fontWeight: "600",
@@ -494,7 +470,6 @@ export default {
         } else {
           showToast({
             message: "最多评论300个字",
-
             style: {
               backgroundColor: "transparent",
               fontWeight: "600",
@@ -504,7 +479,6 @@ export default {
       } else {
         showToast({
           message: "不能为空",
-
           style: {
             backgroundColor: "transparent",
             fontWeight: "600",

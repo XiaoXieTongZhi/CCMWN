@@ -1,11 +1,9 @@
 <template>
   <router-view></router-view>
 </template>
-
 <script>
 import { provide, reactive } from "vue";
 import debounce from "@/utils/debounce";
-
 function setRootFontSize() {
   let scale = document.documentElement.clientWidth / 750;
   document.documentElement.style.fontSize = scale * 16 + "px";
@@ -13,9 +11,7 @@ function setRootFontSize() {
     document.documentElement.style.fontSize = scale * 11 + "px";
   }
 }
-
 setRootFontSize();
-
 window.onresize = () => {
   debounce(setRootFontSize)();
 };
@@ -28,7 +24,6 @@ export default {
       modalHeadHeight: 0, // 侧边栏 head 的高
       modalMainHeight: 0, // 侧边栏 main 的高
     });
-
     provide("bus", bus);
   },
   computed: {
@@ -48,13 +43,11 @@ export default {
   },
 };
 </script>
-
 <style lang="scss">
 :root {
   --main-color: linear-gradient(to bottom, red 0%, orange 50%, #eee8aa 100%);
   --color: rgba(221, 59, 19, 0.949);
 }
-
 ::-webkit-scrollbar {
   /*滚动条整体样式*/
   width: 10px;
@@ -64,7 +57,6 @@ export default {
     --main-color
   ); //background: linear-gradient(to bottom, #00008B 0%, skyblue  50%, lightblue 100%);
 }
-
 ::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   border-radius: 10px;
@@ -81,7 +73,6 @@ export default {
     transparent
   );
 }
-
 #app {
   font-size: 0.7125rem;
 }

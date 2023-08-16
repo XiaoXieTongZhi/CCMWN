@@ -5,7 +5,6 @@
       :class="{ active: selectedIcon === 'works' }"
       @click="selectIcon('works'),changeoption(1)"
       title="用户发布的帖子"
-
       >{{  postcount }}</span
     >
     <span
@@ -31,7 +30,6 @@
     ></span>
   </div>
 </template>
-
 <style lang="scss" scoped>
 .options {
   width: 100%;
@@ -67,7 +65,6 @@
   }
 }
 </style>
-
 <script>
 import * as axios from "@/api/index";
 export default {
@@ -102,9 +99,6 @@ watch:{
     }
   }
 },
- 
-   
-  
   methods: {
     changeoption(value){
       this.$emit('changeoption',value)

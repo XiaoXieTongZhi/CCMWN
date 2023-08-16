@@ -3,8 +3,7 @@
     <ul ref="likeList">
       <li v-for="(data,index) in data" :key="index"  >
         <div>
-         
-            <div class="user-head" :style="{ 'background-image': `url(http://localhost:3000/uploads/userimg/${data.username!=='匿名'?data.avatar:'默认.png'})`}">    
+            <div class="user-head" :style="{ 'background-image': `url(${baseImgPath}/uploads/userimg/${data.username!=='匿名'?data.avatar:'默认.png'})`}">    
             </div>
             <span>{{ data.username}} 对你为{{data.postid}}的卡片进行了评论 </span>    
             <span>{{ new Date(data.comment_date).toLocaleString() }}</span>
@@ -15,17 +14,14 @@
               expand-text="展开"
               collapse-text="收起"
               rows="1"
-             
             />
           </p>
         </div>
-
         <button type="button" @click="deletecomment(data.commentid)">删除</button>
       </li>
     </ul>
   </div>
 </template>
-
 <style lang="scss" scoped>
 .body {
   overflow: hidden;
@@ -57,11 +53,9 @@
       > div {
         width: 80%;
         span{
-
           margin: 0px 7px;
           height: 10px;
           font-weight: 400;
-
         }
         >div{
           display: inline-block;
@@ -94,15 +88,13 @@
   }
 }
 </style>
-
 <script setup>
+import { baseImgPath } from "@/utils/env";
 import * as axios from "@/api/index";
 import { useStore } from "vuex";
 import { ref, reactive, watch, onMounted } from "vue";
 let Data = reactive({})
-
 let data =ref(Data)
-
 let store = useStore();
     axios
   .commentmessage({
@@ -116,18 +108,13 @@ let store = useStore();
       store.commit('changeusercount',data.value.length)
   }})
   .catch((err) => {})
-    
 let deletecomment=(value)=>{
   axios.deletemessage({commentid:value}).then((res) => {
-    
     const index = data.value.findIndex(item => item.commentid == res.data.data);
     if (index !== -1) {
       data.value.splice(index, 1);
       store.commit('changeusercount',data.value.length)
     }
-   
   }).catch(err =>{})
 }
-
- 
 </script>

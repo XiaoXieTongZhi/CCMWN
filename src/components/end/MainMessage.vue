@@ -69,7 +69,7 @@ export default {
             : this.form == "posts"
             ? !data.is_approved
             : this.form == "comments"
-            ? !data.is_retrieved
+            ? !data.is_message
             : false
           : false;
       });
@@ -86,7 +86,7 @@ export default {
           : this.form == "posts"
           ? !data.is_approved
           : this.form == "comments"
-          ? !data.is_retrieved
+          ? !data.is_message
           : false;
       }).length;
     },

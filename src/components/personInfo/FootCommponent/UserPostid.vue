@@ -8,25 +8,20 @@
       </ul>
     </div>
   </template>
-  
   <script>
   export default {
     computed: {
       posts() {
         return this.$store.state.personMessage.posts
       },
-     
     },
-   
   }
   </script>
-  
   <style lang="scss" scoped>
   .body {
     display: flex;
     justify-content:flex-start;
     overflow: hidden;
-    
     .main{
     display: block;
     width: 15.625rem;
@@ -35,7 +30,6 @@
       font-weight: 600;
     }
   }
-  
   .post-list {
     display: flex;
     flex-wrap: wrap;
@@ -43,9 +37,7 @@
     padding: 0;
     margin: 0;
   }
-  
   .post-item {
- 
     width: calc(25% - 19px);
     margin: 10px;
     padding: 10px;
@@ -55,9 +47,7 @@
     transition: background-color 0.3s ease;
     cursor: pointer;
   }
-  
 .post-item:hover {
     background-color: #d2a6e5ce !important;
-
   }
   </style>

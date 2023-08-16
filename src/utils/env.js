@@ -5,10 +5,11 @@ let baseImgPath;
 if (process.env.NODE_ENV == 'development') {
  
     baseUrl='http://localhost:3000';
-    baseImgPath = 'https://localhost:3000';
+    baseImgPath = 'http://localhost:3000';
 
 }else{
-    
+    baseUrl='https://www.ccmwn.cn';
+    baseImgPath = 'https://www.ccmwn.cn';
 }
 
 export {

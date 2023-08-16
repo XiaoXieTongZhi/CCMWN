@@ -16,7 +16,6 @@
           :key="school.id"
           @mousedown.prevent
           @click="selectSchool(school)"
-       
         >
           {{ school }}
         </div>
@@ -24,7 +23,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import school from '@/utils/school.json';
 const newschool = school.school.map(item => item.name);
@@ -53,7 +51,6 @@ export default {
   },
   methods: {
     handleInput() {
-     
       if (this.inputText !== this.selectedSchool) {
         this.selectedSchool = '';
       }
@@ -63,7 +60,6 @@ export default {
       this.showDropdown = show;
     },
     selectSchool(school) {
-     
       this.selectedSchool = school;
       this.showDropdown = false;
       this.$store.commit('changeSchool', school);
@@ -73,10 +69,8 @@ export default {
   }
 }
 </script>
-  
   <style lang="scss" scoped>
   .option.disabled {
-
   color: #ccc;
 }
   .school {
@@ -87,7 +81,6 @@ export default {
     margin-left: 3.125rem;
     font-weight: 600;
     font-size: 1.125rem;
-
   }
   .select-container {
     position: relative;
@@ -96,25 +89,20 @@ export default {
         background: none;
         height: 100%;
         border: none;
-
     }
   }
-  
   .dropdown {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-   
     background-color: #fff;
     z-index: 99;
   }
-  
   .option {
     padding: 0.5rem;
     background-color: white;
   }
-  
   .option:hover {
     background-color: #eee;
     border-bottom: 1px solid black;

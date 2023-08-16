@@ -12,21 +12,14 @@
     </el-container>
     </div>
 </template>
-
 <script>
-
 import TopTitle from '../components/end/TopTitle'
 import AsideMessage from '../components/end/AsideMessage'
 import MainMessage from '../components/end/MainMessage'
 import FootMessage from '../components/end/FootMessage'
-
-
-
 export default{
-
     data(){
         return{
-
         }
     },
     components:{
@@ -35,13 +28,8 @@ export default{
         MainMessage,
         FootMessage
     }
-
 }
-
-
-
 </script>
-
 <style lang="scss" scoped>
 *{
   margin: 0;
@@ -54,11 +42,9 @@ export default{
   }
   .main{
     height: 55vh;
-   
   }
   .footer{
     height: 45vh;
-  
   }
 }
 </style>

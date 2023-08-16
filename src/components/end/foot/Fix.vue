@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { baseImgPath } from "@/utils/env";
 import * as axios from "@/api/index";
 import { mapState, mapActions } from "vuex";
 import { showToast } from "vant";
@@ -73,15 +74,15 @@ export default {
     },
     bgcstyle() {
       if (this.form == "users" && this.activeTab == "avatar") {
-        return `url(http://localhost:3000/uploads/userimg/${
+        return `url(${baseImgPath}/uploads/userimg/${
           this.rowmessages[this.activeTab]
         })`;
       } else if (this.form == "users" && this.activeTab == "background") {
-        return `url(http://localhost:3000/uploads/bgcimg/${
+        return `url(${baseImgPath}/uploads/bgcimg/${
           this.rowmessages[this.activeTab]
         })`;
       } else if (this.form == "posts" && this.activeTab == "image_name") {
-        return `url(http://localhost:3000/uploads/img/${
+        return `url(${baseImgPath}/uploads/img/${
           this.rowmessages[this.activeTab]
         })`;
       }
@@ -162,7 +163,8 @@ export default {
                 message: "姓名修改审核成功",
               })
               .then((res) => {
-                console.log(res.data);
+                this.$store.commit("changeusername", this.rowmessages.username);
+                this.$store.commit("changename", this.rowmessages.username);
               })
               .catch((err) => {
                 console.log(err);
@@ -178,6 +180,11 @@ export default {
               })
               .then((res) => {
                 console.log(res.data);
+                this.$store.commit("changeuserhead", this.rowmessages.avatar);
+                this.$store.commit(
+                  "changewatchuserhead",
+                  this.rowmessages.avatar
+                );
               })
               .catch((err) => {
                 console.log(err);

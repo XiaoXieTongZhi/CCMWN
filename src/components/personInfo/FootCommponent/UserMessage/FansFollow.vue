@@ -6,7 +6,7 @@
           <div
             class="user-head"
             :style="{
-              'background-image': `url(http://localhost:3000/uploads/userimg/${
+              'background-image': `url(${baseImgPath}/uploads/userimg/${
                 data.username !== '匿名' ? data.avatar : '默认.png'
               })`,
             }"
@@ -100,12 +100,14 @@
 
 
 <script >
+import { baseImgPath } from "@/utils/env";
 import * as axios from "@/api/index";
 export default {
 
     data(){
       return {
-        data:[]
+        data:[],
+        baseImgPath
       }
     },
  mounted(){

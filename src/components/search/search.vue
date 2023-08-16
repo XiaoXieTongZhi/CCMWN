@@ -17,7 +17,6 @@
     </div>
   </div>
 </template>
-
 <style lang="scss" scoped>
 body {
   background-color: #e94118;
@@ -67,7 +66,6 @@ body {
   transition: 0.4s;
 }
 </style>
-
 <script>
 import * as axios from "@/api/index";
 export default {
@@ -88,11 +86,9 @@ export default {
             },
           })
           .then((res) => {
-            
             if (res.data.message.length !== 0) {
               this.$store.commit('inputselectvalue',res.data.message)
             }else{
-              
               this.$store.commit('inputselectvalue',[{content:'没有搜索到任何内容捏,注意搜索框只能搜索帖子的id和用户姓名,你只能搜索到主留言墙，和你认证的留言墙的帖子',image_url:'默认.png'}])
             }
           })
@@ -107,14 +103,10 @@ export default {
             },
           })
           .then((res) => {
-         
               if (res.data.message.length !== 0) {
-  
                 this.$store.commit('inputselectvalue',res.data.message)
-       
             }else{
               this.$store.commit('inputselectvalue',[{content:'没有搜索到任何内容捏,注意搜索框只能搜索帖子的id和用户姓名你只能搜索到主留言墙,和你认证的留言墙的帖子',image_url:'默认.png'}])
-       
             }
           })
           .catch((err) => {});

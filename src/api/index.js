@@ -128,8 +128,10 @@ export const changeformvalue = (data) => service.post("/changeformvalue", data);
 
 //删除rowmessage
 
-export const deleterowmessage = (data) => service.post("/deleterowmessage", data);
+export const deleterowmessage = (data) =>
+  service.post("/deleterowmessage", data);
 
 //发送系统消息
 
-export const sendsystemmessage = (data)=>service.post("/sendsystemmessage", data);
+export const sendsystemmessage = (data) =>
+  service.post("/sendsystemmessage", data);

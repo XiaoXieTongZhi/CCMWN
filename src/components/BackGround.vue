@@ -12,7 +12,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -37,16 +36,12 @@ export default {
   }
 }
 </script>
-
-
 <style  lang="scss"  scoped>
-
 body{
   /* 初始化 取消内外边距 */
   margin: 0;
   padding: 0;
 }
-
 .box{
   width: 100vw;
   #container{
@@ -141,27 +136,5 @@ body{
 .btn-box{
   display: none;
 }
-
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -28,7 +28,6 @@ const routes = [
       // 在这里进行权限验证或其他逻辑判断
       // 如果满足条件，可以调用 next() 方法继续跳转到 `/end` 路由
       // 如果不满足条件，可以调用 next(false) 来取消路由跳转
-
       const parseTokenInfo = (token) => {
         let info = token.split(".")[1];
         info = window.atob(info);
@@ -40,7 +39,6 @@ const routes = [
         }
         return JSON.parse(text);
       };
-
       //示例：假设需要验证用户是否登录
         if(localStorage.getItem("token") !== null){
       let payload = parseTokenInfo(localStorage.getItem("token"));
@@ -59,7 +57,6 @@ const routes = [
     redirect: '/wall' // 重定向到 `/wall`
   }
 ];
-
 const router = createRouter({
   history: createWebHashHistory(),
   routes,

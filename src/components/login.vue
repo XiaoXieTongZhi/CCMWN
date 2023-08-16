@@ -15,6 +15,16 @@
               <van-radio name="2">注册</van-radio>
               <van-radio name="3">找回</van-radio>
             </van-radio-group>
+            <template  v-if="checked == 2 || checked == 3">
+              <van-button
+                size="small"
+                type="primary"
+                :disabled="isDisabled"
+                @click="countDown(), code()"
+              >
+                {{ buttonText }}
+              </van-button>
+            </template>
           </van-field>
           <van-field
             v-model="email"
@@ -47,16 +57,6 @@
               },
             ]"
           >
-            <template #button v-if="checked == 2 || checked == 3">
-              <van-button
-                size="small"
-                type="primary"
-                :disabled="isDisabled"
-                @click="countDown(), code()"
-              >
-                {{ buttonText }}
-              </van-button>
-            </template>
           </van-field>
           <van-field
             v-if="checked == 2"
@@ -90,7 +90,6 @@
             ]"
           />
         </van-cell-group>
-
         <div style="margin: 16px" class="button">
           <van-button
             round
@@ -106,7 +105,6 @@
     </div>
   </van-overlay>
 </template>
-
 <script>
 import * as axios from "@/api/index";
 import { showToast } from "vant";
@@ -188,7 +186,6 @@ export default {
       }
     },
     countDown() {
-    
       let timer;
       timer = setInterval(() => {
         if (
@@ -205,7 +202,6 @@ export default {
           if (
             /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.email)&& this.isuseremail == "验证码发送成功"
           ) {
-     
             if (this.count === 0) {
               clearInterval(timer);
               this.buttonText = "重新发送";
@@ -231,14 +227,12 @@ export default {
       this.ispass = "";
       this.buttonText = "发送验证码";
       const formData = this.$refs.form.getValues();
-
       //注册
       if (this.checked == 2) {
         axios
           .insertUser({ ...formData, new: 1 })
           .then((res) => {
             if (res.data.code == 305) {
-            
               this.isusername = res.data.message;
             } else if (res.data.code == 306) {
               this.isusername = "";
@@ -255,11 +249,9 @@ export default {
               this.isusername = "";
               this.isuseremail = "";
               this.iscode = "";
-
               this.$store.commit("changeModal");
               showToast({
                 message: "注册成功",
-
                 style: {
                   backgroundColor: "transparent",
                   fontWeight: "600",
@@ -274,7 +266,6 @@ export default {
           .catch((err) =>
             showToast({
               message: err.data.message,
-
               style: {
                 backgroundColor: "transparent",
                 fontWeight: "600",
@@ -287,7 +278,6 @@ export default {
           .loginUser({ ...formData, new: 1 })
           .then((res) => {
             if (res.data.code == 205) {
-               
               this.$emit("update-topbar-value", res.data.username);
               this.isuseremail = "";
               this.ispass = "";
@@ -297,10 +287,8 @@ export default {
                this.$store.commit("updatename", res.data.username);
                this.$store.commit('changeuserlevel',res.data.permission)
                this.$store.commit('changeuserschool',res.data.branch)
-               
              if (res.data.avatar) {
                 this.$store.commit('changeuserhead', res.data.avatar)
-          
               }
               showToast({
                 message: "登录成功,24小时内有效",
@@ -309,7 +297,6 @@ export default {
                   fontWeight: "600",
                 },
               });
-             
               this.sms = "";
               this.username = "";
               this.password = "";
@@ -322,12 +309,10 @@ export default {
               this.isuseremail = "";
               this.isuseremail = res.data.message;
             }
-         
           })
           .catch((err) =>
             showToast({
               message: err.data.message,
-
               style: {
                 backgroundColor: "transparent",
                 fontWeight: "600",
@@ -350,7 +335,6 @@ export default {
               this.$store.commit("changeModal");
               showToast({
                 message: "密码修改成功",
-
                 style: {
                   backgroundColor: "transparent",
                   fontWeight: "600",
@@ -365,7 +349,6 @@ export default {
           .catch((err) =>
             showToast({
               message: err.data.message,
-
               style: {
                 backgroundColor: "transparent",
                 fontWeight: "600",
@@ -394,14 +377,12 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .van-cell {
   border: 1px solid transparent;
   animation: border-animation 3s linear infinite;
   background: transparent;
 }
-
 .login {
   margin: 13.25rem auto;
   width: 35%;
@@ -430,7 +411,6 @@ export default {
   display: flex;
   justify-content: center;
 }
-
 :deep(.van-button) {
   background: linear-gradient(to right, #fbc2eb, #a6c1ee);
   color: black;
@@ -439,12 +419,10 @@ export default {
   border: 3px solid transparent;
   animation: border-animation 3s linear infinite;
 }
-
 :deep(.van-icon) {
   float: right;
   cursor: pointer;
 }
-
 :deep(.van-cell-group) {
   min-width: 21.25rem;
   max-width: 25rem;

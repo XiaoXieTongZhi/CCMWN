@@ -4,7 +4,6 @@
       <img src="@/assets/logo.png" class="logo-img" alt="" />
       <p class="logo-name">CCMWN</p>
     </div>
-
     <div class="menu">
       <router-link to="/wall">
         <pr-button
@@ -33,7 +32,7 @@
       <div
         class="user-head"
         :style="{
-          'background-image': `url(http://localhost:3000/uploads/userimg/${address})`,
+          'background-image': `url(${baseImgPath}/uploads/userimg/${address})`,
         }"
         @click="userheadclick(dusername)"
       ></div>
@@ -50,7 +49,6 @@
 .van-button--small {
   min-width: 30px;
 }
-
 .top-bar {
   width: 100%;
   height: 4.05rem;
@@ -66,17 +64,14 @@
   align-items: center;
   padding: 0 1.875rem;
   box-sizing: border-box;
-
   .logo {
     width: 5.25rem;
     display: flex;
     align-items: center;
-
     .logo-img {
       width: 1.5rem;
       height: 1.5rem;
     }
-
     .logo-name {
       font-size: 1.05rem;
       color: $gray-1;
@@ -84,17 +79,14 @@
       padding-left: 0.625rem;
     }
   }
-
   .user {
     width: 9.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     .name {
       min-width: 20px;
     }
-
     .user-head {
       cursor: pointer;
       border-radius: 50%;
@@ -103,19 +95,17 @@
       background-size: cover;
     }
   }
-
   .menu {
     display: flex;
     align-items: center;
-
     .menu-message {
       margin-right: 1.5rem;
     }
   }
 }
 </style>
-
 <script>
+import { baseImgPath } from "@/utils/env";
 import * as axios from "@/api/index";
 import PrButton from "@/components/PrButton.vue";
 import SearchModal from "@/components/search/search.vue";
@@ -137,8 +127,12 @@ export default {
     bus.getTopBarHeight = () => {
       return +topBar.value.clientHeight;
     };
-
     return { topBar, login, istoken, dusername };
+  },
+  data(){
+    return{
+      baseImgPath
+    }
   },
   components: {
     SearchModal,
@@ -151,21 +145,16 @@ export default {
     isbutton() {
       return this.$store.state.isModal;
     },
-   
   },
-
   watch: {
     username: {
-      
     handler(newValue) {
-  
       localStorage.setItem("name", newValue);
       this.$store.commit("updatename", newValue);
     }
   },
     isbutton() {
       this.istoken = localStorage.getItem("token");
-
       if (this.istoken) {
         this.login = "退出";
       } else {
@@ -177,7 +166,6 @@ export default {
     if (this.$store.state.username!==' ') {
      this.dusername= this.$store.state.username;
     }
-
     //判断是否有本地local来决定按钮显示内容
     this.istoken = localStorage.getItem("token");
     if (this.istoken) {
@@ -196,7 +184,6 @@ export default {
         this.$store.commit("changeselectuserid", this.$store.state.userid);
         this.$store.commit("changeisperson", true);
         this.$store.commit("changepersonname", this.$store.state.username);
-        
         axios
           .selectFollow({
             params: {
@@ -204,7 +191,6 @@ export default {
             },
           })
           .then((res) => {
-    
             this.$store.commit("changepersonfensi", res.data.fensiId);
             this.$store.commit("changepersonguanzhu", res.data.guanzhuId);
             if (
@@ -216,25 +202,20 @@ export default {
             } else {
               this.$store.commit("changeisguanzhu", false);
             }
-
             axios.selectuserall({params:{
               userid:res.data.userid
             }}).then(res =>{
-            
               this.$store.commit('changewatchuserhead',res.data.avatar)
               this.$store.commit("changebgcpicture", res.data.background);
             }).catch(err =>{
               console.log(err);
             })
-
           })
           .catch((err) => {
             if (this.$store.state.isModal) {
               this.$store.commit("changeModal");
-
               showToast({
                 message: "登陆状态已过期，请重新登录",
-
                 style: {
                   backgroundColor: "transparent",
                   fontWeight: "600",
@@ -245,7 +226,6 @@ export default {
       } else {
         showToast({
           message: "请先登录才能查看信息哦",
-
           style: {
             backgroundColor: "transparent",
             fontWeight: "600",

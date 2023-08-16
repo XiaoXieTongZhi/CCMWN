@@ -63,6 +63,5 @@ props:{
 .csecondary{
     background: $gray-10;
     color: $gray-1;
-  
 }
 </style>

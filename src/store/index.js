@@ -1,7 +1,6 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import * as axios from "@/api/index";
-
 const store = createStore({
   plugins: [
     createPersistedState({
@@ -76,7 +75,6 @@ const store = createStore({
         systemcount: 0,
       },
       feedbackisshow: false,
-
       //end
       form: "users",
       formmessage: [],
@@ -97,7 +95,6 @@ const store = createStore({
         })
     },
   },
-
   mutations: {
     setform(state,data){
       state.form=data
@@ -212,5 +209,4 @@ const store = createStore({
     },
   },
 });
-
 export default store;

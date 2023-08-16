@@ -9,13 +9,11 @@
       </div>
       <div class="content">
         <p class="introduce">************* **********</p>
-
         <p class="state">
           <span>备案/</span>
           <span>
             <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#989898;">冀ICP备2023012029号</a>
           </span>
-
         </p>
       </div>
     </div>
@@ -27,7 +25,6 @@
     </div>
   </div>
 </template>
-
 <style lang="scss" scoped>
 .foot-bar {
   color: $gray-3;
@@ -40,7 +37,10 @@
   left: 0;
   display: flex;
   justify-content: space-between;
-
+ .down{
+  color: red;
+  line-height: 150px;
+ }
   .foot-right {
     .content {
       display: flex;
@@ -51,16 +51,13 @@
       }
     }
   }
-
   .foot-left {
     margin-left: 1.875rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 50%;
-
     .logo {
-
       height: 3.125rem;
       line-height: 3.125rem;
       display: flex;
@@ -68,7 +65,6 @@
       width: 8.8rem;
       justify-content: space-between;
       overflow: hidden;
-
       .logo-img {
         img {
           margin-top: 1.45rem;

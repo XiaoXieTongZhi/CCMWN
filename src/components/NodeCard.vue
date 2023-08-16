@@ -13,7 +13,7 @@
       :style="
         bgpicture
           ? {
-              'background-image': `url(http://localhost:3000/uploads/img/${note.image_name})`,
+              'background-image': `url(${baseImgPath}/uploads/img/${note.image_name})`,
             }
           : ''
       "
@@ -52,16 +52,13 @@
     </div>
   </div>
 </template>
-
 <style lang="scss" scoped>
 @font-face {
   font-family: fa;
   src: url("@/assets/阿里妈妈数黑体/Alimama_ShuHeiTi_Bold.ttf");
 }
-
 .node-card {
   font-family: fa;
-
   min-height: 11.625rem;
   min-width: 10.25rem;
   height: 14rem;
@@ -71,7 +68,6 @@
   position: relative;
   margin-top: 1.925rem;
   margin-left: 2rem;
-
   .top {
     box-sizing: border-box;
     display: flex;
@@ -79,17 +75,14 @@
     padding: 0 0.625rem;
     font-weight: 600;
     margin-bottom: 0.625rem;
-
     p {
       font-size: 0.75rem;
       color: $gray-2;
     }
-
     .pictureshow {
       cursor: pointer;
     }
   }
-
   .message {
     height: 7.75rem;
     color: $gray-1;
@@ -97,15 +90,12 @@
     line-height: 1.375rem;
     text-align: justify;
     padding: 0 0.75rem;
-
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     overflow: auto;
-
     font-size: 0.725rem;
   }
-
   .foot {
     height: 1.25rem;
     display: flex;
@@ -114,26 +104,22 @@
     bottom: 0.125rem;
     left: 0;
     width: 100%;
-
     .name {
       cursor: pointer;
       font-weight: 600;
       font-size: 0.675rem;
       margin-right: -0.625rem;
     }
-
     .foot-left {
       width: 5.75rem;
       display: flex;
       align-items: center;
-
       span {
         margin-right: 1.25rem;
         cursor: pointer;
         font-size: 1.1rem;
         line-height: 1rem;
       }
-
       .iconfont {
         font-size: 0.75rem;
       }
@@ -141,8 +127,8 @@
   }
 }
 </style>
-
 <script>
+import { baseImgPath } from "@/utils/env";
 import * as axios from "@/api/index";
 import moment from "moment";
 import { showToast } from "vant";
@@ -151,10 +137,8 @@ export default {
     "red-on-hover-click": {
       mounted(el, binding) {
         el.style.transition = "color 0.8s";
-
         const store = binding.instance.$store;
         const thiss = binding.instance;
-
         if (
           Object.values(thiss.postid).includes(
             Number(thiss.$refs.postid.textContent)
@@ -166,7 +150,6 @@ export default {
           el.style.color = "";
           clicked = false;
         }
-        
         el.addEventListener("click", function () {
           if (localStorage.getItem("name") && localStorage.getItem("token")) {
             if (!clicked) {
@@ -185,7 +168,6 @@ export default {
               store.commit("changeLike", false);
             }
           }
-          
           axios
         .selectFollow({
           params: {
@@ -193,7 +175,6 @@ export default {
           },
         })
         .then((res) => {
-          
           axios
             .changefeedbacks({
               userid: store.state.userid,
@@ -202,7 +183,6 @@ export default {
               useredid:res.data.userid
             })
             .then((res) => {
-              
               if (res.data.like) {
                 console.log(1);
                 thiss.note.like_count = thiss.note.like_count + 1;
@@ -212,7 +192,6 @@ export default {
             })
             .catch((err) => {});
         });
-         
         });
         el.addEventListener("mouseenter", function () {
           if (!clicked) {
@@ -244,6 +223,7 @@ export default {
       text: this.note.message,
       //判断背景图片是否显示
       bgpicture: false,
+      baseImgPath
     };
   },
   props: {
@@ -262,7 +242,6 @@ export default {
       default: [],
     },
   },
-
   methods: {
     userheadclick(value) {
       if (localStorage.getItem("name") && localStorage.getItem("token")) {
@@ -287,7 +266,6 @@ export default {
             } else {
               this.$store.commit("changeisguanzhu", false);
             }
-
             axios
               .selectuserall({
                 params: {
@@ -308,7 +286,6 @@ export default {
       } else {
         showToast({
           message: "请先登录才能查看信息哦",
-
           style: {
             backgroundColor: "transparent",
             fontWeight: "600",
@@ -317,13 +294,11 @@ export default {
       }
     },
     filter(data) {
-      return moment(data).format("YYYY-MM-DD");
+      return moment(data).format("YYYY-MM-DD HH:mm:ss");
     },
-
     clickbg() {
       this.bgpicture = !this.bgpicture;
     },
-
     selectwall(value) {
       //借用一下这个关系请求  来更新一下  打开详情更新一下选中的userid
       axios
@@ -335,7 +310,6 @@ export default {
         .then((res) => {
           this.$store.commit("changeselectuserid", res.data.userid);
         });
-
       this.$emit("selectpostid", this.$refs.postid.textContent);
       //选择的postid
       this.$store.commit("updatepostid", this.$refs.postid.textContent);

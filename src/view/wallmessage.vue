@@ -7,7 +7,6 @@
           : $store.state.school + "留言墙"
       }}
     </p>
-
     <div class="school">
       <school-select></school-select>
     </div>
@@ -33,7 +32,6 @@
         {{ item }}
       </p>
     </div>
-
     <div class="card">
       <node-card
         v-for="(data, index) in note"
@@ -55,7 +53,6 @@
         force-ellipses
       />
     </div>
-
     <div
       class="add"
       :style="{ bottom: addBottom + 'px' }"
@@ -79,7 +76,6 @@
         @addshowCard="addshowCard"
         v-else-if="cardselected == -1"
       ></new-card>
-
       <card-detail
         v-else
         :card="note[cardselected]"
@@ -91,7 +87,6 @@
     </modal>
   </div>
 </template>
-
 <script>
 import Modal from "@/components/Modal.vue";
 import * as axios from "@/api/index";
@@ -175,7 +170,6 @@ export default {
         this.reportpostid = res.data.postid;
       })
       .catch((err) => {});
-
     //获取后台默认已有的内容数据
     axios
       .showCard({
@@ -191,18 +185,14 @@ export default {
         let postarray = res.data.data.map((res) => res.postid);
         this.$store.commit("allpostid", postarray);
         this.tempnote = res.data.data.reverse();
-
         this.total = this.tempnote.length;
         let start = (this.currentPage - 1) * 9;
         let end = this.currentPage * 9;
-
         this.note = this.tempnote.slice(start, end);
       })
       .catch((res) => {});
-
     window.addEventListener("scroll", this.scrollBottom);
   },
-
   unmounted() {
     window.addEventListener("scroll", this.scrollBottom);
   },
@@ -222,7 +212,6 @@ export default {
         }
         return JSON.parse(text);
       };
-
       //示例：假设需要验证用户是否登录
       if (localStorage.getItem("token") !== null) {
         let payload = parseTokenInfo(localStorage.getItem("token"));
@@ -243,7 +232,6 @@ export default {
         }
         return JSON.parse(text);
       };
-
       //示例：假设需要验证用户是否登录
       if (localStorage.getItem("token") !== null) {
         let payload = parseTokenInfo(localStorage.getItem("token"));
@@ -259,7 +247,6 @@ export default {
       this.cardselected = -1;
       this.modal = false;
     },
-
     deleteCard(postid) {
       let index = this.tempnote.findIndex((note) => note.postid == postid);
       this.tempnote.splice(index, 1);
@@ -296,11 +283,9 @@ export default {
         })
         .then((res) => {
           this.tempnote = res.data.data.reverse();
-
           this.total = this.tempnote.length;
           let start = (this.currentPage - 1) * 9;
           let end = this.currentPage * 9;
-
           this.note = this.tempnote.slice(start, end);
         })
         .catch((res) => {});
@@ -353,7 +338,6 @@ export default {
           this.modal = false;
           showToast({
             message: "登陆状态有问题，请登陆，如已经登录则退出重新登录",
-
             style: {
               backgroundColor: "transparent",
               fontWeight: "600",
@@ -370,7 +354,6 @@ export default {
 ::v-deep .van-pagination__item {
   background-color: transparent;
 }
-
 .wall-message {
   box-sizing: border-box;
   min-height: 700px;
@@ -390,13 +373,11 @@ export default {
     padding-top: 1rem;
     padding-bottom: $padding-8;
   }
-
   .slogan {
     font-size: 1.1rem;
     color: $gray-2;
     text-align: center;
   }
-
   .label {
     margin: 0 auto;
     font-size: 0.7125rem;
@@ -413,7 +394,6 @@ export default {
       color: $gray-2;
       box-sizing: border-box;
     }
-
     .lbselected {
       color: $gray-1;
       font-weight: 600;
@@ -421,17 +401,14 @@ export default {
       border-radius: 14px;
     }
   }
-
   .card {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-
     .cardselected {
       border: 1px solid black;
     }
   }
-
   .add {
     width: 3.5rem;
     height: 3.5rem;
@@ -446,7 +423,6 @@ export default {
     align-items: center;
     cursor: pointer;
     z-index: 30;
-
     .icon-add {
       color: $gray-10;
       font-size: 1.5rem;

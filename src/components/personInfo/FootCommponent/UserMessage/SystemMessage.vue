@@ -3,13 +3,11 @@
     <ul ref="SystemList">
       <li v-for="(data, index) in data" :key="index">
         <div>
-          
           <span
             >{{ data.message_content }}
           </span>
           <span>{{ new Date(data.creation_date).toLocaleString() }}</span>
         </div>
-
         <button type="button" @click="deletesystemmessage(data.message_id)">
           删除
         </button>
@@ -17,17 +15,14 @@
     </ul>
   </div>
 </template>
-
 <script>
 import * as axios from "@/api/index";
-
 export default {
      data () {
        return {
         data:[]
        }
      },
-   
      mounted(){
       axios
       .systemmessage({
@@ -35,17 +30,11 @@ export default {
       })
       .then((res) => {
         if (res.data.code == 200) {
-        
           this.data = res.data.data;
-      
           this.$store.commit('changesystemcount',this.data.length)
-
-          
         }
       })
       .catch((err) => {});
-
-
      },
      methods:{
       deletesystemmessage(value){
@@ -58,17 +47,9 @@ export default {
        }).catch (err => {});
       }
   }
-
-
-
     }
-
 </script>
-
-
-
 <style lang="scss" scoped>
-    
     .body {
   overflow: hidden;
   > button {
@@ -99,11 +80,9 @@ export default {
       > div {
         width: 80%;
         span{
-
           margin: 0px 7px;
           height: 10px;
           font-weight: 400;
-
         }
         >div{
           display: inline-block;
@@ -135,5 +114,4 @@ export default {
     }
   }
 }
-
 </style>

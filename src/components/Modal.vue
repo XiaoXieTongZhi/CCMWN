@@ -6,16 +6,13 @@
         <span class="iconfont icon-close" @click="closeModal()"></span>
       </div>
       <div class="modal-main" :style="{ height: modalMainHeight }">
-    
         <div class="slot">
           <slot></slot>
         </div>
       </div>
     </div>
-
   </Transition>
 </template>
-
 <script>
 import { inject, ref, onMounted, onBeforeUnmount } from 'vue'
 import debounce from '@/utils/debounce' // 防抖函数
@@ -26,8 +23,6 @@ export default {
     let modalHeight = ref('0')
     let modalHead = ref(null)
     let modalMainHeight = ref('')
-
-
     const changeHeight = debounce(() => {
       bus.modalHeight = window.innerHeight - bus.getTopBarHeight()
       bus.modalHeadHeight = modalHead.value ? modalHead.value.offsetHeight : bus.modalHeadHeight
@@ -35,22 +30,17 @@ export default {
       modalHeight.value = bus.modalHeight + 'px'
       modalMainHeight.value = bus.modalMainHeight + 'px'
     })
-
     let changeEvent = () => {
       changeHeight()
     }
-
     onMounted(() => {
       changeHeight()
       window.addEventListener('resize', changeEvent)
     })
-
     // 组件卸载前移出事件
     onBeforeUnmount(() => {
       window.removeEventListener('resize', changeEvent)
     })
-
-
     return { modalHeight, modalHead, modalMainHeight }
   },
   props: {
@@ -71,29 +61,24 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .modal-enter-active {
   animation: an 0.5s;
 }
-
 /* 出场动画 */
 .modal-leave-active {
   animation: an 0.5s reverse;
 }
-
 @keyframes an {
   0% {
     opacity: 0;
     transform: translateX(13.75rem);
   }
-
   100% {
     opacity: 1;
     transform: translateX(0px);
   }
 }
-
 .modal {
   width: 15.75rem;
   background-color: rgba(255, 255, 255, 0.8);
@@ -107,7 +92,6 @@ export default {
   box-sizing: border-box;
   transition: height .5s;
   overflow: hidden;
-
   .modal-head {
     display: flex;
     justify-content: space-between;
@@ -115,28 +99,23 @@ export default {
     width: 100%;
     padding: $padding-20;
     box-sizing: border-box;
-
     .modal-name {
       font-size: 1rem;
       color: $gray-1;
-
       font-weight: 600;
     }
-
     .icon-close {
       color: $gray-2;
       cursor: pointer;
       font-size: 1rem;
     }
   }
-
   .modal-main {
     width: 100%;
     // height: 22.5rem;
     // overflow: auto;
     box-sizing: border-box;
   }
-
   .slot {
     min-height: 100%;
     max-width: 100%;
